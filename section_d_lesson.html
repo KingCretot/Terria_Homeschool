@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KingCretot Experience — Section D: Inequalities in the Real World</title>
+<style>
+  :root {
+    --navy: #1a2744;
+    --gold: #c9a227;
+    --light-gold: #fdf3d0;
+    --light-navy: #dce6f1;
+    --white: #ffffff;
+    --green: #1a6b1a;
+    --red: #cc2200;
+    --gray: #f4f4f4;
+    --shadow: rgba(26,39,68,0.15);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f7; min-height: 100vh; }
+
+  /* HEADER */
+  .site-header {
+    background: linear-gradient(135deg, var(--navy) 0%, #2c3e6b 100%);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 16px var(--shadow);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo { color: var(--gold); font-size: 1.3rem; font-weight: 800; letter-spacing: 1px; }
+  .subtitle { color: rgba(255,255,255,0.7); font-size: 0.85rem; margin-top: 2px; }
+  .hud { display: flex; gap: 20px; align-items: center; }
+  .hud-item { background: rgba(255,255,255,0.1); border-radius: 20px; padding: 6px 16px; color: white; font-size: 0.9rem; font-weight: 600; }
+  .hud-item span { color: var(--gold); }
+
+  /* XP BAR */
+  .xp-bar-wrap { background: var(--navy); padding: 8px 32px; display: flex; align-items: center; gap: 16px; }
+  .xp-label { color: var(--gold); font-size: 0.8rem; font-weight: 700; min-width: 60px; }
+  .xp-track { flex: 1; background: rgba(255,255,255,0.15); border-radius: 10px; height: 14px; overflow: hidden; }
+  .xp-fill { height: 100%; background: linear-gradient(90deg, var(--gold), #f0c040); border-radius: 10px; transition: width 0.6s ease; }
+  .xp-num { color: white; font-size: 0.8rem; min-width: 70px; text-align: right; }
+
+  /* TABS */
+  .tabs { display: flex; background: var(--navy); padding: 0 24px; gap: 2px; overflow-x: auto; }
+  .tab-btn {
+    padding: 12px 20px; color: rgba(255,255,255,0.6); font-weight: 600; font-size: 0.9rem;
+    background: none; border: none; cursor: pointer; white-space: nowrap;
+    border-bottom: 3px solid transparent; transition: all 0.2s;
+  }
+  .tab-btn:hover { color: var(--gold); }
+  .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* MAIN */
+  .main { max-width: 900px; margin: 0 auto; padding: 32px 20px; }
+
+  /* CARDS */
+  .card {
+    background: white; border-radius: 16px; padding: 28px 32px;
+    box-shadow: 0 4px 20px var(--shadow); margin-bottom: 24px;
+  }
+  .card-title {
+    font-size: 1.4rem; font-weight: 800; color: var(--navy);
+    border-bottom: 3px solid var(--gold); padding-bottom: 10px; margin-bottom: 18px;
+  }
+  .section-badge {
+    display: inline-block; background: var(--navy); color: var(--gold);
+    font-size: 0.75rem; font-weight: 700; padding: 3px 12px; border-radius: 20px;
+    margin-bottom: 10px; letter-spacing: 1px;
+  }
+  .example-box {
+    background: var(--light-gold); border-left: 4px solid var(--gold);
+    padding: 16px 20px; border-radius: 0 10px 10px 0; margin: 14px 0;
+  }
+  .example-box .label { font-weight: 700; color: var(--navy); font-size: 0.85rem; margin-bottom: 6px; }
+  .steps-box {
+    background: var(--light-navy); border-left: 4px solid var(--navy);
+    padding: 14px 20px; border-radius: 0 10px 10px 0; margin: 14px 0;
+  }
+  .step { display: flex; gap: 12px; margin-bottom: 8px; align-items: flex-start; }
+  .step-num { background: var(--navy); color: var(--gold); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; }
+  .step-text { font-size: 0.95rem; color: #333; padding-top: 3px; }
+
+  /* VOCAB TABLE */
+  .vocab-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.9rem; }
+  .vocab-table th { background: var(--navy); color: var(--gold); padding: 10px 14px; text-align: left; }
+  .vocab-table td { padding: 9px 14px; border-bottom: 1px solid #eee; }
+  .vocab-table tr:nth-child(even) td { background: var(--gray); }
+  .vocab-table tr:hover td { background: var(--light-gold); }
+
+  /* NUMBER LINE */
+  .number-line-wrap { background: white; border: 2px solid var(--light-navy); border-radius: 12px; padding: 20px; margin: 16px 0; text-align: center; }
+  .nl-svg { width: 100%; max-width: 560px; }
+
+  /* FLIP BOX */
+  .flip-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin: 16px 0; }
+  .flip-card { perspective: 800px; height: 110px; cursor: pointer; }
+  .flip-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.5s; }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-front, .flip-back {
+    position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+    border-radius: 12px; display: flex; align-items: center; justify-content: center; padding: 12px; text-align: center;
+  }
+  .flip-front { background: var(--navy); color: var(--gold); font-weight: 700; font-size: 0.95rem; }
+  .flip-back { background: var(--gold); color: var(--navy); font-weight: 600; font-size: 0.85rem; transform: rotateY(180deg); }
+
+  /* QUIZ */
+  .quiz-q { background: var(--gray); border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; }
+  .quiz-q .q-text { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 14px; line-height: 1.5; }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .opt-btn {
+    padding: 12px 16px; border: 2px solid #ddd; border-radius: 10px;
+    background: white; font-size: 0.9rem; cursor: pointer; text-align: left; transition: all 0.2s;
+  }
+  .opt-btn:hover:not(:disabled) { border-color: var(--gold); background: var(--light-gold); }
+  .opt-btn.correct { background: #e6f4e6; border-color: var(--green); color: var(--green); font-weight: 700; }
+  .opt-btn.wrong { background: #fdecea; border-color: var(--red); color: var(--red); }
+  .opt-btn:disabled { cursor: default; }
+  .feedback { margin-top: 12px; padding: 12px 16px; border-radius: 8px; font-size: 0.9rem; display: none; }
+  .feedback.show { display: block; }
+  .feedback.correct-fb { background: #e6f4e6; color: var(--green); border-left: 4px solid var(--green); }
+  .feedback.wrong-fb { background: #fdecea; color: var(--red); border-left: 4px solid var(--red); }
+  .explanation { margin-top: 8px; padding: 10px; background: rgba(255,255,255,0.7); border-radius: 6px; font-size: 0.88rem; line-height: 1.5; }
+
+  /* CONFETTI */
+  .confetti-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; }
+  .confetti-piece { position: absolute; width: 10px; height: 10px; top: -20px; animation: confettiFall linear forwards; }
+  @keyframes confettiFall {
+    0% { transform: translateY(0) rotateZ(0); opacity: 1; }
+    100% { transform: translateY(100vh) rotateZ(720deg); opacity: 0; }
+  }
+
+  /* WRONG FLASH */
+  @keyframes wrongShake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+  .shake { animation: wrongShake 0.4s ease; }
+
+  /* SCORE */
+  .score-display { text-align: center; padding: 32px; background: linear-gradient(135deg, var(--navy), #2c3e6b); border-radius: 16px; color: white; margin-top: 20px; display: none; }
+  .score-big { font-size: 4rem; font-weight: 800; color: var(--gold); }
+  .score-sub { font-size: 1.1rem; margin-top: 8px; opacity: 0.9; }
+  .score-msg { font-size: 1.3rem; margin-top: 16px; }
+
+  /* REVIEW SECTION */
+  .review-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .review-card { background: var(--light-navy); border: 2px solid var(--navy); border-radius: 12px; padding: 16px; }
+  .review-card h4 { color: var(--navy); font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; border-bottom: 1px solid var(--gold); padding-bottom: 4px; }
+  .review-card p { font-size: 0.88rem; color: #444; line-height: 1.5; }
+
+  /* QUOTE */
+  .quote-box {
+    background: linear-gradient(135deg, var(--navy), #2c3e6b);
+    border-radius: 16px; padding: 28px 32px; margin-top: 32px; text-align: center; color: white;
+  }
+  .quote-text { font-size: 1.1rem; font-style: italic; line-height: 1.7; }
+  .quote-author { color: var(--gold); font-weight: 700; margin-top: 12px; font-size: 1rem; }
+
+  /* BUTTONS */
+  .btn-primary {
+    background: linear-gradient(135deg, var(--gold), #e0b030); color: var(--navy);
+    font-weight: 800; font-size: 1rem; padding: 12px 28px; border: none; border-radius: 30px;
+    cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(201,162,39,0.4);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(201,162,39,0.5); }
+  .btn-secondary { background: var(--navy); color: white; padding: 10px 22px; border: none; border-radius: 24px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; }
+  .btn-secondary:hover { background: #2c3e6b; }
+
+  .highlight { background: var(--light-gold); border-radius: 4px; padding: 0 4px; font-weight: 700; color: var(--navy); }
+  .red-highlight { background: #fdecea; border-radius: 4px; padding: 0 4px; font-weight: 700; color: var(--red); }
+  .green-highlight { background: #e6f4e6; border-radius: 4px; padding: 0 4px; font-weight: 700; color: var(--green); }
+
+  @media (max-width: 600px) {
+    .options { grid-template-columns: 1fr; }
+    .review-grid { grid-template-columns: 1fr; }
+    .site-header { flex-direction: column; gap: 10px; padding: 12px 16px; }
+    .main { padding: 20px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="confettiContainer" class="confetti-container"></div>
+
+<header class="site-header">
+  <div>
+    <div class="logo">KingCretot Experience</div>
+    <div class="subtitle">Chapter 3 — Section D: Inequalities in the Real World</div>
+  </div>
+  <div class="hud">
+    <div class="hud-item">⭐ XP: <span id="xpDisplay">0</span></div>
+    <div class="hud-item">🪙 Coins: <span id="coinsDisplay">0</span></div>
+    <div class="hud-item">🎯 Score: <span id="quizScore">0/0</span></div>
+  </div>
+</header>
+
+<div class="xp-bar-wrap">
+  <div class="xp-label">Progress</div>
+  <div class="xp-track"><div class="xp-fill" id="xpBar" style="width:0%"></div></div>
+  <div class="xp-num" id="xpNum">0 / 200 XP</div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('welcome')">🏠 Welcome</button>
+  <button class="tab-btn" onclick="showTab('vocab')">📖 Vocabulary</button>
+  <button class="tab-btn" onclick="showTab('s37')">📐 3.7 Using Inequalities</button>
+  <button class="tab-btn" onclick="showTab('app')">🌍 Application Problems</button>
+  <button class="tab-btn" onclick="showTab('review')">🔁 Chapter Review</button>
+  <button class="tab-btn" onclick="showTab('quiz')">🏆 Final Quiz</button>
+</div>
+
+<!-- ═══════════════════════════════ WELCOME ═══════════════════════════════ -->
+<div id="tab-welcome" class="tab-content active">
+<div class="main">
+  <div class="card">
+    <div class="card-title">🎓 Welcome to Section D!</div>
+    <p style="font-size:1rem;color:#444;line-height:1.7;margin-bottom:18px;">
+      You've made it to the final section of Chapter 3! This is where everything comes together. You'll take your inequality-solving skills and use them to solve <strong>real-world problems</strong> — including a fascinating look at environmental pollution management. Then we'll review the entire chapter and get you ready for the test!
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:20px 0;">
+      <div style="background:var(--light-navy);border-radius:12px;padding:16px;text-align:center;">
+        <div style="font-size:2rem;margin-bottom:6px;">📐</div>
+        <div style="font-weight:700;color:var(--navy);">3.7 Using Inequalities</div>
+        <div style="font-size:0.85rem;color:#666;margin-top:4px;">Real-world inequality models</div>
+      </div>
+      <div style="background:var(--light-gold);border-radius:12px;padding:16px;text-align:center;">
+        <div style="font-size:2rem;margin-bottom:6px;">🌿</div>
+        <div style="font-weight:700;color:var(--navy);">Application: Pollution</div>
+        <div style="font-size:0.85rem;color:#666;margin-top:4px;">Calculate pollution management values</div>
+      </div>
+      <div style="background:var(--light-navy);border-radius:12px;padding:16px;text-align:center;">
+        <div style="font-size:2rem;margin-bottom:6px;">🔁</div>
+        <div style="font-weight:700;color:var(--navy);">Chapter 3 Review</div>
+        <div style="font-size:0.85rem;color:#666;margin-top:4px;">All sections A–D in one review</div>
+      </div>
+      <div style="background:var(--light-gold);border-radius:12px;padding:16px;text-align:center;">
+        <div style="font-size:2rem;margin-bottom:6px;">🏆</div>
+        <div style="font-weight:700;color:var(--navy);">Final Quiz</div>
+        <div style="font-size:0.85rem;color:#666;margin-top:4px;">Earn XP and coins!</div>
+      </div>
+    </div>
+    <div style="background:var(--light-gold);border-radius:10px;padding:16px 20px;margin-top:8px;">
+      <strong style="color:var(--navy);">⏱ Today's Session:</strong> ~55 minutes &nbsp;|&nbsp; <strong style="color:var(--navy);">🎯 Goal:</strong> Complete all tabs and finish the Final Quiz
+    </div>
+  </div>
+  <div class="quote-box">
+    <div class="quote-text">"If there is no struggle, there is no progress."</div>
+    <div class="quote-author">— Frederick Douglass</div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════ VOCABULARY ═══════════════════════════════ -->
+<div id="tab-vocab" class="tab-content">
+<div class="main">
+  <div class="card">
+    <div class="section-badge">SECTION D VOCABULARY</div>
+    <div class="card-title">📖 Key Terms & Definitions</div>
+    <p style="color:#555;margin-bottom:18px;">Click any flip card to reveal the definition!</p>
+
+    <div class="flip-grid">
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">Inequality Model</div>
+          <div class="flip-back">An inequality used to represent a real-world situation with a range of solutions (e.g., cost ≤ budget)</div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">At Least</div>
+          <div class="flip-back">Means ≥ (greater than or equal to). Example: "You need at least 80 points" → score ≥ 80</div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">At Most</div>
+          <div class="flip-back">Means ≤ (less than or equal to). Example: "Spend at most $50" → cost ≤ 50</div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">No More Than</div>
+          <div class="flip-back">Same as "at most" → ≤. Example: "no more than 5 items" → items ≤ 5</div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">More Than / Exceeds</div>
+          <div class="flip-back">Means > (strictly greater than). Example: "income exceeds $500" → income > 500</div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">Solution Set</div>
+          <div class="flip-back">All values that make an inequality true. Graphed on a number line with an arrow showing the range.</div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">Pollutant</div>
+          <div class="flip-back">A harmful substance introduced into the environment. In 3.AP, we calculate concentrations and allowable levels.</div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">Concentration</div>
+          <div class="flip-back">The amount of a substance per unit of space (e.g., mg per liter). Used to measure pollution levels.</div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">Stewardship</div>
+          <div class="flip-back">Responsible management of something entrusted to one's care — including the environment. (Biblical concept: Genesis 2:15)</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div style="font-weight:700;color:var(--navy);font-size:1rem;margin-bottom:10px;">Inequality Phrase → Symbol Quick Reference</div>
+      <table class="vocab-table">
+        <tr><th>Word/Phrase</th><th>Symbol</th><th>Real-Life Example</th></tr>
+        <tr><td>at least, no less than, minimum</td><td style="font-weight:700;color:var(--navy);">≥</td><td>Must score at least 70 → s ≥ 70</td></tr>
+        <tr><td>at most, no more than, maximum</td><td style="font-weight:700;color:var(--navy);">≤</td><td>Budget is at most $100 → b ≤ 100</td></tr>
+        <tr><td>more than, greater than, exceeds</td><td style="font-weight:700;color:var(--navy);">&gt;</td><td>Temperature exceeds 90°F → t > 90</td></tr>
+        <tr><td>less than, fewer than, below, under</td><td style="font-weight:700;color:var(--navy);">&lt;</td><td>Speed below 65 mph → s < 65</td></tr>
+        <tr><td>equals, is, exactly</td><td style="font-weight:700;color:var(--navy);">=</td><td>The cost is $25 → c = 25</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════ 3.7 ═══════════════════════════════ -->
+<div id="tab-s37" class="tab-content">
+<div class="main">
+  <div class="card">
+    <div class="section-badge">3.7 — USING INEQUALITIES</div>
+    <div class="card-title">📐 Applying Inequalities to Real-World Problems</div>
+    <p style="color:#444;line-height:1.6;margin-bottom:16px;">
+      Just like we used equations to model real situations in 3.5, we now use <strong>inequalities</strong> to model situations where there's a <em>range of acceptable values</em> — like a budget, a minimum score, or a speed limit.
+    </p>
+
+    <div style="background:var(--light-gold);border-left:4px solid var(--gold);padding:16px 20px;border-radius:0 10px 10px 0;margin-bottom:20px;">
+      <strong style="color:var(--navy);">🔑 The Four-Step Model Works for Inequalities Too!</strong><br>
+      <span style="font-size:0.9rem;color:#555;">Step 1: Read carefully. Step 2: Define the variable. Step 3: Write and solve the inequality. Step 4: Check + interpret.</span>
+    </div>
+
+    <div class="card-title" style="font-size:1.1rem;margin-top:8px;">📘 Example 1 — Budget Problem</div>
+    <div class="example-box">
+      <div class="label">Real-World Situation:</div>
+      <p style="font-size:0.95rem;">You have $85 to spend on new school supplies. A backpack costs $35. How many notebooks at $5 each can you also buy?</p>
+    </div>
+    <div class="steps-box">
+      <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Define:</strong> Let n = number of notebooks</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Write:</strong> 35 + 5n ≤ 85 (total cost must be AT MOST $85)</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Solve:</strong> Subtract 35 → 5n ≤ 50 → Divide by 5 → n ≤ 10</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Interpret:</strong> You can buy 10 or fewer notebooks. (n can be 0, 1, 2, … 10)</div></div>
+    </div>
+    <div class="number-line-wrap">
+      <div style="font-size:0.85rem;font-weight:700;color:var(--navy);margin-bottom:10px;">Graph: n ≤ 10</div>
+      <svg class="nl-svg" viewBox="0 0 560 70" xmlns="http://www.w3.org/2000/svg">
+        <line x1="40" y1="35" x2="520" y2="35" stroke="#1a2744" stroke-width="2"/>
+        <polygon points="520,30 530,35 520,40" fill="#1a2744"/>
+        <line x1="40" y1="28" x2="40" y2="42" stroke="#1a2744" stroke-width="2"/>
+        <text x="33" y="58" font-size="11" fill="#1a2744" text-anchor="middle">0</text>
+        <line x1="100" y1="30" x2="100" y2="40" stroke="#aaa" stroke-width="1"/>
+        <text x="100" y="58" font-size="11" fill="#555" text-anchor="middle">2</text>
+        <line x1="160" y1="30" x2="160" y2="40" stroke="#aaa" stroke-width="1"/>
+        <text x="160" y="58" font-size="11" fill="#555" text-anchor="middle">4</text>
+        <line x1="220" y1="30" x2="220" y2="40" stroke="#aaa" stroke-width="1"/>
+        <text x="220" y="58" font-size="11" fill="#555" text-anchor="middle">6</text>
+        <line x1="280" y1="30" x2="280" y2="40" stroke="#aaa" stroke-width="1"/>
+        <text x="280" y="58" font-size="11" fill="#555" text-anchor="middle">8</text>
+        <line x1="340" y1="28" x2="340" y2="42" stroke="#1a2744" stroke-width="2"/>
+        <text x="340" y="58" font-size="11" fill="#1a2744" font-weight="bold" text-anchor="middle">10</text>
+        <line x1="400" y1="30" x2="400" y2="40" stroke="#aaa" stroke-width="1"/>
+        <text x="400" y="58" font-size="11" fill="#555" text-anchor="middle">12</text>
+        <!-- Closed circle at 10 (included) -->
+        <circle cx="340" cy="35" r="7" fill="#c9a227" stroke="#1a2744" stroke-width="2"/>
+        <!-- Arrow pointing LEFT (≤) -->
+        <line x1="40" y1="35" x2="340" y2="35" stroke="#c9a227" stroke-width="4"/>
+        <polygon points="50,30 40,35 50,40" fill="#c9a227"/>
+        <text x="190" y="20" font-size="12" fill="#c9a227" font-weight="bold" text-anchor="middle">n ≤ 10 (closed ●, arrow left)</text>
+      </svg>
+    </div>
+
+    <div class="card-title" style="font-size:1.1rem;margin-top:24px;">📘 Example 2 — Minimum Score</div>
+    <div class="example-box">
+      <div class="label">Real-World Situation:</div>
+      <p style="font-size:0.95rem;">Terria needs an average of at least 85 on two tests to get an A. She scored 78 on the first test. What must she score on the second test?</p>
+    </div>
+    <div class="steps-box">
+      <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Define:</strong> Let s = score on second test</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Write:</strong> (78 + s) ÷ 2 ≥ 85 (average must be AT LEAST 85)</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Multiply both sides by 2:</strong> 78 + s ≥ 170</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Subtract 78:</strong> s ≥ 92</div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Interpret:</strong> Terria must score 92 or higher on the second test!</div></div>
+    </div>
+
+    <div class="card-title" style="font-size:1.1rem;margin-top:24px;">📘 Example 3 — Speed Limit / Distance</div>
+    <div class="example-box">
+      <div class="label">Real-World Situation:</div>
+      <p style="font-size:0.95rem;">A truck driver must travel more than 300 miles before stopping. If he drives at 60 mph, how many hours must he drive? Write an inequality.</p>
+    </div>
+    <div class="steps-box">
+      <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Define:</strong> Let h = hours driven; distance = 60h</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Write:</strong> 60h > 300 (distance must be MORE THAN 300)</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Divide by 60 (positive, no flip):</strong> h > 5</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Interpret:</strong> He must drive MORE than 5 hours (open circle at 5, arrow right)</div></div>
+    </div>
+
+    <div style="margin-top:20px;background:var(--light-gold);padding:16px;border-radius:10px;">
+      <strong style="color:var(--navy);">💡 Remember These Key Words:</strong><br>
+      <span style="font-size:0.9rem;">"at least / minimum / no less than" → <strong>≥</strong> &nbsp;&nbsp;|&nbsp;&nbsp; "at most / maximum / no more than" → <strong>≤</strong> &nbsp;&nbsp;|&nbsp;&nbsp; "exceeds / more than" → <strong>&gt;</strong> &nbsp;&nbsp;|&nbsp;&nbsp; "below / under / fewer than" → <strong>&lt;</strong></span>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════ APPLICATION ═══════════════════════════════ -->
+<div id="tab-app" class="tab-content">
+<div class="main">
+  <div class="card">
+    <div class="section-badge">APPLICATION PROBLEMS — MANAGING POLLUTANTS</div>
+    <div class="card-title">🌿 3.AP — Environmental Stewardship & Math</div>
+    <div style="background:linear-gradient(135deg,#1a3a1a,#2d5a2d);border-radius:12px;padding:20px 24px;margin-bottom:20px;color:white;">
+      <div style="font-size:0.85rem;color:#90ee90;font-weight:700;margin-bottom:8px;">BIBLICAL WORLDVIEW CONNECTION</div>
+      <p style="line-height:1.6;font-size:0.95rem;">"The LORD God took the man and put him in the Garden of Eden to work it and take care of it." — Genesis 2:15</p>
+      <p style="margin-top:10px;font-size:0.9rem;opacity:0.9;">Math helps us be responsible stewards of the environment. By calculating pollution levels, scientists and engineers can determine how much of a harmful substance is safe — and when action is needed.</p>
+    </div>
+
+    <div class="card-title" style="font-size:1.1rem;">📊 3.AP.1 — Calculating Pollution Concentration Values</div>
+    <div class="example-box">
+      <div class="label">Background:</div>
+      <p style="font-size:0.93rem;line-height:1.6;">
+        Industrial facilities release pollutants into rivers and air. Scientists measure <strong>concentration</strong> — the amount of pollutant per volume (like mg per liter, or mg/L). 
+        The EPA sets <strong>maximum allowable concentrations</strong> to protect ecosystems and human health.
+      </p>
+    </div>
+
+    <div style="font-weight:700;color:var(--navy);margin:16px 0 8px;">Example Problem 1 — Water Pollutant:</div>
+    <div class="steps-box">
+      <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Situation:</strong> A factory can release at most 0.05 mg/L of a chemical into a river. The current concentration is 0.02 mg/L. How much more (x) can be safely added?</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Write inequality:</strong> 0.02 + x ≤ 0.05</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Subtract 0.02:</strong> x ≤ 0.03</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Interpret:</strong> At most 0.03 mg/L more can be safely added to the river.</div></div>
+    </div>
+
+    <div style="font-weight:700;color:var(--navy);margin:16px 0 8px;">Example Problem 2 — Pollution Reduction:</div>
+    <div class="steps-box">
+      <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Situation:</strong> A city produces 80 tons of pollution per year. New regulations require reducing pollution to fewer than 50 tons. Each new filter reduces pollution by 6 tons. How many filters (f) are needed?</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Write inequality:</strong> 80 − 6f &lt; 50</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Subtract 80:</strong> −6f &lt; −30</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Divide by −6 (NEGATIVE → FLIP!):</strong> f &gt; 5</div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Interpret:</strong> The city needs MORE than 5 filters — so at least 6 filters to meet regulations.</div></div>
+    </div>
+
+    <div class="card-title" style="font-size:1.1rem;margin-top:24px;">🌱 3.AP.2 — Biblical Principle: Exercising Dominion</div>
+    <div style="background:var(--light-navy);border-radius:10px;padding:18px 22px;">
+      <p style="font-size:0.95rem;line-height:1.7;margin-bottom:12px;">The term <strong>"exercising dominion"</strong> (from Genesis 1:28) means wisely managing the earth — not exploiting it. This includes:</p>
+      <ul style="padding-left:20px;line-height:2;font-size:0.93rem;color:#333;">
+        <li>Setting maximum pollution limits to protect ecosystems</li>
+        <li>Using math to find the minimum number of filters needed for clean water</li>
+        <li>Calculating whether pollutant levels are within safe (inequality) ranges</li>
+        <li>Making responsible decisions for future generations</li>
+      </ul>
+      <p style="margin-top:12px;font-size:0.93rem;color:var(--navy);font-weight:600;">Math isn't just numbers — it's a tool for fulfilling our responsibility to care for creation.</p>
+    </div>
+
+    <div style="margin-top:20px;">
+      <div style="font-weight:700;color:var(--navy);margin-bottom:10px;">Practice — Try It Yourself:</div>
+      <div class="example-box">
+        <div class="label">Challenge:</div>
+        <p style="font-size:0.95rem;">An air quality standard requires NO MORE THAN 12 parts per million (ppm) of a pollutant. A factory currently produces 20 ppm. Each new scrubber installed reduces pollution by 2.5 ppm. How many scrubbers (s) must be installed?</p>
+        <p style="margin-top:10px;font-size:0.9rem;color:#888;">(Try it on your whiteboard. Check: 20 − 2.5s ≤ 12 → answer: s ≥ 3.2 → at least 4 scrubbers)</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════ REVIEW ═══════════════════════════════ -->
+<div id="tab-review" class="tab-content">
+<div class="main">
+  <div class="card">
+    <div class="section-badge">CHAPTER 3 REVIEW — ALL SECTIONS</div>
+    <div class="card-title">🔁 Sections A–D: Complete Chapter Review</div>
+    <p style="color:#555;margin-bottom:18px;font-size:0.95rem;">Use this as your study guide before the Chapter 3 Test and First Quarter Exam.</p>
+
+    <div class="review-grid">
+      <div class="review-card">
+        <h4>📗 Section A — 3.1 & 3.2</h4>
+        <p>Solving one-step equations by adding, subtracting, multiplying, or dividing.<br><strong>Key rule:</strong> Use INVERSE operations to isolate the variable.<br><strong>Check:</strong> Always substitute your answer back in!</p>
+      </div>
+      <div class="review-card">
+        <h4>📘 Section B — 3.3 & 3.4</h4>
+        <p>Two-step equations + simplifying first (distributive property & like terms).<br><strong>Key rule:</strong> "Unwrap the present" — undo operations in reverse order (PEMDAS backward).</p>
+      </div>
+      <div class="review-card">
+        <h4>📙 Section C — 3.5 & 3.6</h4>
+        <p>Using equations to model real-world problems + solving inequalities.<br><strong>Critical rule:</strong> Dividing or multiplying by a NEGATIVE → <strong>FLIP THE SIGN!</strong></p>
+      </div>
+      <div class="review-card">
+        <h4>📕 Section D — 3.7 & Application</h4>
+        <p>Real-world inequality models with budget, minimum/maximum, and environmental applications.<br><strong>Key words:</strong> "at least" → ≥, "at most" → ≤, "more than" → &gt;.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;">
+      <div style="font-weight:700;color:var(--navy);font-size:1rem;margin-bottom:10px;border-bottom:2px solid var(--gold);padding-bottom:6px;">📋 Complete Key Rules — Chapter 3 Cheat Sheet</div>
+      <table class="vocab-table">
+        <tr><th>Concept</th><th>Rule</th><th>Example</th></tr>
+        <tr><td>Addition Property of Equality</td><td>Add the same value to both sides</td><td>x−4=9 → x=13</td></tr>
+        <tr><td>Subtraction Property of Equality</td><td>Subtract the same value from both sides</td><td>x+7=12 → x=5</td></tr>
+        <tr><td>Multiplication Property of Equality</td><td>Multiply both sides by the same value</td><td>x÷3=6 → x=18</td></tr>
+        <tr><td>Division Property of Equality</td><td>Divide both sides by the same value</td><td>4x=20 → x=5</td></tr>
+        <tr><td>Distributive Property</td><td>a(b+c) = ab + ac</td><td>3(x+4) = 3x+12</td></tr>
+        <tr><td>Combining Like Terms</td><td>Add/subtract terms with the same variable</td><td>2x+5x = 7x</td></tr>
+        <tr><td>Four-Step Model</td><td>Read → Define → Solve → Check</td><td>Used in 3.5 and 3.7</td></tr>
+        <tr><td>Solving Inequalities</td><td>Same as equations, except FLIP sign when ÷ or × by negative</td><td>−2x &lt; 8 → x &gt; −4</td></tr>
+        <tr><td>Number Line Graphing</td><td>Open ○ for strict inequality; closed ● for ≤ or ≥</td><td>x &gt; 3: open at 3, right arrow</td></tr>
+      </table>
+    </div>
+
+    <div style="margin-top:20px;">
+      <div style="font-weight:700;color:var(--navy);font-size:1rem;margin-bottom:10px;border-bottom:2px solid var(--gold);padding-bottom:6px;">🔍 First Quarter Review Topics (Chapters 1–3)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:0.9rem;">
+        <div style="background:var(--gray);border-radius:8px;padding:12px;"><strong>Chapter 1:</strong> Whole numbers, place value, number properties, order of operations</div>
+        <div style="background:var(--gray);border-radius:8px;padding:12px;"><strong>Chapter 2:</strong> Integers, absolute value, adding/subtracting/multiplying/dividing integers</div>
+        <div style="background:var(--gold);border-radius:8px;padding:12px;color:var(--navy);"><strong>Chapter 3:</strong> Solving equations and inequalities — ALL of today's material!</div>
+        <div style="background:var(--gray);border-radius:8px;padding:12px;"><strong>Exam Tip:</strong> Review Bell Ringers and Skill Checks from all 3 chapters. Focus on the flip-the-sign rule!</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════ QUIZ ═══════════════════════════════ -->
+<div id="tab-quiz" class="tab-content">
+<div class="main">
+  <div class="card">
+    <div class="section-badge">FINAL QUIZ — SECTION D</div>
+    <div class="card-title">🏆 Show What You Know!</div>
+    <p style="color:#555;margin-bottom:24px;">8 questions covering 3.7, Application Problems, and Chapter Review. Earn XP and coins for every correct answer!</p>
+    <div id="quizContainer"></div>
+    <div id="scoreDisplay" class="score-display">
+      <div class="score-big" id="scoreBig">0/8</div>
+      <div class="score-sub" id="scoreSub">Section D Complete!</div>
+      <div class="score-msg" id="scoreMsg"></div>
+      <div style="margin-top:20px;">
+        <button class="btn-primary" onclick="resetQuiz()">🔄 Try Again</button>
+      </div>
+    </div>
+  </div>
+  <div class="quote-box">
+    <div class="quote-text">"If there is no struggle, there is no progress. Those who profess to favor freedom and yet depreciate agitation, want crops without plowing up the ground."</div>
+    <div class="quote-author">— Frederick Douglass, American Abolitionist & Statesman</div>
+  </div>
+</div>
+</div>
+
+<script>
+// ─── STATE ───
+let xp = 0, coins = 0, quizCorrect = 0, quizTotal = 0;
+const MAX_XP = 200;
+
+function addXP(amount) {
+  xp = Math.min(xp + amount, MAX_XP);
+  document.getElementById('xpDisplay').textContent = xp;
+  document.getElementById('xpBar').style.width = (xp / MAX_XP * 100) + '%';
+  document.getElementById('xpNum').textContent = xp + ' / ' + MAX_XP + ' XP';
+}
+function addCoins(amount) {
+  coins += amount;
+  document.getElementById('coinsDisplay').textContent = coins;
+}
+function updateQuizScore() {
+  document.getElementById('quizScore').textContent = quizCorrect + '/' + quizTotal;
+}
+
+// ─── TABS ───
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+  if (name === 'quiz' && !document.getElementById('quizContainer').hasChildNodes()) {
+    renderQuiz();
+  }
+}
+
+// ─── AUDIO ───
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx;
+function getAudio() { if (!audioCtx) audioCtx = new AudioCtx(); return audioCtx; }
+
+function playCorrect() {
+  try {
+    const ctx = getAudio();
+    const t = ctx.currentTime;
+    [523, 659, 784, 1047].forEach((freq, i) => {
+      const o = ctx.createOscillator(); const g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type = 'sine'; o.frequency.value = freq;
+      g.gain.setValueAtTime(0.3, t + i * 0.1);
+      g.gain.exponentialRampToValueAtTime(0.001, t + i * 0.1 + 0.3);
+      o.start(t + i * 0.1); o.stop(t + i * 0.1 + 0.3);
+    });
+  } catch(e) {}
+}
+
+function playWrong() {
+  try {
+    const ctx = getAudio();
+    const o = ctx.createOscillator(); const g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination);
+    o.type = 'sawtooth'; o.frequency.setValueAtTime(220, ctx.currentTime);
+    o.frequency.linearRampToValueAtTime(110, ctx.currentTime + 0.3);
+    g.gain.setValueAtTime(0.3, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+    o.start(); o.stop(ctx.currentTime + 0.4);
+  } catch(e) {}
+}
+
+// ─── CONFETTI ───
+function launchConfetti() {
+  const container = document.getElementById('confettiContainer');
+  const colors = ['#c9a227','#1a2744','#ff6b6b','#4ecdc4','#45b7d1','#96ceb4','#ffeaa7','#dda0dd'];
+  for (let i = 0; i < 80; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.style.cssText = `left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};
+      width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;border-radius:${Math.random()>0.5?'50%':'2px'};
+      animation-duration:${1.5+Math.random()*1.5}s;animation-delay:${Math.random()*0.5}s;`;
+    container.appendChild(p);
+    setTimeout(() => p.remove(), 3000);
+  }
+}
+
+// ─── QUIZ DATA ───
+const questions = [
+  {
+    q: "1. You want to spend at most $60 on a gift. You've already spent $22. Which inequality shows how much (m) you can still spend?",
+    opts: ["22 + m > 60", "22 + m ≤ 60", "22 + m < 60", "m ≥ 60 + 22"],
+    ans: 1,
+    exp: "\"At most $60\" means the total is less than OR EQUAL to 60 (≤). You've spent $22, so remaining spending m satisfies: 22 + m ≤ 60. Solve: m ≤ 38."
+  },
+  {
+    q: "2. A pollution regulation states the chemical concentration must be LESS THAN 0.04 mg/L. The current level is 0.015 mg/L. How much more (x) can be released?\nWrite and choose the correct inequality.",
+    opts: ["0.015 − x < 0.04", "0.015 + x < 0.04", "0.015 + x ≤ 0.04", "x < 0.04"],
+    ans: 1,
+    exp: "Starting at 0.015 and adding x more: 0.015 + x < 0.04. Subtract 0.015: x < 0.025. So at most 0.025 mg/L more can be added (strictly less than, so open circle)."
+  },
+  {
+    q: "3. Solve: −4x ≤ 20. What is the solution?",
+    opts: ["x ≤ −5", "x ≥ −5", "x ≤ 5", "x ≥ 5"],
+    ans: 1,
+    exp: "Divide both sides by −4. Since we're dividing by a NEGATIVE number, we FLIP the inequality sign! −4x ≤ 20 becomes x ≥ −5. Check: x = 0 → −4(0) = 0 ≤ 20 ✓ and 0 ≥ −5 ✓"
+  },
+  {
+    q: "4. The graph shows a closed circle at 7 with an arrow pointing right. Which inequality does it represent?",
+    opts: ["x > 7", "x < 7", "x ≥ 7", "x ≤ 7"],
+    ans: 2,
+    exp: "A CLOSED circle means the endpoint IS included (≥ or ≤). An arrow pointing RIGHT means values greater than the endpoint. So: x ≥ 7."
+  },
+  {
+    q: "5. Terria needs at least 240 total points across 3 tests to pass. She scored 76 and 82 on the first two. What must she score (s) on the third?",
+    opts: ["s > 82", "s ≥ 82", "s ≥ 82", "s ≥ 82"],
+    opts: ["s ≥ 82", "s > 82", "s ≥ 83", "s > 80"],
+    ans: 0,
+    exp: "Total so far: 76 + 82 = 158. She needs at least 240 total. So: 158 + s ≥ 240. Subtract 158: s ≥ 82. She must score 82 or higher!"
+  },
+  {
+    q: "6. Simplify and solve: 3(x − 4) + 9 = 21",
+    opts: ["x = 6", "x = 8", "x = 4", "x = 12"],
+    ans: 1,
+    exp: "Distribute: 3x − 12 + 9 = 21 → 3x − 3 = 21 → Add 3: 3x = 24 → Divide by 3: x = 8. Check: 3(8−4)+9 = 3(4)+9 = 12+9 = 21 ✓"
+  },
+  {
+    q: "7. Which of the following correctly translates: 'The city must install MORE THAN 4 filters to meet regulations'?",
+    opts: ["f ≥ 4", "f = 4", "f > 4", "f ≤ 4"],
+    ans: 2,
+    exp: '"More than 4" means strictly greater than 4 — NOT including 4 itself. This uses the > symbol (open circle on a number line). So: f > 4.'
+  },
+  {
+    q: "8. CHAPTER REVIEW: A rectangle has a perimeter of 44 cm. The width is 5 cm less than the length. What is the length?",
+    opts: ["length = 11 cm", "length = 13.5 cm", "length = 8 cm", "length = 16 cm"],
+    ans: 1,
+    exp: "Let l = length, w = l − 5. Perimeter: 2l + 2w = 44 → 2l + 2(l−5) = 44 → 4l − 10 = 44 → 4l = 54 → l = 13.5 cm. Check: w = 8.5, P = 2(13.5)+2(8.5) = 27+17 = 44 ✓"
+  }
+];
+
+function renderQuiz() {
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = '';
+  quizCorrect = 0;
+  quizTotal = questions.length;
+  updateQuizScore();
+
+  questions.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-q';
+    div.id = 'qq' + qi;
+    div.innerHTML = `
+      <div class="q-text">${q.q.replace(/\n/g,'<br>')}</div>
+      <div class="options">
+        ${q.opts.map((opt, oi) => `<button class="opt-btn" onclick="checkAnswer(${qi},${oi})">${opt}</button>`).join('')}
+      </div>
+      <div class="feedback" id="fb${qi}"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function checkAnswer(qi, chosen) {
+  const q = questions[qi];
+  const div = document.getElementById('qq' + qi);
+  const fb = document.getElementById('fb' + qi);
+  const btns = div.querySelectorAll('.opt-btn');
+  btns.forEach(b => b.disabled = true);
+
+  if (chosen === q.ans) {
+    btns[chosen].classList.add('correct');
+    fb.className = 'feedback show correct-fb';
+    fb.innerHTML = '✅ Correct! +20 XP, +5 🪙';
+    quizCorrect++;
+    addXP(20); addCoins(5);
+    playCorrect(); launchConfetti();
+  } else {
+    btns[chosen].classList.add('wrong');
+    btns[q.ans].classList.add('correct');
+    div.classList.add('shake');
+    setTimeout(() => div.classList.remove('shake'), 400);
+    fb.className = 'feedback show wrong-fb';
+    fb.innerHTML = `❌ Not quite! The correct answer is <strong>${q.opts[q.ans]}</strong>.<div class="explanation"><strong>Why:</strong> ${q.exp}</div>`;
+    playWrong();
+  }
+  updateQuizScore();
+
+  // Check if all answered
+  const allAnswered = questions.every((_, i) => {
+    const d = document.getElementById('qq' + i);
+    return d && d.querySelectorAll('.opt-btn:disabled').length === d.querySelectorAll('.opt-btn').length;
+  });
+  if (allAnswered) setTimeout(showScore, 800);
+}
+
+function showScore() {
+  const pct = Math.round(quizCorrect / quizTotal * 100);
+  const display = document.getElementById('scoreDisplay');
+  document.getElementById('scoreBig').textContent = quizCorrect + '/' + quizTotal;
+  document.getElementById('scoreSub').textContent = 'Section D Complete! ' + pct + '%';
+  let msg = pct >= 90 ? '🌟 OUTSTANDING! Chapter 3 Champion!' : pct >= 75 ? '🎉 Great work! You\'re ready for the test!' : pct >= 60 ? '👍 Good effort! Review missed problems.' : '💪 Keep studying — you\'ve got this!';
+  document.getElementById('scoreMsg').textContent = msg;
+  display.style.display = 'block';
+  if (pct >= 75) launchConfetti();
+}
+
+function resetQuiz() {
+  document.getElementById('scoreDisplay').style.display = 'none';
+  renderQuiz();
+}
+</script>
+</body>
+</html>

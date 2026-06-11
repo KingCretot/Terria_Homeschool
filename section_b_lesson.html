@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KingCretot Experience | Ch. 3 Section B: Two-Step & Simplifying</title>
+<style>
+  :root { --navy:#1a2744; --gold:#c9a227; --gold-light:#f0d060; --white:#ffffff; --light-bg:#f4f6fb; --green:#27ae60; --red:#e74c3c; --card-shadow:0 4px 18px rgba(26,39,68,0.13); }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--light-bg);color:var(--navy);min-height:100vh;}
+  header{background:var(--navy);color:var(--white);padding:18px 32px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 3px 12px rgba(0,0,0,0.25);}
+  .brand{display:flex;align-items:center;gap:14px;}
+  .brand-logo{width:52px;height:52px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px;color:var(--navy);}
+  .brand-text h1{font-size:1.25rem;} .brand-text p{font-size:0.78rem;color:var(--gold-light);}
+  .xp-bar-container{text-align:right;}
+  .xp-label{font-size:0.75rem;color:var(--gold-light);margin-bottom:4px;}
+  .xp-track{width:220px;height:14px;background:rgba(255,255,255,0.15);border-radius:8px;overflow:hidden;}
+  .xp-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:8px;transition:width 0.5s;width:0%;}
+  .xp-coins{color:var(--gold);font-size:1rem;margin-top:4px;}
+  .tab-nav{display:flex;background:var(--navy);border-bottom:3px solid var(--gold);padding:0 32px;overflow-x:auto;}
+  .tab-btn{padding:12px 22px;color:rgba(255,255,255,0.6);background:none;border:none;cursor:pointer;font-size:0.9rem;font-weight:600;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-3px;transition:all 0.2s;}
+  .tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
+  .tab-content{display:none;padding:30px 32px;max-width:900px;margin:0 auto;}
+  .tab-content.active{display:block;}
+  .card{background:var(--white);border-radius:14px;padding:24px 28px;margin-bottom:22px;box-shadow:var(--card-shadow);border-left:5px solid var(--gold);}
+  .card h2{color:var(--navy);font-size:1.2rem;margin-bottom:10px;}
+  .card h3{color:var(--gold);font-size:1rem;margin-bottom:8px;}
+  .card p{line-height:1.7;margin-bottom:8px;}
+  .def-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .def-card{background:var(--light-bg);border-radius:10px;padding:16px;border-top:4px solid var(--gold);transition:transform 0.2s;}
+  .def-card:hover{transform:translateY(-3px);}
+  .def-term{font-weight:800;color:var(--navy);font-size:1rem;margin-bottom:6px;}
+  .def-meaning{font-size:0.9rem;color:#444;line-height:1.5;}
+  .def-example{font-size:0.82rem;color:var(--gold);margin-top:5px;font-style:italic;}
+  .math-box{background:var(--navy);color:var(--white);border-radius:10px;padding:16px 20px;font-family:'Courier New',monospace;font-size:1.1rem;margin:14px 0;text-align:center;letter-spacing:0.5px;}
+  .math-box .hi{color:var(--gold-light);font-weight:bold;}
+  .step-list{list-style:none;}
+  .step-list li{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px dashed #e0e5f0;}
+  .step-num{min-width:30px;height:30px;background:var(--gold);color:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.85rem;}
+  .step-text{line-height:1.6;padding-top:3px;}
+  .reallife{background:linear-gradient(135deg,#1a2744 0%,#243563 100%);color:white;border-radius:12px;padding:20px 24px;margin:16px 0;}
+  .reallife h4{color:var(--gold);margin-bottom:8px;}
+  .reallife p{line-height:1.65;font-size:0.95rem;}
+  .quiz-card{background:var(--white);border-radius:14px;padding:26px 28px;margin-bottom:20px;box-shadow:var(--card-shadow);border-top:5px solid var(--navy);}
+  .question-num{background:var(--navy);color:var(--gold);display:inline-block;padding:3px 10px;border-radius:20px;font-size:0.8rem;font-weight:700;margin-bottom:10px;}
+  .question-text{font-size:1.05rem;font-weight:600;margin-bottom:14px;}
+  .answer-input{width:200px;padding:10px 14px;border:2px solid #dce2ef;border-radius:8px;font-size:1rem;outline:none;transition:border 0.2s;}
+  .answer-input:focus{border-color:var(--gold);}
+  .submit-btn{background:var(--navy);color:var(--white);border:none;padding:10px 24px;border-radius:8px;font-size:0.95rem;font-weight:700;cursor:pointer;margin-left:10px;transition:background 0.2s;}
+  .submit-btn:hover{background:var(--gold);color:var(--navy);}
+  .feedback{margin-top:14px;padding:14px 18px;border-radius:10px;display:none;}
+  .feedback.correct{background:#d4f4e2;border-left:5px solid var(--green);color:#155724;}
+  .feedback.wrong{background:#fde8e8;border-left:5px solid var(--red);color:#721c24;}
+  .explain-btn{background:var(--red);color:white;border:none;padding:7px 16px;border-radius:6px;cursor:pointer;font-size:0.85rem;margin-top:8px;font-weight:600;}
+  .explanation{background:#fff8e1;border:1px solid var(--gold);border-radius:10px;padding:14px 18px;margin-top:10px;display:none;}
+  .explanation h4{color:var(--navy);margin-bottom:8px;}
+  .score-board{background:var(--navy);color:white;border-radius:14px;padding:20px 28px;text-align:center;margin-bottom:24px;display:flex;justify-content:space-around;align-items:center;}
+  .score-item h3{color:var(--gold);font-size:2rem;}
+  .score-item p{font-size:0.8rem;color:rgba(255,255,255,0.7);}
+  .confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;animation:confettiFall 1.8s ease-in forwards;pointer-events:none;z-index:9999;}
+  @keyframes confettiFall{0%{transform:translateY(-20px) rotateZ(0deg);opacity:1;}100%{transform:translateY(100vh) rotateZ(720deg);opacity:0;}}
+  .x-mark{font-size:3rem;color:var(--red);text-align:center;animation:shakeX 0.4s ease;display:inline-block;}
+  @keyframes shakeX{0%,100%{transform:translateX(0);}25%{transform:translateX(-8px);}75%{transform:translateX(8px);}}
+  .quote-section{background:linear-gradient(135deg,var(--navy),#2c3e6e);color:white;border-radius:16px;padding:32px 36px;text-align:center;margin-top:24px;position:relative;overflow:hidden;}
+  .quote-section::before{content:'"';position:absolute;top:-10px;left:20px;font-size:120px;color:rgba(201,162,39,0.15);font-family:Georgia,serif;}
+  .quote-text{font-size:1.2rem;font-style:italic;line-height:1.8;position:relative;z-index:1;}
+  .quote-author{color:var(--gold);font-weight:700;margin-top:12px;font-size:0.95rem;}
+  .nav-buttons{display:flex;gap:12px;margin-top:20px;justify-content:flex-end;}
+  .next-btn{background:var(--gold);color:var(--navy);border:none;padding:12px 28px;border-radius:10px;font-weight:800;font-size:1rem;cursor:pointer;transition:all 0.2s;}
+  .next-btn:hover{background:var(--gold-light);transform:translateY(-2px);}
+  .strategy-box{background:#f0f4ff;border:2px solid var(--navy);border-radius:12px;padding:18px 22px;margin:14px 0;}
+  .strategy-box h4{color:var(--navy);margin-bottom:10px;font-size:1rem;}
+  @media(max-width:640px){.def-grid{grid-template-columns:1fr;}header{flex-direction:column;gap:12px;}.xp-track{width:160px;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="brand-logo">KC</div>
+    <div class="brand-text">
+      <h1>KingCretot Experience</h1>
+      <p>Chapter 3 · Section B: Two-Step Equations & Simplifying (3.3 & 3.4)</p>
+    </div>
+  </div>
+  <div class="xp-bar-container">
+    <div class="xp-label">⭐ XP Progress</div>
+    <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
+    <div class="xp-coins" id="coinDisplay">🪙 0 coins earned</div>
+  </div>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('intro')">🏠 Welcome</button>
+  <button class="tab-btn" onclick="showTab('vocab')">📚 Vocabulary</button>
+  <button class="tab-btn" onclick="showTab('lesson33')">🔢 3.3 Two-Step</button>
+  <button class="tab-btn" onclick="showTab('lesson34')">✂️ 3.4 Simplify First</button>
+  <button class="tab-btn" onclick="showTab('practice')">🎮 Practice Arena</button>
+  <button class="tab-btn" onclick="showTab('quiz')">🏆 Final Quiz</button>
+</nav>
+
+<!-- INTRO -->
+<div class="tab-content active" id="tab-intro">
+  <div class="card">
+    <h2>👋 Welcome Back, Terria!</h2>
+    <p>You've already mastered one-step equations — now we level up! In this section, you'll tackle <strong>two-step equations</strong> and learn how to <strong>simplify before solving</strong>.</p>
+    <div style="display:flex;gap:16px;margin-top:16px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:200px;background:#f0f4ff;border-radius:10px;padding:16px;border-top:4px solid var(--navy);">
+        <strong>🔢 Section 3.3</strong><br>Solving <em>two-step equations</em> — two operations to undo
+      </div>
+      <div style="flex:1;min-width:200px;background:#fff8e1;border-radius:10px;padding:16px;border-top:4px solid var(--gold);">
+        <strong>✂️ Section 3.4</strong><br><em>Simplify first</em> — combine like terms and use distributive property, then solve
+      </div>
+    </div>
+  </div>
+  <div class="score-board">
+    <div class="score-item"><h3 id="totalScore">0</h3><p>Points</p></div>
+    <div class="score-item"><h3 id="correctCount">0</h3><p>Correct</p></div>
+    <div class="score-item"><h3 id="streakCount">0</h3><p>🔥 Streak</p></div>
+  </div>
+  <div class="nav-buttons"><button class="next-btn" onclick="showTab('vocab')">Let's Go! → Vocabulary</button></div>
+</div>
+
+<!-- VOCAB -->
+<div class="tab-content" id="tab-vocab">
+  <div class="card"><h2>📚 Key Vocabulary — Section B</h2></div>
+  <div class="def-grid">
+    <div class="def-card">
+      <div class="def-term">Two-Step Equation</div>
+      <div class="def-meaning">An equation that requires <strong>two operations</strong> to isolate the variable.</div>
+      <div class="def-example">2x + 3 = 11 (undo +3, then undo ×2)</div>
+    </div>
+    <div class="def-card">
+      <div class="def-term">Order of Operations (Reverse)</div>
+      <div class="def-meaning">When solving, undo operations in <strong>reverse PEMDAS order</strong> — addition/subtraction first, then multiplication/division.</div>
+      <div class="def-example">In 3x + 5 = 20: subtract 5 first, then divide by 3</div>
+    </div>
+    <div class="def-card">
+      <div class="def-term">Like Terms</div>
+      <div class="def-meaning">Terms that have the <strong>same variable and exponent</strong>. They can be combined by adding/subtracting coefficients.</div>
+      <div class="def-example">3x and 5x are like terms → 3x + 5x = 8x</div>
+    </div>
+    <div class="def-card">
+      <div class="def-term">Combining Like Terms</div>
+      <div class="def-meaning">Adding or subtracting like terms to <strong>simplify</strong> an expression before solving.</div>
+      <div class="def-example">4x + 2x − 1 = 17 → 6x − 1 = 17</div>
+    </div>
+    <div class="def-card">
+      <div class="def-term">Distributive Property</div>
+      <div class="def-meaning">Multiplying a number outside parentheses by <strong>each term inside</strong>: a(b + c) = ab + ac</div>
+      <div class="def-example">3(x + 4) = 3x + 12</div>
+    </div>
+    <div class="def-card">
+      <div class="def-term">Simplify</div>
+      <div class="def-meaning">To combine like terms and apply the distributive property to make an expression as <strong>simple as possible</strong>.</div>
+      <div class="def-example">2x + 3x + 7 = 5x + 7</div>
+    </div>
+    <div class="def-card">
+      <div class="def-term">Constant</div>
+      <div class="def-meaning">A fixed number with <strong>no variable</strong> attached.</div>
+      <div class="def-example">In 3x + 7, the constant is 7</div>
+    </div>
+    <div class="def-card">
+      <div class="def-term">Guess and Check</div>
+      <div class="def-meaning">A strategy where you <strong>guess a value</strong>, test it in the equation, and adjust based on the result.</div>
+      <div class="def-example">Try x = 5 in 2x + 3 = 13: 2(5)+3=13 ✓</div>
+    </div>
+  </div>
+  <div class="nav-buttons"><button class="next-btn" onclick="showTab('lesson33')">Next → Section 3.3</button></div>
+</div>
+
+<!-- LESSON 3.3 -->
+<div class="tab-content" id="tab-lesson33">
+  <div class="card">
+    <h2>🔢 3.3 — Solving Two-Step Equations</h2>
+    <p>A two-step equation has <strong>two operations applied to the variable</strong>. To solve it, you undo those operations in <strong>reverse order</strong> — like unwrapping a present, outer layer first!</p>
+    <div class="math-box">
+      <span class="hi">2x + 5 = 13</span> &nbsp; means &nbsp; "x is multiplied by 2, then 5 is added"
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🔑 The Strategy: Work Backwards (Reverse PEMDAS)</h3>
+    <p>When solving, undo operations in this order:</p>
+    <div class="strategy-box">
+      <h4>Step 1: Undo any addition or subtraction (move constants to the other side)</h4>
+      <h4>Step 2: Undo any multiplication or division (isolate the variable)</h4>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📋 Step-by-Step Example 1</h3>
+    <div class="math-box">Solve: &nbsp; <span class="hi">2x + 5 = 13</span></div>
+    <ul class="step-list">
+      <li><div class="step-num">1</div><div class="step-text"><strong>Undo addition:</strong> Subtract 5 from both sides<br>2x + 5 − 5 = 13 − 5 &nbsp;→&nbsp; <strong>2x = 8</strong></div></li>
+      <li><div class="step-num">2</div><div class="step-text"><strong>Undo multiplication:</strong> Divide both sides by 2<br>2x ÷ 2 = 8 ÷ 2 &nbsp;→&nbsp; <strong>x = 4</strong></div></li>
+      <li><div class="step-num">3</div><div class="step-text"><strong>Check:</strong> 2(4) + 5 = 8 + 5 = 13 ✓</div></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>📋 Step-by-Step Example 2</h3>
+    <div class="math-box">Solve: &nbsp; <span class="hi">3x − 4 = 17</span></div>
+    <ul class="step-list">
+      <li><div class="step-num">1</div><div class="step-text"><strong>Undo subtraction:</strong> Add 4 to both sides<br>3x − 4 + 4 = 17 + 4 &nbsp;→&nbsp; <strong>3x = 21</strong></div></li>
+      <li><div class="step-num">2</div><div class="step-text"><strong>Undo multiplication:</strong> Divide both sides by 3<br>3x ÷ 3 = 21 ÷ 3 &nbsp;→&nbsp; <strong>x = 7</strong></div></li>
+      <li><div class="step-num">3</div><div class="step-text"><strong>Check:</strong> 3(7) − 4 = 21 − 4 = 17 ✓</div></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>📋 Division Version</h3>
+    <div class="math-box">Solve: &nbsp; <span class="hi">x/3 + 2 = 8</span></div>
+    <ul class="step-list">
+      <li><div class="step-num">1</div><div class="step-text"><strong>Undo addition:</strong> Subtract 2 from both sides → x/3 = 6</div></li>
+      <li><div class="step-num">2</div><div class="step-text"><strong>Undo division:</strong> Multiply both sides by 3 → x = 18</div></li>
+      <li><div class="step-num">3</div><div class="step-text"><strong>Check:</strong> 18/3 + 2 = 6 + 2 = 8 ✓</div></li>
+    </ul>
+  </div>
+
+  <div class="reallife">
+    <h4>🌍 Real-Life Example — Cell Phone Plan</h4>
+    <p>A cell phone plan charges $10 per month plus $0.05 per text message. Terria's bill was $17.50 this month. How many texts did she send?<br><br>
+    Let <strong>t</strong> = number of texts.<br>
+    Equation: <strong>0.05t + 10 = 17.50</strong><br>
+    Step 1: Subtract 10 → 0.05t = 7.50<br>
+    Step 2: Divide by 0.05 → <strong>t = 150 texts</strong><br>
+    Check: 0.05(150) + 10 = 7.50 + 10 = 17.50 ✓</p>
+  </div>
+
+  <div class="reallife">
+    <h4>🌍 Real-Life Example — Saving for Sneakers</h4>
+    <p>Terria already has $14 saved. She earns $8 per hour working at a community program. She needs $62 total for new sneakers. How many hours must she work?<br><br>
+    Let <strong>h</strong> = hours worked.<br>
+    Equation: <strong>8h + 14 = 62</strong><br>
+    Step 1: Subtract 14 → 8h = 48<br>
+    Step 2: Divide by 8 → <strong>h = 6 hours</strong><br>
+    Check: 8(6) + 14 = 48 + 14 = 62 ✓</p>
+  </div>
+
+  <div class="nav-buttons"><button class="next-btn" onclick="showTab('lesson34')">Next → Section 3.4</button></div>
+</div>
+
+<!-- LESSON 3.4 -->
+<div class="tab-content" id="tab-lesson34">
+  <div class="card">
+    <h2>✂️ 3.4 — Simplifying Before Solving</h2>
+    <p>Sometimes equations look more complicated than they really are! Before solving, we need to <strong>simplify</strong> by combining like terms or using the distributive property.</p>
+  </div>
+
+  <div class="card">
+    <h3>Part A: Combining Like Terms</h3>
+    <p>If the same variable appears more than once on the same side, combine them first!</p>
+    <div class="math-box">Solve: &nbsp; <span class="hi">4x + 2x − 3 = 21</span></div>
+    <ul class="step-list">
+      <li><div class="step-num">1</div><div class="step-text"><strong>Combine like terms:</strong> 4x + 2x = 6x<br>Equation becomes: <strong>6x − 3 = 21</strong></div></li>
+      <li><div class="step-num">2</div><div class="step-text"><strong>Undo subtraction:</strong> Add 3 to both sides → 6x = 24</div></li>
+      <li><div class="step-num">3</div><div class="step-text"><strong>Undo multiplication:</strong> Divide by 6 → x = 4</div></li>
+      <li><div class="step-num">4</div><div class="step-text"><strong>Check:</strong> 4(4) + 2(4) − 3 = 16 + 8 − 3 = 21 ✓</div></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Part B: Distributive Property</h3>
+    <p>If you see parentheses, distribute FIRST, then solve!</p>
+    <div class="math-box">Solve: &nbsp; <span class="hi">3(x + 5) = 27</span></div>
+    <ul class="step-list">
+      <li><div class="step-num">1</div><div class="step-text"><strong>Distribute:</strong> 3(x) + 3(5) = 27<br>Equation becomes: <strong>3x + 15 = 27</strong></div></li>
+      <li><div class="step-num">2</div><div class="step-text"><strong>Subtract 15 from both sides:</strong> 3x = 12</div></li>
+      <li><div class="step-num">3</div><div class="step-text"><strong>Divide by 3:</strong> x = 4</div></li>
+      <li><div class="step-num">4</div><div class="step-text"><strong>Check:</strong> 3(4 + 5) = 3(9) = 27 ✓</div></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Part C: Both! (Distribute AND Combine)</h3>
+    <div class="math-box">Solve: &nbsp; <span class="hi">2(x + 3) + 4x = 30</span></div>
+    <ul class="step-list">
+      <li><div class="step-num">1</div><div class="step-text"><strong>Distribute:</strong> 2x + 6 + 4x = 30</div></li>
+      <li><div class="step-num">2</div><div class="step-text"><strong>Combine like terms:</strong> 6x + 6 = 30</div></li>
+      <li><div class="step-num">3</div><div class="step-text"><strong>Subtract 6:</strong> 6x = 24</div></li>
+      <li><div class="step-num">4</div><div class="step-text"><strong>Divide by 6:</strong> x = 4</div></li>
+      <li><div class="step-num">5</div><div class="step-text"><strong>Check:</strong> 2(4+3) + 4(4) = 14 + 16 = 30 ✓</div></li>
+    </ul>
+  </div>
+
+  <div class="reallife">
+    <h4>🌍 Real-Life Example — Class Party</h4>
+    <p>For a school party, each table needs 3 cups and 3 plates. There are also 5 extra cups for teachers. All together, there are 29 items. How many tables are there?<br><br>
+    Let <strong>t</strong> = number of tables.<br>
+    Each table: 3 + 3 = 6 items → Equation: <strong>6t + 5 = 29</strong><br>
+    Step 1: Subtract 5 → 6t = 24<br>
+    Step 2: Divide by 6 → <strong>t = 4 tables</strong><br>
+    Check: 6(4) + 5 = 24 + 5 = 29 ✓</p>
+  </div>
+
+  <div class="reallife">
+    <h4>🌍 Real-Life Example — Buying Snacks</h4>
+    <p>Terria and 2 friends each buy the same snack combo. They also split the cost of a shared dessert that costs $6. The total bill is $30. What did each snack combo cost?<br><br>
+    Let <strong>c</strong> = cost of each combo.<br>
+    Equation: <strong>3c + 6 = 30</strong><br>
+    Step 1: Subtract 6 → 3c = 24<br>
+    Step 2: Divide by 3 → <strong>c = $8 per combo</strong><br>
+    Check: 3(8) + 6 = 24 + 6 = 30 ✓</p>
+  </div>
+
+  <div class="nav-buttons"><button class="next-btn" onclick="showTab('practice')">Next → Practice Arena 🎮</button></div>
+</div>
+
+<!-- PRACTICE -->
+<div class="tab-content" id="tab-practice">
+  <div class="card">
+    <h2>🎮 Practice Arena</h2>
+    <p>These problems cover both 3.3 and 3.4. Earn <strong>10 coins</strong> each!</p>
+  </div>
+
+  <div class="quiz-card">
+    <div class="question-num">Practice 1 — Two-Step</div>
+    <div class="question-text">🧮 Solve: &nbsp; <strong>5x + 3 = 33</strong></div>
+    <input type="number" class="answer-input" id="p1" placeholder="x = ?">
+    <button class="submit-btn" onclick="checkPractice('p1',6,'p1fb','Subtract 3: 5x=30. Divide by 5: x=6.<br><ol><li>5x+3=33</li><li>5x=30</li><li>x=6</li><li>Check: 5(6)+3=33 ✓</li></ol>')">Check</button>
+    <div class="feedback" id="p1fb"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="question-num">Practice 2 — Two-Step</div>
+    <div class="question-text">🧮 Solve: &nbsp; <strong>4n − 7 = 21</strong></div>
+    <input type="number" class="answer-input" id="p2" placeholder="n = ?">
+    <button class="submit-btn" onclick="checkPractice('p2',7,'p2fb','Add 7: 4n=28. Divide by 4: n=7.<br><ol><li>4n−7=21</li><li>4n=28</li><li>n=7</li><li>Check: 4(7)−7=21 ✓</li></ol>')">Check</button>
+    <div class="feedback" id="p2fb"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="question-num">Practice 3 — Like Terms</div>
+    <div class="question-text">🧮 Solve: &nbsp; <strong>3x + 5x = 40</strong></div>
+    <input type="number" class="answer-input" id="p3" placeholder="x = ?">
+    <button class="submit-btn" onclick="checkPractice('p3',5,'p3fb','Combine: 8x=40. Divide by 8: x=5.<br><ol><li>3x+5x=40</li><li>8x=40</li><li>x=5</li><li>Check: 3(5)+5(5)=40 ✓</li></ol>')">Check</button>
+    <div class="feedback" id="p3fb"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="question-num">Practice 4 — Distributive Property</div>
+    <div class="question-text">🧮 Solve: &nbsp; <strong>4(x + 2) = 28</strong></div>
+    <input type="number" class="answer-input" id="p4" placeholder="x = ?">
+    <button class="submit-btn" onclick="checkPractice('p4',5,'p4fb','Distribute: 4x+8=28. Subtract 8: 4x=20. Divide by 4: x=5.<br><ol><li>4(x+2)=28</li><li>4x+8=28</li><li>4x=20</li><li>x=5</li><li>Check: 4(5+2)=28 ✓</li></ol>')">Check</button>
+    <div class="feedback" id="p4fb"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="question-num">Practice 5 — Real World</div>
+    <div class="question-text">📖 Terria earns $12 per hour plus a $6 bonus per shift. She earned $54 in one shift. How many hours did she work?</div>
+    <input type="number" class="answer-input" id="p5" placeholder="Hours = ?">
+    <button class="submit-btn" onclick="checkPractice('p5',4,'p5fb','Equation: 12h+6=54. Subtract 6: 12h=48. Divide by 12: h=4.<br><ol><li>12h+6=54</li><li>12h=48</li><li>h=4</li><li>Check: 12(4)+6=54 ✓</li></ol>')">Check</button>
+    <div class="feedback" id="p5fb"></div>
+  </div>
+
+  <div class="nav-buttons"><button class="next-btn" onclick="showTab('quiz')">Next → Final Quiz 🏆</button></div>
+</div>
+
+<!-- QUIZ -->
+<div class="tab-content" id="tab-quiz">
+  <div class="card">
+    <h2>🏆 Final Quiz — Section B</h2>
+    <p>8 questions covering 3.3 and 3.4. Each correct answer earns <strong>15 XP</strong>!</p>
+  </div>
+  <div id="quizContainer"></div>
+  <div id="quizResult" style="display:none;">
+    <div class="score-board">
+      <div class="score-item"><h3 id="finalCorrect">0</h3><p>Correct</p></div>
+      <div class="score-item"><h3 id="finalScore">0</h3><p>XP Earned</p></div>
+      <div class="score-item"><h3 id="finalGrade">A</h3><p>Grade</p></div>
+    </div>
+    <div class="quote-section">
+      <div class="quote-text">"I am no longer accepting the things I cannot change. I am changing the things I cannot accept."</div>
+      <div class="quote-author">— Angela Davis, Scholar, Activist & Author</div>
+    </div>
+  </div>
+</div>
+
+<div id="confettiContainer" style="position:fixed;top:0;left:0;width:100%;pointer-events:none;z-index:9999;"></div>
+
+<script>
+let coins=0,xp=0,correct=0,streak=0;
+const MAX_XP=200;
+
+function showTab(id){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  const m={intro:0,vocab:1,lesson33:2,lesson34:3,practice:4,quiz:5};
+  document.querySelectorAll('.tab-btn')[m[id]].classList.add('active');
+  if(id==='quiz') buildQuiz();
+}
+
+function addReward(xpA,coinA){
+  xp=Math.min(xp+xpA,MAX_XP); coins+=coinA; streak++;
+  document.getElementById('xpFill').style.width=(xp/MAX_XP*100)+'%';
+  document.getElementById('coinDisplay').textContent='🪙 '+coins+' coins earned';
+  document.getElementById('totalScore').textContent=xp;
+  document.getElementById('correctCount').textContent=correct;
+  document.getElementById('streakCount').textContent=streak+(streak>=3?' 🔥':'');
+}
+
+function launchConfetti(){
+  const colors=['#c9a227','#1a2744','#27ae60','#e74c3c','#3498db','#9b59b6','#f0d060'];
+  const c=document.getElementById('confettiContainer');
+  for(let i=0;i<70;i++){
+    setTimeout(()=>{
+      const p=document.createElement('div'); p.className='confetti-piece';
+      p.style.left=Math.random()*100+'vw'; p.style.top='-10px';
+      p.style.background=colors[Math.floor(Math.random()*colors.length)];
+      p.style.width=(8+Math.random()*8)+'px'; p.style.height=(8+Math.random()*8)+'px';
+      p.style.animationDuration=(1.2+Math.random()*1.2)+'s';
+      c.appendChild(p); setTimeout(()=>p.remove(),2500);
+    },i*20);
+  }
+  playSound('correct');
+}
+
+function playSound(type){
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    const osc=ctx.createOscillator(),gain=ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    if(type==='correct'){
+      osc.frequency.setValueAtTime(523,ctx.currentTime);
+      osc.frequency.setValueAtTime(659,ctx.currentTime+0.15);
+      osc.frequency.setValueAtTime(784,ctx.currentTime+0.3);
+      gain.gain.setValueAtTime(0.3,ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.6);
+    }else{
+      osc.frequency.setValueAtTime(200,ctx.currentTime);
+      osc.frequency.setValueAtTime(150,ctx.currentTime+0.2);
+      gain.gain.setValueAtTime(0.3,ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.4);
+    }
+    osc.start(); osc.stop(ctx.currentTime+0.7);
+  }catch(e){}
+}
+
+function checkPractice(inputId,answer,fbId,explanation){
+  const val=parseFloat(document.getElementById(inputId).value);
+  const fb=document.getElementById(fbId);
+  fb.style.display='block';
+  if(val===answer){
+    fb.className='feedback correct';
+    fb.innerHTML='✅ <strong>Excellent, Terria!</strong> x = '+answer+'<br>🪙 +10 coins!';
+    correct++; addReward(10,10); launchConfetti();
+  }else{
+    fb.className='feedback wrong';
+    fb.innerHTML='<span class="x-mark">✗</span> Your answer: '+(isNaN(val)?'blank':val)+'. Correct: <strong>'+answer+'</strong><br>'+
+      '<button class="explain-btn" onclick="toggleExplain(\'exp_'+inputId+'\')">📖 Show Me How</button>'+
+      '<div class="explanation" id="exp_'+inputId+'"><h4>Step-by-Step:</h4>'+explanation+'</div>';
+    streak=0; playSound('wrong');
+  }
+}
+
+function toggleExplain(id){
+  const el=document.getElementById(id);
+  el.style.display=el.style.display==='block'?'none':'block';
+}
+
+const quizData=[
+  {q:'Solve: 6x + 4 = 40',a:6,hint:'Subtract 4: 6x=36. Divide by 6: x=6.<ol><li>6x+4=40</li><li>6x=36</li><li>x=6 ✓</li></ol>'},
+  {q:'Solve: 5n − 8 = 27',a:7,hint:'Add 8: 5n=35. Divide by 5: n=7.<ol><li>5n−8=27</li><li>5n=35</li><li>n=7 ✓</li></ol>'},
+  {q:'Solve: 2x + 3x = 45',a:9,hint:'Combine: 5x=45. Divide by 5: x=9.<ol><li>5x=45</li><li>x=9 ✓</li></ol>'},
+  {q:'Solve: 5(x − 2) = 25',a:7,hint:'Distribute: 5x−10=25. Add 10: 5x=35. Divide: x=7.<ol><li>5x−10=25</li><li>5x=35</li><li>x=7 ✓</li></ol>'},
+  {q:'Solve: x/4 + 3 = 9',a:24,hint:'Subtract 3: x/4=6. Multiply by 4: x=24.<ol><li>x/4=6</li><li>x=24 ✓</li></ol>'},
+  {q:'Solve: 3x + 2x + 5 = 30',a:5,hint:'Combine: 5x+5=30. Subtract 5: 5x=25. Divide: x=5.<ol><li>5x+5=30</li><li>5x=25</li><li>x=5 ✓</li></ol>'},
+  {q:'📖 Terria bought 4 identical notebooks and a pen that cost $2. She spent $26 total. What is the price of each notebook?',a:6,hint:'Equation: 4n+2=26. Subtract 2: 4n=24. Divide: n=6.<ol><li>4n+2=26</li><li>4n=24</li><li>n=6 ✓</li></ol>'},
+  {q:'📖 A recipe triples everything and adds 5 extra cups of flour. The total is 29 cups. How many cups did the original recipe call for?',a:8,hint:'Equation: 3x+5=29. Subtract 5: 3x=24. Divide: x=8.<ol><li>3x+5=29</li><li>3x=24</li><li>x=8 ✓</li></ol>'},
+];
+
+let quizBuilt=false;
+const quizAnswers={};
+let quizCorrect=0;
+
+function buildQuiz(){
+  if(quizBuilt) return; quizBuilt=true;
+  const c=document.getElementById('quizContainer');
+  quizData.forEach((item,i)=>{
+    const d=document.createElement('div'); d.className='quiz-card';
+    d.innerHTML=`<div class="question-num">Question ${i+1} of ${quizData.length}</div>
+      <div class="question-text">${item.q}</div>
+      <input type="number" class="answer-input" id="q${i}" placeholder="Answer = ?">
+      <button class="submit-btn" onclick="checkQuiz(${i},${item.a},'${item.hint.replace(/'/g,"\\'")}')">Submit</button>
+      <div class="feedback" id="qfb${i}"></div>`;
+    c.appendChild(d);
+  });
+  const s=document.createElement('div'); s.className='nav-buttons';
+  s.innerHTML='<button class="next-btn" onclick="showFinalResult()">🏆 See My Score</button>';
+  c.appendChild(s);
+}
+
+function checkQuiz(idx,answer,hint){
+  if(quizAnswers[idx]!==undefined) return;
+  const val=parseFloat(document.getElementById('q'+idx).value);
+  const fb=document.getElementById('qfb'+idx);
+  fb.style.display='block';
+  if(val===answer){
+    fb.className='feedback correct';
+    fb.innerHTML='✅ Correct! +15 XP 🪙 +15 coins!';
+    quizAnswers[idx]=true; quizCorrect++; addReward(15,15); launchConfetti();
+  }else{
+    fb.className='feedback wrong';
+    fb.innerHTML='<span class="x-mark">✗</span> Your answer: '+(isNaN(val)?'—':val)+' | Correct: <strong>'+answer+'</strong><br>'+
+      '<button class="explain-btn" onclick="toggleExplain(\'qexp'+idx+'\')">📖 Step-by-Step</button>'+
+      '<div class="explanation" id="qexp'+idx+'"><h4>Solution:</h4>'+hint+'</div>';
+    quizAnswers[idx]=false; streak=0; playSound('wrong');
+  }
+}
+
+function showFinalResult(){
+  document.getElementById('quizContainer').style.display='none';
+  const r=document.getElementById('quizResult'); r.style.display='block';
+  const pct=quizCorrect/quizData.length;
+  document.getElementById('finalCorrect').textContent=quizCorrect+'/'+quizData.length;
+  document.getElementById('finalScore').textContent=quizCorrect*15;
+  document.getElementById('finalGrade').textContent=pct>=0.9?'A':pct>=0.8?'B':pct>=0.7?'C':pct>=0.6?'D':'F';
+  if(pct>=0.7) launchConfetti();
+}
+</script>
+</body>
+</html>

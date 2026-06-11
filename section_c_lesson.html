@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KingCretot Experience | Ch. 3 Section C: Using Equations & Inequalities</title>
+<style>
+  :root{--navy:#1a2744;--gold:#c9a227;--gold-light:#f0d060;--white:#fff;--light-bg:#f4f6fb;--green:#27ae60;--red:#e74c3c;--card-shadow:0 4px 18px rgba(26,39,68,0.13);}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--light-bg);color:var(--navy);min-height:100vh;}
+  header{background:var(--navy);color:var(--white);padding:18px 32px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 3px 12px rgba(0,0,0,0.25);}
+  .brand{display:flex;align-items:center;gap:14px;}
+  .brand-logo{width:52px;height:52px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px;color:var(--navy);}
+  .brand-text h1{font-size:1.25rem;} .brand-text p{font-size:0.78rem;color:var(--gold-light);}
+  .xp-bar-container{text-align:right;}
+  .xp-label{font-size:0.75rem;color:var(--gold-light);margin-bottom:4px;}
+  .xp-track{width:220px;height:14px;background:rgba(255,255,255,0.15);border-radius:8px;overflow:hidden;}
+  .xp-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:8px;transition:width 0.5s;width:0%;}
+  .xp-coins{color:var(--gold);font-size:1rem;margin-top:4px;}
+  .tab-nav{display:flex;background:var(--navy);border-bottom:3px solid var(--gold);padding:0 32px;overflow-x:auto;}
+  .tab-btn{padding:12px 22px;color:rgba(255,255,255,0.6);background:none;border:none;cursor:pointer;font-size:0.9rem;font-weight:600;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-3px;transition:all 0.2s;}
+  .tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
+  .tab-content{display:none;padding:30px 32px;max-width:900px;margin:0 auto;}
+  .tab-content.active{display:block;}
+  .card{background:var(--white);border-radius:14px;padding:24px 28px;margin-bottom:22px;box-shadow:var(--card-shadow);border-left:5px solid var(--gold);}
+  .card h2{color:var(--navy);font-size:1.2rem;margin-bottom:10px;}
+  .card h3{color:var(--gold);font-size:1rem;margin-bottom:8px;}
+  .card p{line-height:1.7;margin-bottom:8px;}
+  .def-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .def-card{background:var(--light-bg);border-radius:10px;padding:16px;border-top:4px solid var(--gold);transition:transform 0.2s;}
+  .def-card:hover{transform:translateY(-3px);}
+  .def-term{font-weight:800;color:var(--navy);font-size:1rem;margin-bottom:6px;}
+  .def-meaning{font-size:0.9rem;color:#444;line-height:1.5;}
+  .def-example{font-size:0.82rem;color:var(--gold);margin-top:5px;font-style:italic;}
+  .math-box{background:var(--navy);color:var(--white);border-radius:10px;padding:16px 20px;font-family:'Courier New',monospace;font-size:1.05rem;margin:14px 0;text-align:center;}
+  .math-box .hi{color:var(--gold-light);font-weight:bold;}
+  .step-list{list-style:none;}
+  .step-list li{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px dashed #e0e5f0;}
+  .step-num{min-width:30px;height:30px;background:var(--gold);color:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.85rem;}
+  .step-text{line-height:1.6;padding-top:3px;}
+  .reallife{background:linear-gradient(135deg,#1a2744,#243563);color:white;border-radius:12px;padding:20px 24px;margin:16px 0;}
+  .reallife h4{color:var(--gold);margin-bottom:8px;}
+  .reallife p{line-height:1.65;font-size:0.95rem;}
+  .quiz-card{background:var(--white);border-radius:14px;padding:26px 28px;margin-bottom:20px;box-shadow:var(--card-shadow);border-top:5px solid var(--navy);}
+  .question-num{background:var(--navy);color:var(--gold);display:inline-block;padding:3px 10px;border-radius:20px;font-size:0.8rem;font-weight:700;margin-bottom:10px;}
+  .question-text{font-size:1.05rem;font-weight:600;margin-bottom:14px;}
+  .answer-input{width:200px;padding:10px 14px;border:2px solid #dce2ef;border-radius:8px;font-size:1rem;outline:none;}
+  .answer-input:focus{border-color:var(--gold);}
+  .submit-btn{background:var(--navy);color:var(--white);border:none;padding:10px 24px;border-radius:8px;font-size:0.95rem;font-weight:700;cursor:pointer;margin-left:10px;}
+  .submit-btn:hover{background:var(--gold);color:var(--navy);}
+  .feedback{margin-top:14px;padding:14px 18px;border-radius:10px;display:none;}
+  .feedback.correct{background:#d4f4e2;border-left:5px solid var(--green);color:#155724;}
+  .feedback.wrong{background:#fde8e8;border-left:5px solid var(--red);color:#721c24;}
+  .explain-btn{background:var(--red);color:white;border:none;padding:7px 16px;border-radius:6px;cursor:pointer;font-size:0.85rem;margin-top:8px;font-weight:600;}
+  .explanation{background:#fff8e1;border:1px solid var(--gold);border-radius:10px;padding:14px 18px;margin-top:10px;display:none;}
+  .score-board{background:var(--navy);color:white;border-radius:14px;padding:20px 28px;text-align:center;margin-bottom:24px;display:flex;justify-content:space-around;}
+  .score-item h3{color:var(--gold);font-size:2rem;} .score-item p{font-size:0.8rem;color:rgba(255,255,255,0.7);}
+  .confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;animation:confettiFall 1.8s ease-in forwards;pointer-events:none;z-index:9999;}
+  @keyframes confettiFall{0%{transform:translateY(-20px) rotateZ(0deg);opacity:1;}100%{transform:translateY(100vh) rotateZ(720deg);opacity:0;}}
+  .x-mark{font-size:3rem;color:var(--red);animation:shakeX 0.4s ease;display:inline-block;}
+  @keyframes shakeX{0%,100%{transform:translateX(0);}25%{transform:translateX(-8px);}75%{transform:translateX(8px);}}
+  .quote-section{background:linear-gradient(135deg,var(--navy),#2c3e6e);color:white;border-radius:16px;padding:32px 36px;text-align:center;margin-top:24px;position:relative;overflow:hidden;}
+  .quote-section::before{content:'"';position:absolute;top:-10px;left:20px;font-size:120px;color:rgba(201,162,39,0.15);font-family:Georgia,serif;}
+  .quote-text{font-size:1.2rem;font-style:italic;line-height:1.8;position:relative;z-index:1;}
+  .quote-author{color:var(--gold);font-weight:700;margin-top:12px;}
+  .nav-buttons{display:flex;gap:12px;margin-top:20px;justify-content:flex-end;}
+  .next-btn{background:var(--gold);color:var(--navy);border:none;padding:12px 28px;border-radius:10px;font-weight:800;font-size:1rem;cursor:pointer;}
+  .next-btn:hover{background:var(--gold-light);}
+  /* Number line */
+  .numberline-wrap{overflow-x:auto;margin:16px 0;}
+  .numberline{display:flex;align-items:center;gap:0;padding:20px 10px;}
+  .nl-seg{width:50px;height:3px;background:var(--navy);position:relative;display:flex;align-items:center;justify-content:center;}
+  .nl-tick{width:1px;height:14px;background:var(--navy);position:absolute;}
+  .nl-label{position:absolute;top:14px;font-size:0.75rem;color:var(--navy);font-weight:600;}
+  .nl-arrow{font-size:1.4rem;color:var(--navy);font-weight:900;}
+  .nl-circle-open{width:16px;height:16px;border-radius:50%;border:3px solid var(--red);background:white;position:absolute;top:-6px;}
+  .nl-circle-closed{width:16px;height:16px;border-radius:50%;background:var(--red);position:absolute;top:-6px;}
+  .sign-table{width:100%;border-collapse:collapse;margin:12px 0;}
+  .sign-table th{background:var(--navy);color:white;padding:10px;font-size:0.9rem;}
+  .sign-table td{padding:10px;border:1px solid #dce2ef;text-align:center;font-size:0.9rem;}
+  .sign-table tr:nth-child(even){background:#f4f6fb;}
+  select.answer-input{width:180px;}
+  @media(max-width:640px){.def-grid{grid-template-columns:1fr;}header{flex-direction:column;gap:12px;}.xp-track{width:160px;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="brand-logo">KC</div>
+    <div class="brand-text">
+      <h1>KingCretot Experience</h1>
+      <p>Chapter 3 · Section C: Using Equations & Solving Inequalities (3.5 & 3.6)</p>
+    </div>
+  </div>
+  <div class="xp-bar-container">
+    <div class="xp-label">⭐ XP Progress</div>
+    <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
+    <div class="xp-coins" id="coinDisplay">🪙 0 coins earned</div>
+  </div>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('intro')">🏠 Welcome</button>
+  <button class="tab-btn" onclick="showTab('vocab')">📚 Vocabulary</button>
+  <button class="tab-btn" onclick="showTab('lesson35')">🌍 3.5 Using Equations</button>
+  <button class="tab-btn" onclick="showTab('lesson36')">⚖️ 3.6 Inequalities</button>
+  <button class="tab-btn" onclick="showTab('practice')">🎮 Practice</button>
+  <button class="tab-btn" onclick="showTab('quiz')">🏆 Final Quiz</button>
+</nav>
+
+<!-- INTRO -->
+<div class="tab-content active" id="tab-intro">
+  <div class="card">
+    <h2>🌟 Welcome, Terria — Week 2!</h2>
+    <p>You've mastered one-step AND two-step equations! Now we apply those skills to <strong>model real-world situations</strong> and we introduce a brand-new concept: <strong>Inequalities</strong> — equations that have more than one possible answer!</p>
+    <div style="display:flex;gap:16px;margin-top:16px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:200px;background:#f0f4ff;border-radius:10px;padding:16px;border-top:4px solid var(--navy);"><strong>🌍 Section 3.5</strong><br>Translating real-world situations into equations and solving them</div>
+      <div style="flex:1;min-width:200px;background:#fff8e1;border-radius:10px;padding:16px;border-top:4px solid var(--gold);"><strong>⚖️ Section 3.6</strong><br>Inequalities — graphing on a number line and solving algebraically</div>
+    </div>
+  </div>
+  <div class="score-board">
+    <div class="score-item"><h3 id="totalScore">0</h3><p>Points</p></div>
+    <div class="score-item"><h3 id="correctCount">0</h3><p>Correct</p></div>
+    <div class="score-item"><h3 id="streakCount">0</h3><p>🔥 Streak</p></div>
+  </div>
+  <div class="nav-buttons"><button class="next-btn" onclick="showTab('vocab')">Let's Go! → Vocabulary</button></div>
+</div>
+
+<!-- VOCAB -->
+<div class="tab-content" id="tab-vocab">
+  <div class="card"><h2>📚 Key Vocabulary — Section C</h2></div>
+  <div class="def-grid">
+    <div class="def-card">
+      <div class="def-term">Mathematical Model</div>
+      <div class="def-meaning">An equation that represents a <strong>real-world situation</strong> using math.</div>
+      <div class="def-example">"You earn $12 per hour" → 12h = total pay</div>
+    </div>
+    <div class="def-card">
+      <div class="def-term">Define the Variable</div>
+      <div class="def-meaning">To clearly state what the variable represents, usually written as <strong>"Let ___ = ___"</strong>.</div>
+      <div class="def-example">Let h = number of hours worked</div>
+    </div>
+    <div class="def-card">
+      <div class="def-term">Inequality</div>
+      <div class="def-meaning">A mathematical statement showing that two expressions are <strong>NOT equal</strong>, using <, >, ≤, ≥, or ≠.</div>
+      <div class="def-example">x > 5 means "x is greater than 5"</div>
+    </div>
+    <div class="def-card">
+      <div class="def-term">Solution Set</div>
+      <div class="def-meaning">All values that make an inequality true — there are <strong>infinitely many solutions</strong>!</div>
+      <div class="def-example">x > 3: solutions are 4, 5, 6, 7... (and 3.1, 3.5, etc.)</div>
+    </div>
+    <div class="def-card">
+      <div class="def-term">Open Circle</div>
+      <div class="def-meaning">Used on a number line when the endpoint is <strong>NOT included</strong> (< or >).</div>
+      <div class="def-example">x > 4 → open circle at 4</div>
+    </div>
+    <div class="def-card">
+      <div class="def-term">Closed Circle</div>
+      <div class="def-meaning">Used on a number line when the endpoint <strong>IS included</strong> (≤ or ≥).</div>
+      <div class="def-example">x ≥ 4 → closed circle at 4</div>
+    </div>
+    <div class="def-card">
+      <div class="def-term">Solving an Inequality</div>
+      <div class="def-meaning">Same steps as solving an equation <strong>EXCEPT: when multiplying or dividing by a NEGATIVE, flip the inequality sign</strong>.</div>
+      <div class="def-example">−2x < 8 → divide by −2 → x > −4 (sign flips!)</div>
+    </div>
+    <div class="def-card">
+      <div class="def-term">Inequality Symbols</div>
+      <div class="def-meaning"><strong>&lt;</strong> less than &nbsp;|&nbsp; <strong>&gt;</strong> greater than &nbsp;|&nbsp; <strong>≤</strong> less than OR equal to &nbsp;|&nbsp; <strong>≥</strong> greater than OR equal to</div>
+      <div class="def-example">x ≤ 10 means x can be 10, 9, 8... or any number below</div>
+    </div>
+  </div>
+  <div class="nav-buttons"><button class="next-btn" onclick="showTab('lesson35')">Next → Section 3.5</button></div>
+</div>
+
+<!-- LESSON 3.5 -->
+<div class="tab-content" id="tab-lesson35">
+  <div class="card">
+    <h2>🌍 3.5 — Using Equations to Model Real-World Problems</h2>
+    <p>Equations are powerful tools! In Section 3.5, we take real-life situations and <strong>translate</strong> them into equations, then solve. This is one of the most important skills in all of math.</p>
+  </div>
+
+  <div class="card">
+    <h3>🔑 The 4-Step Problem-Solving Process</h3>
+    <ul class="step-list">
+      <li><div class="step-num">1</div><div class="step-text"><strong>Define the variable</strong> — write "Let x = ___"</div></li>
+      <li><div class="step-num">2</div><div class="step-text"><strong>Write the equation</strong> — translate words into math symbols</div></li>
+      <li><div class="step-num">3</div><div class="step-text"><strong>Solve the equation</strong> — use your skills from 3.1–3.4</div></li>
+      <li><div class="step-num">4</div><div class="step-text"><strong>Answer in context</strong> — state what the answer means in the real world</div></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>📖 Key Translation Words</h3>
+    <table class="sign-table">
+      <tr><th>Math Operation</th><th>Words That Signal It</th></tr>
+      <tr><td><strong>Addition (+)</strong></td><td>plus, sum, more than, increased by, total, altogether</td></tr>
+      <tr><td><strong>Subtraction (−)</strong></td><td>minus, difference, less than, decreased by, fewer, remain</td></tr>
+      <tr><td><strong>Multiplication (×)</strong></td><td>times, product, of, per, doubled, tripled, each</td></tr>
+      <tr><td><strong>Division (÷)</strong></td><td>divided by, quotient, per, split equally, shared</td></tr>
+      <tr><td><strong>Equals (=)</strong></td><td>is, equals, gives, results in, totals, was</td></tr>
+    </table>
+  </div>
+
+  <div class="reallife">
+    <h4>🌍 Example 1 — Car Wash Fundraiser</h4>
+    <p>The student council charges $8 per car for a fundraiser. They need to raise $200 for a trip. How many cars must they wash?<br><br>
+    <strong>Step 1:</strong> Let c = number of cars<br>
+    <strong>Step 2:</strong> Equation: 8c = 200<br>
+    <strong>Step 3:</strong> Divide both sides by 8 → c = 25<br>
+    <strong>Step 4:</strong> They must wash <strong>25 cars</strong>.</p>
+  </div>
+
+  <div class="reallife">
+    <h4>🌍 Example 2 — Phone Data Plan</h4>
+    <p>A data plan costs $30 per month plus $0.10 per gigabyte (GB) used. Terria's bill was $43. How many GB did she use?<br><br>
+    <strong>Step 1:</strong> Let g = gigabytes used<br>
+    <strong>Step 2:</strong> Equation: 0.10g + 30 = 43<br>
+    <strong>Step 3:</strong> Subtract 30 → 0.10g = 13; Divide by 0.10 → g = 130<br>
+    <strong>Step 4:</strong> She used <strong>130 GB</strong>.</p>
+  </div>
+
+  <div class="reallife">
+    <h4>🌍 Example 3 — Geometry Connection</h4>
+    <p>The perimeter of a rectangle is 42 cm. The length is 13 cm. What is the width?<br><br>
+    Formula: P = 2l + 2w<br>
+    <strong>Step 1:</strong> Let w = width<br>
+    <strong>Step 2:</strong> Equation: 2(13) + 2w = 42 → 26 + 2w = 42<br>
+    <strong>Step 3:</strong> Subtract 26 → 2w = 16; Divide by 2 → w = 8<br>
+    <strong>Step 4:</strong> The width is <strong>8 cm</strong>.</p>
+  </div>
+
+  <div class="nav-buttons"><button class="next-btn" onclick="showTab('lesson36')">Next → Section 3.6</button></div>
+</div>
+
+<!-- LESSON 3.6 -->
+<div class="tab-content" id="tab-lesson36">
+  <div class="card">
+    <h2>⚖️ 3.6 — Solving Inequalities</h2>
+    <p>An <strong>inequality</strong> is like an equation, but instead of saying two things are <em>equal</em>, it says one is <em>greater than</em> or <em>less than</em> the other. The amazing thing? Inequalities have <strong>infinitely many solutions!</strong></p>
+    <div class="math-box">
+      <span class="hi">x + 3 &gt; 7</span> &nbsp; means &nbsp; "some number <span class="hi">plus 3</span> is <span class="hi">greater than 7</span>"<br>
+      Solutions: x = 5, 6, 7, 8, 9, 10, 11, 12 ... (and 4.1, 4.5, etc.!)
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📊 The Four Inequality Symbols</h3>
+    <table class="sign-table">
+      <tr><th>Symbol</th><th>Meaning</th><th>Example</th><th>Number Line</th></tr>
+      <tr><td><strong>&lt;</strong></td><td>less than</td><td>x &lt; 5</td><td>Open circle at 5, arrow pointing LEFT ←</td></tr>
+      <tr><td><strong>&gt;</strong></td><td>greater than</td><td>x &gt; 3</td><td>Open circle at 3, arrow pointing RIGHT →</td></tr>
+      <tr><td><strong>≤</strong></td><td>less than or equal to</td><td>x ≤ 5</td><td>CLOSED circle at 5, arrow pointing LEFT ←</td></tr>
+      <tr><td><strong>≥</strong></td><td>greater than or equal to</td><td>x ≥ 3</td><td>CLOSED circle at 3, arrow pointing RIGHT →</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>🔑 How to Solve an Inequality</h3>
+    <p>SAME steps as solving an equation! EXCEPT one special rule:</p>
+    <div style="background:#fde8e8;border-left:5px solid var(--red);border-radius:8px;padding:14px 18px;margin:12px 0;">
+      <strong>⚠️ FLIP THE SIGN:</strong> When you multiply or divide BOTH sides by a <strong>NEGATIVE number</strong>, you must <strong>reverse the inequality symbol</strong>.
+    </div>
+    <div class="math-box">
+      −2x &lt; 8 &nbsp;→&nbsp; divide both sides by −2 &nbsp;→&nbsp; x <span class="hi">&gt;</span> −4 &nbsp;(sign FLIPPED!)
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📋 Example 1: Simple Inequality</h3>
+    <div class="math-box">Solve and graph: &nbsp; <span class="hi">x + 4 &lt; 9</span></div>
+    <ul class="step-list">
+      <li><div class="step-num">1</div><div class="step-text">Subtract 4 from both sides: x &lt; 5</div></li>
+      <li><div class="step-num">2</div><div class="step-text">Graph: <strong>Open circle</strong> at 5, arrow pointing LEFT (all numbers less than 5)</div></li>
+      <li><div class="step-num">3</div><div class="step-text">Check with x = 3: 3 + 4 = 7 &lt; 9 ✓ &nbsp;|&nbsp; Check with x = 6: 6 + 4 = 10 NOT &lt; 9 (correct, 6 should NOT be in solution)</div></li>
+    </ul>
+    <div class="numberline-wrap">
+      <svg width="380" height="60" viewBox="0 0 380 60">
+        <line x1="30" y1="30" x2="350" y2="30" stroke="#1a2744" stroke-width="3"/>
+        <polygon points="350,25 365,30 350,35" fill="#1a2744"/>
+        <g id="ticks5">
+          <line x1="80" y1="24" x2="80" y2="36" stroke="#1a2744" stroke-width="2"/><text x="76" y="50" font-size="12" fill="#1a2744">1</text>
+          <line x1="130" y1="24" x2="130" y2="36" stroke="#1a2744" stroke-width="2"/><text x="126" y="50" font-size="12" fill="#1a2744">2</text>
+          <line x1="180" y1="24" x2="180" y2="36" stroke="#1a2744" stroke-width="2"/><text x="176" y="50" font-size="12" fill="#1a2744">3</text>
+          <line x1="230" y1="24" x2="230" y2="36" stroke="#1a2744" stroke-width="2"/><text x="226" y="50" font-size="12" fill="#1a2744">4</text>
+          <line x1="280" y1="24" x2="280" y2="36" stroke="#1a2744" stroke-width="2"/><text x="276" y="50" font-size="12" fill="#1a2744">5</text>
+          <line x1="330" y1="24" x2="330" y2="36" stroke="#1a2744" stroke-width="2"/><text x="326" y="50" font-size="12" fill="#1a2744">6</text>
+        </g>
+        <!-- Open circle at 5 (x=280) -->
+        <circle cx="280" cy="30" r="8" fill="white" stroke="#e74c3c" stroke-width="3"/>
+        <!-- Shaded left arrow -->
+        <line x1="30" y1="30" x2="272" y2="30" stroke="#e74c3c" stroke-width="5" opacity="0.7"/>
+        <polygon points="30,25 15,30 30,35" fill="#e74c3c"/>
+      </svg>
+    </div>
+    <p style="text-align:center;font-size:0.85rem;color:#555;">↑ Number line showing x &lt; 5 (open circle, arrow pointing left)</p>
+  </div>
+
+  <div class="card">
+    <h3>📋 Example 2: Two-Step Inequality</h3>
+    <div class="math-box">Solve and graph: &nbsp; <span class="hi">2x − 3 ≥ 7</span></div>
+    <ul class="step-list">
+      <li><div class="step-num">1</div><div class="step-text">Add 3 to both sides: 2x ≥ 10</div></li>
+      <li><div class="step-num">2</div><div class="step-text">Divide by 2: x ≥ 5</div></li>
+      <li><div class="step-num">3</div><div class="step-text">Graph: <strong>Closed circle</strong> at 5, arrow pointing RIGHT (all numbers 5 and greater)</div></li>
+      <li><div class="step-num">4</div><div class="step-text">Check with x = 5: 2(5)−3 = 7 ≥ 7 ✓ &nbsp;|&nbsp; Check with x = 8: 2(8)−3 = 13 ≥ 7 ✓</div></li>
+    </ul>
+    <div class="numberline-wrap">
+      <svg width="380" height="60" viewBox="0 0 380 60">
+        <line x1="30" y1="30" x2="350" y2="30" stroke="#1a2744" stroke-width="3"/>
+        <polygon points="350,25 365,30 350,35" fill="#1a2744"/>
+        <line x1="80" y1="24" x2="80" y2="36" stroke="#1a2744" stroke-width="2"/><text x="76" y="50" font-size="12" fill="#1a2744">2</text>
+        <line x1="130" y1="24" x2="130" y2="36" stroke="#1a2744" stroke-width="2"/><text x="126" y="50" font-size="12" fill="#1a2744">3</text>
+        <line x1="180" y1="24" x2="180" y2="36" stroke="#1a2744" stroke-width="2"/><text x="176" y="50" font-size="12" fill="#1a2744">4</text>
+        <line x1="230" y1="24" x2="230" y2="36" stroke="#1a2744" stroke-width="2"/><text x="226" y="50" font-size="12" fill="#1a2744">5</text>
+        <line x1="280" y1="24" x2="280" y2="36" stroke="#1a2744" stroke-width="2"/><text x="276" y="50" font-size="12" fill="#1a2744">6</text>
+        <line x1="330" y1="24" x2="330" y2="36" stroke="#1a2744" stroke-width="2"/><text x="326" y="50" font-size="12" fill="#1a2744">7</text>
+        <!-- Closed circle at 5 (x=230) -->
+        <circle cx="230" cy="30" r="8" fill="#27ae60" stroke="#27ae60" stroke-width="3"/>
+        <line x1="238" y1="30" x2="365" y2="30" stroke="#27ae60" stroke-width="5" opacity="0.8"/>
+        <polygon points="365,25 380,30 365,35" fill="#27ae60"/>
+      </svg>
+    </div>
+    <p style="text-align:center;font-size:0.85rem;color:#555;">↑ Closed circle at 5, arrow pointing right (x ≥ 5)</p>
+  </div>
+
+  <div class="reallife">
+    <h4>🌍 Real-Life Example — Height Requirement</h4>
+    <p>You must be at least 48 inches tall to ride an amusement park ride. Terria is currently 44 inches. How many more inches must she grow?<br><br>
+    Let g = inches to grow.<br>
+    Inequality: <strong>44 + g ≥ 48</strong><br>
+    Solve: g ≥ 4<br>
+    Terria must grow <strong>at least 4 more inches</strong>.</p>
+  </div>
+
+  <div class="nav-buttons"><button class="next-btn" onclick="showTab('practice')">Next → Practice 🎮</button></div>
+</div>
+
+<!-- PRACTICE -->
+<div class="tab-content" id="tab-practice">
+  <div class="card">
+    <h2>🎮 Practice Arena — Section C</h2>
+    <p>Mix of 3.5 and 3.6 problems. Earn <strong>10 coins</strong> each!</p>
+  </div>
+
+  <div class="quiz-card">
+    <div class="question-num">Practice 1 — Translation (3.5)</div>
+    <div class="question-text">📖 A bookstore sells paperback books for $9 each. Terria spent $63 on paperbacks. How many books did she buy? (Enter the number of books)</div>
+    <input type="number" class="answer-input" id="p1" placeholder="Books = ?">
+    <button class="submit-btn" onclick="checkPractice('p1',7,'p1fb','Equation: 9b=63. Divide both sides by 9: b=7.<ol><li>Let b = books</li><li>9b = 63</li><li>b = 63÷9 = 7</li><li>Check: 9×7=63 ✓</li></ol>')">Check</button>
+    <div class="feedback" id="p1fb"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="question-num">Practice 2 — Translation (3.5)</div>
+    <div class="question-text">📖 A recipe uses 3 cups of flour plus 1 extra cup. If Terria doubles the recipe, how many cups does she need in total? The doubled total is 14 cups. What did the original recipe need? (Equation: 2(x+1)=14, solve for x)</div>
+    <input type="number" class="answer-input" id="p2" placeholder="x = ?">
+    <button class="submit-btn" onclick="checkPractice('p2',6,'p2fb','Distribute: 2x+2=14. Subtract 2: 2x=12. Divide by 2: x=6.<ol><li>2(x+1)=14</li><li>2x+2=14</li><li>2x=12</li><li>x=6</li></ol>')">Check</button>
+    <div class="feedback" id="p2fb"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="question-num">Practice 3 — Inequality Solution (3.6)</div>
+    <div class="question-text">🧮 Solve: &nbsp; <strong>x + 6 &gt; 14</strong> &nbsp; What is the boundary value (the number x is greater than)?</div>
+    <input type="number" class="answer-input" id="p3" placeholder="x > ?">
+    <button class="submit-btn" onclick="checkPractice('p3',8,'p3fb','Subtract 6 from both sides: x > 8.<ol><li>x + 6 > 14</li><li>x > 14 − 6</li><li>x > 8 (open circle at 8, arrow right)</li></ol>')">Check</button>
+    <div class="feedback" id="p3fb"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="question-num">Practice 4 — Two-Step Inequality (3.6)</div>
+    <div class="question-text">🧮 Solve: &nbsp; <strong>3x − 5 ≤ 19</strong> &nbsp; What is the boundary value (x ≤ ?)? </div>
+    <input type="number" class="answer-input" id="p4" placeholder="x ≤ ?">
+    <button class="submit-btn" onclick="checkPractice('p4',8,'p4fb','Add 5: 3x ≤ 24. Divide by 3: x ≤ 8.<ol><li>3x−5 ≤ 19</li><li>3x ≤ 24</li><li>x ≤ 8 (closed circle at 8, arrow left)</li></ol>')">Check</button>
+    <div class="feedback" id="p4fb"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="question-num">Practice 5 — Real World Inequality</div>
+    <div class="question-text">📖 Terria needs to earn more than $50 to go on the school trip. She earns $7 per hour. How many full hours must she work? (Solve 7h &gt; 50 and round up — enter the minimum whole number of hours)</div>
+    <input type="number" class="answer-input" id="p5" placeholder="Hours = ?">
+    <button class="submit-btn" onclick="checkPractice('p5',8,'p5fb','Divide: h > 50/7 ≈ 7.14. Round up to next whole number = 8.<ol><li>7h > 50</li><li>h > 7.14...</li><li>Minimum whole hours = 8</li><li>Check: 7×8=56 > 50 ✓</li></ol>')">Check</button>
+    <div class="feedback" id="p5fb"></div>
+  </div>
+
+  <div class="nav-buttons"><button class="next-btn" onclick="showTab('quiz')">Next → Final Quiz 🏆</button></div>
+</div>
+
+<!-- QUIZ -->
+<div class="tab-content" id="tab-quiz">
+  <div class="card"><h2>🏆 Final Quiz — Section C</h2><p>8 questions. Each correct earns <strong>15 XP</strong>!</p></div>
+  <div id="quizContainer"></div>
+  <div id="quizResult" style="display:none;">
+    <div class="score-board">
+      <div class="score-item"><h3 id="finalCorrect">0</h3><p>Correct</p></div>
+      <div class="score-item"><h3 id="finalScore">0</h3><p>XP Earned</p></div>
+      <div class="score-item"><h3 id="finalGrade">A</h3><p>Grade</p></div>
+    </div>
+    <div class="quote-section">
+      <div class="quote-text">"We do not need magic to change the world, we carry all the power we need inside ourselves already."</div>
+      <div class="quote-author">— James Baldwin, Author & Civil Rights Activist</div>
+    </div>
+  </div>
+</div>
+
+<div id="confettiContainer" style="position:fixed;top:0;left:0;width:100%;pointer-events:none;z-index:9999;"></div>
+
+<script>
+let coins=0,xp=0,correct=0,streak=0;
+const MAX_XP=200;
+
+function showTab(id){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  const m={intro:0,vocab:1,lesson35:2,lesson36:3,practice:4,quiz:5};
+  document.querySelectorAll('.tab-btn')[m[id]].classList.add('active');
+  if(id==='quiz') buildQuiz();
+}
+
+function addReward(xpA,coinA){
+  xp=Math.min(xp+xpA,MAX_XP);coins+=coinA;streak++;
+  document.getElementById('xpFill').style.width=(xp/MAX_XP*100)+'%';
+  document.getElementById('coinDisplay').textContent='🪙 '+coins+' coins earned';
+  document.getElementById('totalScore').textContent=xp;
+  document.getElementById('correctCount').textContent=correct;
+  document.getElementById('streakCount').textContent=streak+(streak>=3?' 🔥':'');
+}
+
+function launchConfetti(){
+  const colors=['#c9a227','#1a2744','#27ae60','#e74c3c','#3498db','#9b59b6','#f0d060'];
+  const c=document.getElementById('confettiContainer');
+  for(let i=0;i<70;i++){
+    setTimeout(()=>{
+      const p=document.createElement('div');p.className='confetti-piece';
+      p.style.left=Math.random()*100+'vw';p.style.top='-10px';
+      p.style.background=colors[Math.floor(Math.random()*colors.length)];
+      p.style.width=(8+Math.random()*8)+'px';p.style.height=(8+Math.random()*8)+'px';
+      p.style.animationDuration=(1.2+Math.random()*1.2)+'s';
+      c.appendChild(p);setTimeout(()=>p.remove(),2500);
+    },i*20);
+  }
+  playSound('correct');
+}
+
+function playSound(type){
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    const osc=ctx.createOscillator(),gain=ctx.createGain();
+    osc.connect(gain);gain.connect(ctx.destination);
+    if(type==='correct'){osc.frequency.setValueAtTime(523,ctx.currentTime);osc.frequency.setValueAtTime(659,ctx.currentTime+0.15);osc.frequency.setValueAtTime(784,ctx.currentTime+0.3);gain.gain.setValueAtTime(0.3,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.6);}
+    else{osc.frequency.setValueAtTime(200,ctx.currentTime);osc.frequency.setValueAtTime(150,ctx.currentTime+0.2);gain.gain.setValueAtTime(0.3,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.4);}
+    osc.start();osc.stop(ctx.currentTime+0.7);
+  }catch(e){}
+}
+
+function checkPractice(inputId,answer,fbId,explanation){
+  const val=parseFloat(document.getElementById(inputId).value);
+  const fb=document.getElementById(fbId);
+  fb.style.display='block';
+  if(val===answer){fb.className='feedback correct';fb.innerHTML='✅ <strong>Excellent!</strong> Correct answer: '+answer+'<br>🪙 +10 coins!';correct++;addReward(10,10);launchConfetti();}
+  else{fb.className='feedback wrong';fb.innerHTML='<span class="x-mark">✗</span> Your answer: '+(isNaN(val)?'blank':val)+'. Correct: <strong>'+answer+'</strong><br><button class="explain-btn" onclick="toggleExplain(\'exp_'+inputId+'\')">📖 Show Steps</button><div class="explanation" id="exp_'+inputId+'"><h4>Step-by-Step:</h4>'+explanation+'</div>';streak=0;playSound('wrong');}
+}
+function toggleExplain(id){const el=document.getElementById(id);el.style.display=el.style.display==='block'?'none':'block';}
+
+const quizData=[
+  {q:'📖 A parking lot charges $5 per hour. Terria paid $35. How many hours did she park?',a:7,hint:'Equation: 5h=35. Divide by 5: h=7.<ol><li>5h=35</li><li>h=7 ✓</li></ol>'},
+  {q:'📖 A recipe serves 4 people and calls for x cups of sugar, plus 2 extra cups. The total sugar used is 10 cups. Write 4x+2=10 and solve for x.',a:2,hint:'Subtract 2: 4x=8. Divide by 4: x=2.<ol><li>4x+2=10</li><li>4x=8</li><li>x=2 ✓</li></ol>'},
+  {q:'📖 Perimeter of a square is 52 cm. Write 4s=52 and solve for the side length s.',a:13,hint:'Divide by 4: s=13.<ol><li>4s=52</li><li>s=13 ✓</li></ol>'},
+  {q:'🧮 Solve the inequality x − 7 > 5. What is the boundary value (x > ?)? ',a:12,hint:'Add 7: x > 12.<ol><li>x−7>5</li><li>x>12 (open circle at 12, arrow right)</li></ol>'},
+  {q:'🧮 Solve: 4x + 2 ≤ 26. Boundary value (x ≤ ?)?',a:6,hint:'Subtract 2: 4x ≤ 24. Divide by 4: x ≤ 6.<ol><li>4x+2 ≤ 26</li><li>4x ≤ 24</li><li>x ≤ 6 ✓</li></ol>'},
+  {q:'🧮 Solve: 2x − 4 ≥ 10. Boundary value (x ≥ ?)?',a:7,hint:'Add 4: 2x ≥ 14. Divide by 2: x ≥ 7.<ol><li>2x−4 ≥ 10</li><li>2x ≥ 14</li><li>x ≥ 7 ✓</li></ol>'},
+  {q:'🧮 Solve: x/3 + 4 = 10 (equation from 3.5).',a:18,hint:'Subtract 4: x/3=6. Multiply by 3: x=18.<ol><li>x/3+4=10</li><li>x/3=6</li><li>x=18 ✓</li></ol>'},
+  {q:'📖 A gym requires members to be at least 16 years old. Terria is 13. The inequality 13 + y ≥ 16 represents years she must wait. Solve for y.',a:3,hint:'Subtract 13: y ≥ 3. She must wait at least 3 years.<ol><li>13+y ≥ 16</li><li>y ≥ 3 ✓</li></ol>'},
+];
+
+let quizBuilt=false,quizAnswers={},quizCorrect=0;
+function buildQuiz(){
+  if(quizBuilt)return;quizBuilt=true;
+  const c=document.getElementById('quizContainer');
+  quizData.forEach((item,i)=>{
+    const d=document.createElement('div');d.className='quiz-card';
+    d.innerHTML=`<div class="question-num">Q${i+1} of ${quizData.length}</div><div class="question-text">${item.q}</div><input type="number" class="answer-input" id="q${i}" placeholder="Answer"><button class="submit-btn" onclick="checkQuiz(${i},${item.a},'${item.hint.replace(/'/g,"\\'")}')">Submit</button><div class="feedback" id="qfb${i}"></div>`;
+    c.appendChild(d);
+  });
+  const s=document.createElement('div');s.className='nav-buttons';
+  s.innerHTML='<button class="next-btn" onclick="showFinalResult()">🏆 See My Score</button>';c.appendChild(s);
+}
+function checkQuiz(idx,answer,hint){
+  if(quizAnswers[idx]!==undefined)return;
+  const val=parseFloat(document.getElementById('q'+idx).value);
+  const fb=document.getElementById('qfb'+idx);fb.style.display='block';
+  if(val===answer){fb.className='feedback correct';fb.innerHTML='✅ Correct! +15 XP 🪙';quizAnswers[idx]=true;quizCorrect++;addReward(15,15);launchConfetti();}
+  else{fb.className='feedback wrong';fb.innerHTML='<span class="x-mark">✗</span> Got: '+(isNaN(val)?'—':val)+' | Answer: <strong>'+answer+'</strong><br><button class="explain-btn" onclick="toggleExplain(\'qexp'+idx+'\')">📖 Steps</button><div class="explanation" id="qexp'+idx+'">'+hint+'</div>';quizAnswers[idx]=false;streak=0;playSound('wrong');}
+}
+function showFinalResult(){
+  document.getElementById('quizContainer').style.display='none';
+  const r=document.getElementById('quizResult');r.style.display='block';
+  const pct=quizCorrect/quizData.length;
+  document.getElementById('finalCorrect').textContent=quizCorrect+'/'+quizData.length;
+  document.getElementById('finalScore').textContent=quizCorrect*15;
+  document.getElementById('finalGrade').textContent=pct>=0.9?'A':pct>=0.8?'B':pct>=0.7?'C':pct>=0.6?'D':'F';
+  if(pct>=0.7)launchConfetti();
+}
+</script>
+</body>
+</html>
