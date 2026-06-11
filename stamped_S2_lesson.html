@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>STAMPED ------ Section S2: 1743----�1826 | KingCretot Experience</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#222;min-height:100vh;}
+
+/* HEADER */
+.kce-top{background:#2E1B6B;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;}
+.kce-brand{color:#fff;font-weight:700;font-size:1rem;}
+.kce-brand span{color:#C9A042;}
+.kce-sec{color:rgba(255,255,255,.7);font-size:.82rem;}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#2E1B6B 0%,#0a1628 100%);color:#fff;padding:36px 20px 28px;text-align:center;}
+.hero-icon{font-size:3.5rem;margin-bottom:8px;}
+.hero-badge{display:inline-block;background:#C9A042;color:#fff;padding:4px 16px;border-radius:20px;font-weight:700;font-size:.85rem;margin-bottom:10px;}
+.hero h1{font-size:1.6rem;margin-bottom:6px;line-height:1.25;}
+.hero .sub{font-size:1rem;opacity:.85;margin-bottom:14px;}
+.hero .blurb{max-width:680px;margin:0 auto;font-size:.95rem;line-height:1.6;background:rgba(255,255,255,.12);padding:14px 18px;border-radius:10px;border-left:4px solid #C9A042;}
+
+/* XP */
+.xp-row{background:#fff;padding:10px 20px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 6px rgba(0,0,0,.08);}
+.xp-lbl{font-weight:700;color:#2E1B6B;font-size:.85rem;white-space:nowrap;}
+.xp-track{flex:1;height:13px;background:#e2e8f0;border-radius:7px;overflow:hidden;}
+.xp-bar{height:100%;width:0%;background:linear-gradient(90deg,#C9A042,#e8b84b);border-radius:7px;transition:width .4s;}
+.xp-num{font-weight:700;color:#C9A042;font-size:.85rem;min-width:52px;text-align:right;}
+
+/* TABS */
+.tabs{display:flex;background:#fff;border-bottom:3px solid #2E1B6B;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.tab-btn{padding:13px 18px;font-weight:700;font-size:.88rem;cursor:pointer;white-space:nowrap;color:#666;border:none;background:none;border-bottom:3px solid transparent;margin-bottom:-3px;transition:all .2s;}
+.tab-btn.on{color:#2E1B6B;border-bottom-color:#2E1B6B;background:#f8f9ff;}
+.tab-btn:hover:not(.on){background:#f4f4f4;}
+
+/* PANELS */
+.panel{display:none;padding:22px 18px;max-width:860px;margin:0 auto;animation:fi .25s;}
+.panel.on{display:block;}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.panel-title{font-size:1.25rem;font-weight:700;color:#2E1B6B;margin-bottom:4px;}
+.panel-sub{color:#666;font-size:.9rem;margin-bottom:18px;}
+
+/* VOCAB CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:18px;}
+.card{height:155px;cursor:pointer;perspective:700px;-webkit-perspective:700px;}
+.card-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;}
+.card.flipped .card-inner{transform:rotateY(180deg);}
+.card-front,.card-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;text-align:center;}
+.card-front{background:#2E1B6B;color:#fff;border:3px solid #C9A042;}
+.card-word{font-size:1.1rem;font-weight:700;margin-bottom:6px;}
+.card-hint{font-size:.78rem;opacity:.65;}
+.card-back{background:#C9A042;color:#fff;transform:rotateY(180deg);font-size:.88rem;line-height:1.45;}
+.vocab-btns{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
+.vocab-btn{padding:9px 20px;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:.9rem;}
+.btn-flip-all{background:#2E1B6B;color:#fff;}
+.btn-reset{background:#e2e8f0;color:#333;}
+.btn-next-tab{background:#C9A042;color:#fff;}
+
+/* MATCHING */
+.match-score-row{font-size:1rem;font-weight:700;color:#2E1B6B;margin-bottom:14px;}
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.match-col-lbl{font-weight:700;color:#2E1B6B;font-size:.85rem;text-align:center;margin-bottom:8px;}
+.match-col{display:flex;flex-direction:column;gap:8px;}
+.ml{background:#2E1B6B;color:#fff;border-radius:8px;padding:11px 14px;font-weight:600;font-size:.9rem;cursor:pointer;text-align:center;border:3px solid transparent;transition:all .15s;min-height:46px;display:flex;align-items:center;justify-content:center;}
+.ml.sel{border-color:#C9A042;box-shadow:0 0 0 3px rgba(201,160,66,.35);}
+.ml.used{opacity:.4;cursor:default;}
+.mr{background:#fff;border:2px dashed #bbb;border-radius:8px;padding:11px 14px;font-size:.88rem;cursor:pointer;text-align:center;transition:all .15s;min-height:46px;display:flex;align-items:center;justify-content:center;}
+.mr:hover{border-color:#2E1B6B;background:#f0f4ff;}
+.mr.correct{background:#e8f5e9;border:2px solid #2e7d32;color:#1b5e20;font-weight:700;cursor:default;}
+.mr.wrong{background:#ffebee;border:2px solid #c62828;animation:shake .3s;}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.match-btns{display:flex;gap:10px;flex-wrap:wrap;}
+.match-reset-btn{background:#e2e8f0;color:#333;border:none;padding:9px 20px;border-radius:8px;font-weight:700;cursor:pointer;}
+
+/* LD + GRAM */
+.info-box{border-radius:12px;padding:20px;margin-bottom:18px;}
+.info-box.dark{background:linear-gradient(135deg,#2E1B6B,#0a1628);color:#fff;}
+.info-box.light{background:#fff;border:2px solid #2E1B6B;}
+.ibox-title{font-size:1.15rem;font-weight:700;color:#C9A042;margin-bottom:8px;}
+.ibox-def{font-size:.95rem;line-height:1.55;margin-bottom:12px;}
+.ibox-example{background:rgba(255,255,255,.13);border-left:4px solid #C9A042;padding:10px 14px;border-radius:0 8px 8px 0;font-style:italic;font-size:.93rem;margin-bottom:10px;}
+.ibox-example.lt{background:#fffde7;color:#555;}
+.ibox-why{font-size:.88rem;opacity:.82;line-height:1.5;}
+.practice-box{background:#fff;border:2px solid #2E1B6B;border-radius:10px;padding:18px;margin-top:14px;}
+.practice-lbl{font-weight:700;color:#2E1B6B;margin-bottom:8px;font-size:.95rem;}
+.practice-task{color:#555;font-size:.9rem;margin-bottom:10px;line-height:1.5;}
+textarea{width:100%;border:2px solid #ddd;border-radius:8px;padding:10px;font-family:inherit;font-size:.93rem;resize:vertical;min-height:95px;}
+textarea:focus{outline:none;border-color:#2E1B6B;}
+.sub-btn{background:#2E1B6B;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-weight:700;cursor:pointer;margin-top:10px;font-size:.9rem;}
+.sub-btn:hover{opacity:.9;}
+.sub-ok{display:none;margin-top:10px;padding:10px 14px;background:#e8f5e9;border-radius:8px;color:#1b5e20;font-weight:600;font-size:.9rem;}
+
+/* QUIZ */
+.quiz-dots{display:flex;gap:6px;margin-bottom:18px;}
+.qdot{flex:1;height:7px;border-radius:4px;background:#e2e8f0;transition:background .3s;}
+.qdot.done{background:#C9A042;}
+.qdot.cur{background:#2E1B6B;}
+.q-counter{font-size:.82rem;font-weight:700;color:#C9A042;margin-bottom:6px;}
+.q-text{font-size:1.05rem;font-weight:700;color:#2E1B6B;margin-bottom:18px;line-height:1.4;}
+.choices{display:flex;flex-direction:column;gap:9px;}
+.choice{background:#fff;border:2px solid #ddd;border-radius:10px;padding:13px 16px;font-size:.93rem;font-weight:600;cursor:pointer;transition:all .15s;user-select:none;}
+.choice:hover{border-color:#2E1B6B;background:#f0f4ff;}
+.choice.correct{background:#e8f5e9;border-color:#2e7d32;color:#1b5e20;cursor:default;}
+.choice.wrong{background:#ffebee;border-color:#c62828;color:#b71c1c;cursor:default;animation:shake .3s;}
+.choice.disabled{cursor:default;}
+.q-explain{margin-top:13px;padding:11px 15px;border-radius:8px;font-size:.9rem;line-height:1.5;display:none;}
+.q-explain.ok{display:block;background:#e8f5e9;border-left:4px solid #2e7d32;color:#1b5e20;}
+.q-explain.no{display:block;background:#fff8e1;border-left:4px solid #C9A042;color:#5d4037;}
+.next-btn{background:#2E1B6B;color:#fff;border:none;padding:11px 26px;border-radius:8px;font-weight:700;cursor:pointer;margin-top:14px;font-size:.93rem;}
+.next-btn:hover{opacity:.9;}
+
+/* RESULTS */
+.results{text-align:center;padding:28px 20px;display:none;}
+.score-ring{width:110px;height:110px;border-radius:50%;background:#2E1B6B;border:5px solid #C9A042;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 18px;}
+.score-big{font-size:2rem;font-weight:700;line-height:1;}
+.score-of{font-size:.78rem;opacity:.8;}
+.result-msg{font-size:1.05rem;font-weight:700;color:#2E1B6B;margin-bottom:8px;}
+.result-pct{color:#666;font-size:.9rem;margin-bottom:18px;}
+.retry-btn{background:#C9A042;color:#fff;border:none;padding:11px 26px;border-radius:8px;font-weight:700;cursor:pointer;}
+
+/* CONFETTI */
+.cfc{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;}
+.cf{position:absolute;border-radius:2px;animation:fall linear forwards;}
+@keyframes fall{from{opacity:1;transform:translateY(-20px) rotate(0deg)}to{opacity:0;transform:translateY(105vh) rotate(720deg)}}
+
+/* X */
+.xmark{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);font-size:5.5rem;z-index:9998;pointer-events:none;opacity:0;transition:transform .12s,opacity .12s;}
+.xmark.show{transform:translate(-50%,-50%) scale(1);opacity:1;}
+
+/* FOOTER */
+.kce-footer{background:#2E1B6B;color:#fff;text-align:center;padding:28px 18px;margin-top:40px;}
+.quote-t{font-size:1.1rem;font-style:italic;max-width:580px;margin:0 auto 8px;line-height:1.5;}
+.quote-p{color:#C9A042;font-weight:700;margin-bottom:12px;}
+.footer-info{font-size:.8rem;opacity:.65;}
+
+/* NEXT TAB BUTTON */
+.go-next{display:inline-block;background:#2E1B6B;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-weight:700;cursor:pointer;margin-top:16px;font-size:.9rem;}
+.go-next:hover{opacity:.9;}
+
+@media(max-width:580px){
+  .match-grid{grid-template-columns:1fr;}
+  .cards-grid{grid-template-columns:1fr 1fr;}
+  .hero h1{font-size:1.3rem;}
+  .tab-btn{padding:11px 13px;font-size:.8rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="cfc" id="cfc"></div>
+<div class="xmark" id="xm">--��</div>
+
+<!-- HEADER -->
+<div class="kce-top">
+  <div class="kce-brand"><span>KingCretot</span> Experience</div>
+  <div class="kce-sec">STAMPED ------ Section S2: 1743----�1826</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-icon">�--</div>
+  <div class="hero-badge">1743----�1826</div>
+  <h1>STAMPED: Racism, Antiracism, and You</h1>
+  <p class="sub">Section S2 ------ The Contradiction of Jefferson</p>
+  <p class="blurb">Thomas Jefferson wrote "all men are created equal." Thomas Jefferson also enslaved more than 600 human beings. Both things are true. Section 2 is about the Enlightenment ------ and the biggest contradiction in American history.</p>
+</div>
+
+<!-- XP -->
+<div class="xp-row">
+  <span class="xp-lbl">--�� XP</span>
+  <div class="xp-track"><div class="xp-bar" id="xpbar"></div></div>
+  <span class="xp-num" id="xpnum">0 pts</span>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn on"  data-tab="vocab">📚 Vocab</button>
+  <button class="tab-btn"     data-tab="match">�--� Matching</button>
+  <button class="tab-btn"     data-tab="ld">--��️ Lit Device</button>
+  <button class="tab-btn"     data-tab="gram">📝 Grammar</button>
+  <button class="tab-btn"     data-tab="quiz">🎯 Quiz</button>
+</div>
+
+<!-- VOCAB PANEL -->
+<div class="panel on" id="panel-vocab">
+  <p class="panel-title">Vocabulary Flashcards</p>
+  <p class="panel-sub">Tap each card to flip it and see the definition. Try to say it aloud before you flip!</p>
+  <div class="vocab-btns">
+    <button class="vocab-btn btn-flip-all" id="flipAll">Flip All Cards</button>
+    <button class="vocab-btn btn-reset" id="resetCards">Reset</button>
+  </div>
+  <div class="cards-grid" id="cards-grid">
+    <div class="card" id="vc0">
+      <div class="card-inner">
+        <div class="card-front">
+          <span class="card-word">Contradiction</span>
+          <span class="card-hint">Tap to flip</span>
+        </div>
+        <div class="card-back">When two things that are completely opposite are both true at the same time.</div>
+      </div>
+    </div>
+    <div class="card" id="vc1">
+      <div class="card-inner">
+        <div class="card-front">
+          <span class="card-word">Hypocrisy</span>
+          <span class="card-hint">Tap to flip</span>
+        </div>
+        <div class="card-back">Claiming to believe in values you do not actually follow in your own life.</div>
+      </div>
+    </div>
+    <div class="card" id="vc2">
+      <div class="card-inner">
+        <div class="card-front">
+          <span class="card-word">Enlightenment</span>
+          <span class="card-hint">Tap to flip</span>
+        </div>
+        <div class="card-back">An 18th-century movement emphasizing reason, science, and individual rights.</div>
+      </div>
+    </div>
+    <div class="card" id="vc3">
+      <div class="card-inner">
+        <div class="card-front">
+          <span class="card-word">Abolitionist</span>
+          <span class="card-hint">Tap to flip</span>
+        </div>
+        <div class="card-back">A person who worked to end slavery.</div>
+      </div>
+    </div>
+    <div class="card" id="vc4">
+      <div class="card-inner">
+        <div class="card-front">
+          <span class="card-word">Irony</span>
+          <span class="card-hint">Tap to flip</span>
+        </div>
+        <div class="card-back">When reality is the OPPOSITE of what is expected or stated.</div>
+      </div>
+    </div>
+    <div class="card" id="vc5">
+      <div class="card-inner">
+        <div class="card-front">
+          <span class="card-word">Intellect</span>
+          <span class="card-hint">Tap to flip</span>
+        </div>
+        <div class="card-back">The ability to think, reason, and understand at a high level.</div>
+      </div>
+    </div>
+    <div class="card" id="vc6">
+      <div class="card-inner">
+        <div class="card-front">
+          <span class="card-word">Polygenesis</span>
+          <span class="card-hint">Tap to flip</span>
+        </div>
+        <div class="card-back">The false theory that different races came from completely separate origins.</div>
+      </div>
+    </div>
+    <div class="card" id="vc7">
+      <div class="card-inner">
+        <div class="card-front">
+          <span class="card-word">Liberty</span>
+          <span class="card-hint">Tap to flip</span>
+        </div>
+        <div class="card-back">Freedom from oppressive rules, control, or conditions.</div>
+      </div>
+    </div></div>
+  <button class="go-next" id="toMatch">Next: Matching --��</button>
+</div>
+
+<!-- MATCH PANEL -->
+<div class="panel" id="panel-match">
+  <p class="panel-title">Vocabulary Matching</p>
+  <p class="panel-sub">Select a term on the left, then tap the correct definition on the right. Or drag and drop!</p>
+  <div class="match-score-row">Matched: <span id="match-count">0</span> / 6</div>
+  <div class="match-grid">
+    <div class="match-col">
+      <div class="match-col-lbl">TERMS</div>
+      <div class="ml" data-idx="0" id="ml0">Contradiction</div><div class="ml" data-idx="1" id="ml1">Hypocrisy</div><div class="ml" data-idx="2" id="ml2">Abolitionist</div><div class="ml" data-idx="3" id="ml3">Irony</div><div class="ml" data-idx="4" id="ml4">Polygenesis</div><div class="ml" data-idx="5" id="ml5">Liberty</div>
+    </div>
+    <div class="match-col">
+      <div class="match-col-lbl">DEFINITIONS</div>
+      <div class="mr" data-def="Two opposite things both being true at once" id="mr0">Two opposite things both being true at once</div><div class="mr" data-def="Believing one thing but doing another" id="mr1">Believing one thing but doing another</div><div class="mr" data-def="Freedom from oppressive control" id="mr2">Freedom from oppressive control</div><div class="mr" data-def="A person working to end slavery" id="mr3">A person working to end slavery</div><div class="mr" data-def="False theory of separate racial origins" id="mr4">False theory of separate racial origins</div><div class="mr" data-def="When reality is opposite of what is expected" id="mr5">When reality is opposite of what is expected</div>
+    </div>
+  </div>
+  <div class="match-btns">
+    <button class="match-reset-btn" id="matchReset">Reset Matching</button>
+    <button class="go-next" id="toLd">Next: Literary Device --��</button>
+  </div>
+</div>
+
+<!-- LD PANEL -->
+<div class="panel" id="panel-ld">
+  <div class="info-box dark">
+    <div class="ibox-title">--��️ Literary Device: Irony</div>
+    <div class="ibox-def"><strong>Definition:</strong> Irony occurs when the reality of a situation is the OPPOSITE of what is expected or stated.</div>
+    <div class="ibox-example">""Thomas Jefferson wrote that all men are created equal. Thomas Jefferson also enslaved more than 600 human beings. Both things are true.""</div>
+    <div class="ibox-why">💡 Why Reynolds uses this: Reynolds uses irony to force you to confront uncomfortable truths ------ the gap between what Americans SAY they believe and what they actually DO.</div>
+  </div>
+  <div class="practice-box">
+    <div class="practice-lbl">📝 Your Turn ------ Practice Irony</div>
+    <div class="practice-task">Find or create your own example of <strong>Irony</strong> ------ from the text or from your own life. Write at least 2----�3 sentences.</div>
+    <textarea id="ld-ta" placeholder="Write your example here..."></textarea>
+    <br>
+    <button class="sub-btn" id="ldSubmit">Submit --��</button>
+    <div class="sub-ok" id="ld-ok">--�-- Great work! +30 XP ------ move on to Grammar!</div>
+  </div>
+  <button class="go-next" id="toGram">Next: Grammar --��</button>
+</div>
+
+<!-- GRAM PANEL -->
+<div class="panel" id="panel-gram">
+  <div class="info-box light">
+    <div class="ibox-title">📝 Grammar Focus: Sentence Variety</div>
+    <div class="ibox-def" style="color:#333">Good writers use different sentence lengths for effect. Short sentences create impact. Longer sentences build explanation and depth.</div>
+    <div class="ibox-example lt"><strong>Example:</strong> "Jefferson was brilliant. Jefferson was a hypocrite. Both things are true." ------ Three short punchy sentences hit harder than one long one.</div>
+  </div>
+  <div class="practice-box">
+    <div class="practice-lbl">--��️ Practice Task</div>
+    <div class="practice-task">Rewrite this in three ways ------ as one simple sentence, then as a compound sentence, then as a complex sentence: "Jefferson wrote about freedom. Jefferson enslaved people."</div>
+    <textarea id="gram-ta" placeholder="Write your response here..."></textarea>
+    <br>
+    <button class="sub-btn" id="gramSubmit">Submit --��</button>
+    <div class="sub-ok" id="gram-ok">--�-- Excellent response! +25 XP ------ you are ready for the quiz!</div>
+  </div>
+  <button class="go-next" id="toQuiz">Next: Final Quiz 🎯 --��</button>
+</div>
+
+<!-- QUIZ PANEL -->
+<div class="panel" id="panel-quiz">
+  <p class="panel-title">🎯 Final Quiz ------ Section S2</p>
+  <p class="panel-sub">Answer all 6 questions carefully. You will get instant feedback!</p>
+  <div class="quiz-dots" id="qdots">
+    <div class="qdot cur" id="qdot0"></div><div class="qdot " id="qdot1"></div><div class="qdot " id="qdot2"></div><div class="qdot " id="qdot3"></div><div class="qdot " id="qdot4"></div><div class="qdot " id="qdot5"></div>
+  </div>
+  
+    <div class="quiz-q" id="qq0" style="display:block">
+      <div class="q-counter">Question 1 of 6</div>
+      <div class="q-text">What is the main contradiction Reynolds exposes about Thomas Jefferson?</div>
+      <div class="choices" id="choices0">
+        <div class="choice" data-qi="0" data-ci="0" data-correct="1">He was brilliant but not educated</div><div class="choice" data-qi="0" data-ci="1" data-correct="1">He wrote about freedom while enslaving 600+ people</div><div class="choice" data-qi="0" data-ci="2" data-correct="1">He was an abolitionist who changed his mind</div><div class="choice" data-qi="0" data-ci="3" data-correct="1">He was British, not American</div>
+      </div>
+      <div class="q-explain" id="exp0"></div>
+      <button class="next-btn" id="nxt0" style="display:none" data-qi="0">Next Question --��</button>
+    </div>
+    <div class="quiz-q" id="qq1" style="display:none">
+      <div class="q-counter">Question 2 of 6</div>
+      <div class="q-text">Who was Benjamin Banneker?</div>
+      <div class="choices" id="choices1">
+        <div class="choice" data-qi="1" data-ci="0" data-correct="1">A French philosopher</div><div class="choice" data-qi="1" data-ci="1" data-correct="1">A Black mathematician and scientist who wrote to Jefferson</div><div class="choice" data-qi="1" data-ci="2" data-correct="1">A Puritan minister</div><div class="choice" data-qi="1" data-ci="3" data-correct="1">Thomas Jefferson's son</div>
+      </div>
+      <div class="q-explain" id="exp1"></div>
+      <button class="next-btn" id="nxt1" style="display:none" data-qi="1">Next Question --��</button>
+    </div>
+    <div class="quiz-q" id="qq2" style="display:none">
+      <div class="q-counter">Question 3 of 6</div>
+      <div class="q-text">What is IRONY as a literary device?</div>
+      <div class="choices" id="choices2">
+        <div class="choice" data-qi="2" data-ci="0" data-correct="2">Comparing two things using "like" or "as"</div><div class="choice" data-qi="2" data-ci="1" data-correct="2">Speaking directly to the reader</div><div class="choice" data-qi="2" data-ci="2" data-correct="2">When reality is the OPPOSITE of what is expected</div><div class="choice" data-qi="2" data-ci="3" data-correct="2">A type of extended comparison</div>
+      </div>
+      <div class="q-explain" id="exp2"></div>
+      <button class="next-btn" id="nxt2" style="display:none" data-qi="2">Next Question --��</button>
+    </div>
+    <div class="quiz-q" id="qq3" style="display:none">
+      <div class="q-counter">Question 4 of 6</div>
+      <div class="q-text">Phillis Wheatley became famous for what?</div>
+      <div class="choices" id="choices3">
+        <div class="choice" data-qi="3" data-ci="0" data-correct="1">Founding the NAACP</div><div class="choice" data-qi="3" data-ci="1" data-correct="1">Being the first published Black poet in America</div><div class="choice" data-qi="3" data-ci="2" data-correct="1">Escaping slavery via the Underground Railroad</div><div class="choice" data-qi="3" data-ci="3" data-correct="1">Writing the Declaration of Independence</div>
+      </div>
+      <div class="q-explain" id="exp3"></div>
+      <button class="next-btn" id="nxt3" style="display:none" data-qi="3">Next Question --��</button>
+    </div>
+    <div class="quiz-q" id="qq4" style="display:none">
+      <div class="q-counter">Question 5 of 6</div>
+      <div class="q-text">What is HYPOCRISY?</div>
+      <div class="choices" id="choices4">
+        <div class="choice" data-qi="4" data-ci="0" data-correct="1">Believing in something strongly</div><div class="choice" data-qi="4" data-ci="1" data-correct="1">Claiming to hold values you do not actually follow</div><div class="choice" data-qi="4" data-ci="2" data-correct="1">Writing about history honestly</div><div class="choice" data-qi="4" data-ci="3" data-correct="1">A form of irony in literature</div>
+      </div>
+      <div class="q-explain" id="exp4"></div>
+      <button class="next-btn" id="nxt4" style="display:none" data-qi="4">Next Question --��</button>
+    </div>
+    <div class="quiz-q" id="qq5" style="display:none">
+      <div class="q-counter">Question 6 of 6</div>
+      <div class="q-text">What is ironic about calling the Enlightenment an "age of reason"?</div>
+      <div class="choices" id="choices5">
+        <div class="choice" data-qi="5" data-ci="0" data-correct="1">It happened too long ago to matter</div><div class="choice" data-qi="5" data-ci="1" data-correct="1">It occurred DURING the height of the Transatlantic Slave Trade</div><div class="choice" data-qi="5" data-ci="2" data-correct="1">Reason proved that racism was wrong</div><div class="choice" data-qi="5" data-ci="3" data-correct="1">It was only for poor people</div>
+      </div>
+      <div class="q-explain" id="exp5"></div>
+      <button class="next-btn" id="nxt5" style="display:none" data-qi="5">Next Question --��</button>
+    </div>
+  <div class="results" id="results">
+    <div class="score-ring">
+      <div class="score-big" id="sc-num">0</div>
+      <div class="score-of">out of 6</div>
+    </div>
+    <div class="result-msg" id="sc-msg"></div>
+    <div class="result-pct" id="sc-pct"></div>
+    <button class="retry-btn" id="retryBtn">Try Again �----</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="kce-footer">
+  <div class="quote-t">"I am not tragically colored. There is no great sorrow dammed up in my soul."</div>
+  <div class="quote-p">------ Zora Neale Hurston</div>
+  <div class="footer-info">KingCretot Experience &nbsp;|&nbsp; 914.809.0112 &nbsp;|&nbsp; kce@kingcretot.com &nbsp;|&nbsp; www.kingcretot.com</div>
+</div>
+
+<script>
+// All data stored safely in JS variables ------ no inline event strings
+var QUIZ_DATA = [{"correct":1,"explain":"Jefferson wrote \"all men are created equal\" yet enslaved more than 600 people ------ this contradiction is at the heart of Section 2."},{"correct":1,"explain":"Benjamin Banneker was a brilliant Black scientist and mathematician who wrote a powerful letter to Jefferson calling out his hypocrisy on slavery."},{"correct":2,"explain":"Irony highlights a gap between what is expected and what actually happens ------ Reynolds uses it to expose Jefferson's contradictions."},{"correct":1,"explain":"Phillis Wheatley was the first published Black poet in America ------ yet assimilationists used her success to argue Black people just needed to work harder."},{"correct":1,"explain":"Hypocrisy is when someone claims to believe in something (like freedom) but acts in the opposite way (like enslaving people)."},{"correct":1,"explain":"The great irony: the age of reason and human rights happened at the SAME TIME as the height of the slave trade. Reason was selectively applied."}];
+var MATCH_DATA = [{"term":"Contradiction","def":"Two opposite things both being true at once"},{"term":"Hypocrisy","def":"Believing one thing but doing another"},{"term":"Abolitionist","def":"A person working to end slavery"},{"term":"Irony","def":"When reality is opposite of what is expected"},{"term":"Polygenesis","def":"False theory of separate racial origins"},{"term":"Liberty","def":"Freedom from oppressive control"}];
+
+// ------------ XP ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+var xp = 0;
+function addXP(n) {
+  xp = Math.min(200, xp + n);
+  document.getElementById('xpbar').style.width = (xp / 200 * 100) + '%';
+  document.getElementById('xpnum').textContent = xp + ' pts';
+}
+
+// ------------ TABS ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+var tabs = ['vocab','match','ld','gram','quiz'];
+function showTab(id) {
+  tabs.forEach(function(t) {
+    document.getElementById('panel-' + t).classList.remove('on');
+  });
+  document.querySelectorAll('.tab-btn').forEach(function(b) {
+    b.classList.remove('on');
+  });
+  document.getElementById('panel-' + id).classList.add('on');
+  document.querySelector('[data-tab="' + id + '"]').classList.add('on');
+}
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() { showTab(this.getAttribute('data-tab')); });
+});
+document.getElementById('toMatch').addEventListener('click', function() { showTab('match'); addXP(10); });
+document.getElementById('toLd').addEventListener('click', function() { showTab('ld'); addXP(10); });
+document.getElementById('toGram').addEventListener('click', function() { showTab('gram'); addXP(10); });
+document.getElementById('toQuiz').addEventListener('click', function() { showTab('quiz'); addXP(10); });
+
+// ------------ VOCAB CARDS ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+document.getElementById('cards-grid').addEventListener('click', function(e) {
+  var card = e.target.closest('.card');
+  if (!card) return;
+  var wasFlipped = card.classList.contains('flipped');
+  card.classList.toggle('flipped');
+  if (!wasFlipped) addXP(2);
+});
+document.getElementById('flipAll').addEventListener('click', function() {
+  document.querySelectorAll('.card').forEach(function(c) { c.classList.add('flipped'); });
+  addXP(8);
+});
+document.getElementById('resetCards').addEventListener('click', function() {
+  document.querySelectorAll('.card').forEach(function(c) { c.classList.remove('flipped'); });
+});
+
+// ------------ MATCHING ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+var selectedLeft = null;
+var matchCount = 0;
+
+function updateMatchScore() {
+  document.getElementById('match-count').textContent = matchCount;
+}
+
+document.querySelectorAll('.ml').forEach(function(el) {
+  el.addEventListener('click', function() {
+    if (this.classList.contains('used')) return;
+    document.querySelectorAll('.ml').forEach(function(m) { m.classList.remove('sel'); });
+    selectedLeft = this.getAttribute('data-idx');
+    this.classList.add('sel');
+  });
+});
+
+document.querySelectorAll('.mr').forEach(function(el) {
+  el.addEventListener('click', function() {
+    if (this.classList.contains('correct')) return;
+    if (selectedLeft === null) return;
+    var leftIdx = parseInt(selectedLeft);
+    var leftTerm = MATCH_DATA[leftIdx].term;
+    var rightDef = this.getAttribute('data-def');
+    var correctDef = MATCH_DATA[leftIdx].def;
+    if (rightDef === correctDef) {
+      this.classList.add('correct');
+      this.textContent = '--�� ' + rightDef;
+      var leftEl = document.getElementById('ml' + leftIdx);
+      leftEl.classList.add('used');
+      leftEl.classList.remove('sel');
+      selectedLeft = null;
+      matchCount++;
+      updateMatchScore();
+      addXP(8);
+      if (matchCount === 6) {
+        confetti();
+        addXP(20);
+      }
+    } else {
+      var rEl = this;
+      rEl.classList.add('wrong');
+      showX();
+      setTimeout(function() { rEl.classList.remove('wrong'); }, 600);
+    }
+  });
+});
+
+document.getElementById('matchReset').addEventListener('click', function() {
+  matchCount = 0;
+  selectedLeft = null;
+  updateMatchScore();
+  MATCH_DATA.forEach(function(p, i) {
+    var ml = document.getElementById('ml' + i);
+    ml.classList.remove('used', 'sel');
+  });
+  document.querySelectorAll('.mr').forEach(function(el) {
+    el.classList.remove('correct', 'wrong');
+    el.textContent = el.getAttribute('data-def');
+  });
+});
+
+// ------------ LD SUBMIT ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+document.getElementById('ldSubmit').addEventListener('click', function() {
+  var val = document.getElementById('ld-ta').value.trim();
+  if (val.length < 15) { alert('Please write a more complete response!'); return; }
+  document.getElementById('ld-ok').style.display = 'block';
+  addXP(30);
+});
+
+// ------------ GRAM SUBMIT ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+document.getElementById('gramSubmit').addEventListener('click', function() {
+  var val = document.getElementById('gram-ta').value.trim();
+  if (val.length < 15) { alert('Please write a more complete response!'); return; }
+  document.getElementById('gram-ok').style.display = 'block';
+  addXP(25);
+});
+
+// ------------ QUIZ ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+var quizScore = 0;
+var answered = new Array(6).fill(false);
+var currentQ = 0;
+
+document.querySelectorAll('.choice').forEach(function(el) {
+  el.addEventListener('click', function() {
+    var qi = parseInt(this.getAttribute('data-qi'));
+    var ci = parseInt(this.getAttribute('data-ci'));
+    var correct = parseInt(this.getAttribute('data-correct'));
+    if (answered[qi]) return;
+    answered[qi] = true;
+
+    var allChoices = document.querySelectorAll('#choices' + qi + ' .choice');
+    allChoices.forEach(function(c) { c.classList.add('disabled'); });
+    allChoices[correct].classList.add('correct');
+
+    var expEl = document.getElementById('exp' + qi);
+    if (ci === correct) {
+      this.classList.add('correct');
+      expEl.className = 'q-explain ok';
+      expEl.textContent = '--�-- Correct! ' + QUIZ_DATA[qi].explain;
+      quizScore++;
+      addXP(18);
+      confetti();
+    } else {
+      this.classList.add('wrong');
+      expEl.className = 'q-explain no';
+      expEl.textContent = '--�� Not quite. ' + QUIZ_DATA[qi].explain;
+      showX();
+    }
+    document.getElementById('nxt' + qi).style.display = 'inline-block';
+    updateDots(qi);
+  });
+});
+
+document.querySelectorAll('.next-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var qi = parseInt(this.getAttribute('data-qi'));
+    document.getElementById('qq' + qi).style.display = 'none';
+    var next = qi + 1;
+    if (next < 6) {
+      document.getElementById('qq' + next).style.display = 'block';
+      currentQ = next;
+      updateDots(next);
+    } else {
+      showResults();
+    }
+  });
+});
+
+function updateDots(cur) {
+  for (var i = 0; i < 6; i++) {
+    var d = document.getElementById('qdot' + i);
+    d.className = 'qdot';
+    if (answered[i]) d.classList.add('done');
+    else if (i === cur) d.classList.add('cur');
+  }
+}
+
+function showResults() {
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('sc-num').textContent = quizScore;
+  var pct = Math.round(quizScore / 6 * 100);
+  var msgs = ["Keep practicing -- you have got this!","Good effort! Review the explanations.","Nice work! You are getting it!","Great job! Strong understanding!","Outstanding! Perfect score!"];
+  var idx = pct >= 95 ? 4 : pct >= 80 ? 3 : pct >= 65 ? 2 : pct >= 50 ? 1 : 0;
+  document.getElementById('sc-msg').textContent = msgs[idx];
+  document.getElementById('sc-pct').textContent = pct + '% ------ ' + (pct >= 75 ? 'Section mastered!' : 'Review and try again!');
+  if (pct >= 75) confetti(); else showX();
+}
+
+document.getElementById('retryBtn').addEventListener('click', function() {
+  quizScore = 0;
+  answered.fill(false);
+  currentQ = 0;
+  document.getElementById('results').style.display = 'none';
+  for (var i = 0; i < 6; i++) {
+    var qq = document.getElementById('qq' + i);
+    qq.style.display = i === 0 ? 'block' : 'none';
+    document.querySelectorAll('#choices' + i + ' .choice').forEach(function(c) {
+      c.className = 'choice';
+    });
+    document.getElementById('exp' + i).className = 'q-explain';
+    document.getElementById('nxt' + i).style.display = 'none';
+  }
+  updateDots(0);
+});
+
+// ------------ CONFETTI ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+function confetti() {
+  var c = document.getElementById('cfc');
+  var colors = ['#2E1B6B','#C9A042','#ff6b6b','#4ecdc4','#ffffff','#ffd93d','#a8edea'];
+  for (var i = 0; i < 55; i++) {
+    (function() {
+      var p = document.createElement('div');
+      p.className = 'cf';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      var size = Math.random() * 9 + 5;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.animationDuration = (Math.random() * 2 + 1.4) + 's';
+      p.style.animationDelay = (Math.random() * 0.7) + 's';
+      c.appendChild(p);
+      setTimeout(function() { if (p.parentNode) p.parentNode.removeChild(p); }, 3800);
+    })();
+  }
+}
+
+// ------------ X MARK ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+function showX() {
+  var x = document.getElementById('xm');
+  x.classList.add('show');
+  setTimeout(function() { x.classList.remove('show'); }, 750);
+}
+</script>
+</body>
+</html>
