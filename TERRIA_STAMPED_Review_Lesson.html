@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terria — STAMPED Whole-Book Review</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Lora:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{ --navy:#1B2C5C; --gold:#E0AC3C; --gold-deep:#b9842a;
+  --paper:#fbf8f1; --ink:#28303f; --line:#e7dcc6; --soft:#eef2f8; --plum:#5b3a64; }
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Nunito',sans-serif;color:var(--ink);
+  background:linear-gradient(170deg,#f6f2ea 0%,#eef1f7 100%);min-height:100vh;}
+.app{max-width:840px;margin:0 auto;padding:18px 16px 60px;}
+.hud{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:14px;
+  background:var(--navy);color:#fff;border-radius:0 0 16px 16px;padding:12px 18px;
+  box-shadow:0 6px 18px rgba(27,44,92,.25);}
+.hud .brand{font-family:'Fredoka',sans-serif;font-weight:700;letter-spacing:.5px;font-size:18px;color:var(--gold);}
+.hud .prog{flex:1;height:12px;background:rgba(255,255,255,.18);border-radius:10px;overflow:hidden;}
+.hud .progfill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),#f0d089);border-radius:10px;transition:width .5s ease;}
+.hud .stat{font-weight:800;font-size:14px;white-space:nowrap;}
+.hud .stat b{color:var(--gold);}
+.screen{display:none;animation:fade .4s ease;}
+.screen.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.welcome,.award{text-align:center;background:#fff;border-radius:22px;padding:32px 26px;margin-top:18px;
+  box-shadow:0 10px 30px rgba(27,44,92,.12);border:1px solid var(--line);}
+.welcome h1,.award h1{font-family:'Fredoka',sans-serif;color:var(--navy);font-size:36px;margin:10px 0 4px;}
+.welcome h3{color:var(--gold-deep);font-weight:700;margin:0 0 16px;font-size:16px;}
+.lead{font-size:17px;line-height:1.65;max-width:600px;margin:0 auto 16px;}
+.meterbox{display:flex;gap:16px;justify-content:center;margin:6px 0 20px;flex-wrap:wrap;}
+.meterbox>div{background:var(--soft);padding:10px 18px;border-radius:12px;font-size:15px;}
+.meterbox b{color:var(--navy);font-size:18px;}
+.mascot{width:120px;margin:0 auto;}
+.mascot svg{width:100%;height:auto;}
+.welcomestar{animation:floaty 3s ease-in-out infinite;}
+@keyframes floaty{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.pill{display:inline-block;background:var(--soft);color:var(--navy);font-weight:800;font-size:12.5px;
+  letter-spacing:.4px;padding:5px 14px;border-radius:20px;text-transform:uppercase;}
+.pill.gold{background:var(--gold);color:#4a3500;}
+.shead{margin:22px 0 8px;}
+.shead h2{font-family:'Fredoka',sans-serif;color:var(--navy);font-size:28px;margin:8px 0 0;}
+.recap{background:#fff;border:1px solid var(--line);border-left:6px solid var(--gold);border-radius:14px;
+  padding:18px 22px;box-shadow:0 4px 14px rgba(27,44,92,.07);}
+.rlabel{display:inline-block;background:var(--navy);color:#fff;font-size:12px;font-weight:800;letter-spacing:.5px;
+  text-transform:uppercase;padding:4px 12px;border-radius:8px;margin-bottom:8px;}
+.recap p{font-family:'Lora',Georgia,serif;font-size:17px;line-height:1.7;margin:10px 0;}
+.keyidea{background:#fbf2d8;border-radius:10px;padding:10px 14px;margin-top:10px;font-size:15.5px;color:#5a4410;}
+.device{margin-top:8px;font-size:14.5px;color:var(--plum);font-weight:700;}
+.vocab{display:flex;flex-direction:column;gap:8px;margin:14px 0 4px;}
+.vchip{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;}
+.vterm{display:block;font-family:'Fredoka',sans-serif;color:var(--navy);font-size:16px;}
+.vdef{font-size:14.5px;color:#4a4f5c;}
+.lenses{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;}
+.lens{flex:1;min-width:200px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;}
+.lens b{color:var(--navy);font-family:'Fredoka',sans-serif;}
+.lens span{display:block;font-family:'Lora',serif;font-style:italic;color:#555;margin-top:4px;font-size:14.5px;}
+.prh{font-family:'Fredoka',sans-serif;color:var(--navy);font-size:22px;margin:26px 0 4px;}
+.prsub{font-size:14.5px;color:#6a6f7b;margin:2px 0 14px;}
+.q{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin:14px 0;box-shadow:0 3px 12px rgba(27,44,92,.06);}
+.q.correct{border-color:#3aa46a;box-shadow:0 4px 16px rgba(58,164,106,.18);}
+.ctag{display:inline-block;background:var(--plum);color:#fff;font-size:11.5px;font-weight:800;letter-spacing:.4px;
+  text-transform:uppercase;padding:3px 10px;border-radius:8px;margin-bottom:8px;}
+.qprompt{font-family:'Fredoka',sans-serif;font-size:18px;color:var(--navy);margin-bottom:12px;line-height:1.35;}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.opt.classify{grid-column:1 / -1;}
+@media(max-width:560px){.opts{grid-template-columns:1fr;}}
+.opt{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid var(--line);border-radius:12px;
+  padding:12px 14px;font-size:15.5px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;
+  transition:transform .12s,border-color .12s,background .12s;font-family:'Nunito';}
+.opt:hover{transform:translateY(-2px);border-color:var(--gold);}
+.opt .ltr{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--soft);color:var(--navy);
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;}
+.opt.wrong{animation:shake .4s;border-color:#e0a3a3;background:#fdf3f3;opacity:.6;cursor:not-allowed;}
+.opt.right{border-color:#3aa46a;background:#eef9f1;}
+.opt.right .ltr{background:#3aa46a;color:#fff;}
+.opt.locked{pointer-events:none;}
+@keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-6px);}40%{transform:translateX(6px);}60%{transform:translateX(-4px);}80%{transform:translateX(4px);}}
+.why{display:none;margin-top:12px;background:#eef9f1;border-left:5px solid #3aa46a;border-radius:10px;padding:10px 14px;font-size:14.5px;font-weight:600;color:#1d5b3a;}
+.why.show{display:block;animation:fade .3s;}
+/* Reflection journal */
+.reflect{background:#fffdf7;border:1px dashed var(--gold);border-radius:16px;padding:18px 20px;margin:14px 0;}
+.reflect.done{border-style:solid;border-color:#3aa46a;background:#fbfef9;}
+.rtag{display:inline-block;background:var(--gold);color:#4a3500;font-size:11.5px;font-weight:800;letter-spacing:.4px;
+  text-transform:uppercase;padding:3px 10px;border-radius:8px;margin-right:8px;}
+.rprompt{font-family:'Lora',serif;font-size:17px;color:var(--navy);line-height:1.5;margin-bottom:6px;}
+.rhint{font-size:13.5px;color:#8a6a2a;margin-bottom:10px;font-style:italic;}
+.rinput{width:100%;border:1px solid var(--line);border-radius:10px;padding:12px;font-family:'Lora',serif;font-size:15.5px;
+  line-height:1.55;resize:vertical;background:#fff;color:var(--ink);}
+.rinput:focus{outline:none;border-color:var(--gold);}
+.rsave{margin-top:10px;font-family:'Fredoka',sans-serif;font-size:15px;border:none;cursor:pointer;background:var(--navy);
+  color:#fff;padding:9px 18px;border-radius:10px;transition:transform .12s;}
+.rsave:hover{transform:translateY(-2px);}
+.rdone{display:none;margin-top:10px;font-weight:700;font-size:14.5px;}
+.rdone.show{display:block;animation:fade .3s;}
+.rdone.ok{color:#1d5b3a;}
+.rdone.more{color:#9a6a2a;}
+.navrow{display:flex;justify-content:space-between;gap:12px;margin:24px 0 6px;}
+.navbtn{font-family:'Fredoka',sans-serif;font-size:16px;border:none;cursor:pointer;padding:12px 22px;border-radius:12px;
+  background:#fff;color:var(--navy);border:1px solid var(--line);transition:transform .12s;}
+.navbtn:hover{transform:translateY(-2px);}
+.navbtn.primary{background:var(--navy);color:#fff;border-color:var(--navy);}
+.navbtn.big{font-size:18px;padding:14px 28px;margin-top:6px;}
+.badge{font-size:72px;margin:6px 0;animation:pop .6s ease;}
+@keyframes pop{0%{transform:scale(0);}70%{transform:scale(1.2);}100%{transform:scale(1);}}
+.scoreline{font-size:16px;color:#444;}
+.awardmsg{font-size:18px;font-weight:700;color:var(--navy);max-width:560px;margin:10px auto 16px;line-height:1.5;}
+.quote{background:var(--navy);color:#fff;border-radius:16px;padding:20px 24px;margin:18px auto;max-width:600px;}
+.qtext{font-family:'Lora',serif;font-style:italic;font-size:19px;line-height:1.5;margin:0 0 8px;}
+.qauth{color:var(--gold);font-weight:800;margin:0;}
+.copytask{font-weight:700;color:var(--gold-deep);max-width:560px;margin:0 auto;}
+.sendbox{background:#fbf8f1;border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin:18px auto;max-width:640px;text-align:left;}
+.sendhead{font-family:'Fredoka',sans-serif;color:var(--navy);font-size:20px;margin:0 0 4px;text-align:center;}
+.sendsub{font-size:14.5px;color:#6a6f7b;margin:0 0 12px;text-align:center;}
+.review{max-height:280px;overflow:auto;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:14px;}
+.review .ritem{padding:8px 0;border-bottom:1px dashed var(--line);}
+.review .ritem:last-child{border-bottom:none;}
+.review .rsec{font-size:12px;font-weight:800;color:var(--gold-deep);text-transform:uppercase;letter-spacing:.4px;}
+.review .rq{font-family:'Lora',serif;font-style:italic;color:var(--navy);font-size:14px;margin:2px 0;}
+.review .ra{font-size:15px;color:var(--ink);white-space:pre-wrap;}
+.review .ra.blank{color:#b08;opacity:.7;font-style:italic;}
+.sendbtns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.sendstatus{margin-top:12px;text-align:center;font-weight:700;font-size:15px;min-height:22px;}
+.sendstatus.ok{color:#1d5b3a;}
+.sendstatus.warn{color:#9a6a2a;}
+#overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:90;pointer-events:none;}
+#overlay.show{display:flex;}
+.ovwrap{text-align:center;}
+.ovstar{width:170px;animation:zoomIn .45s ease;}
+.ovstar svg{width:100%;height:auto;filter:drop-shadow(0 10px 22px rgba(224,172,60,.45));}
+@keyframes zoomIn{0%{transform:scale(.2) rotate(-10deg);opacity:0;}65%{transform:scale(1.15);opacity:1;}100%{transform:scale(1);}}
+.ovword{font-family:'Fredoka',sans-serif;font-size:34px;color:var(--gold-deep);margin-top:6px;text-shadow:1px 1px 0 #fff;}
+.ovnudge{font-size:60px;}
+.ovnudgeword{font-family:'Fredoka',sans-serif;font-size:22px;color:var(--plum);margin-top:6px;max-width:320px;}
+.spark{position:absolute;font-size:26px;animation:sparkFloat 1.1s ease forwards;}
+@keyframes sparkFloat{0%{opacity:1;transform:translateY(0) scale(.5);}100%{opacity:0;transform:translateY(-80px) scale(1.2);}}
+footer{text-align:center;color:#9aa0ad;font-size:13px;margin-top:30px;}
+footer b{color:var(--navy);}
+</style>
+</head>
+<body>
+<div class="hud">
+  <span class="brand">KCE</span>
+  <div class="prog"><div class="progfill" id="progfill"></div></div>
+  <span class="stat">✓ <b id="scoreNum">0</b>/20 &nbsp; ✍️ <b id="refNum">0</b>/7</span>
+</div>
+<div class="app">
+<section class="screen active" id="screen-0" data-screen="0">
+  <div class="welcome">
+    <div class="mascot welcomestar"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<circle cx="100" cy="100" r="78" fill="#fff4d6"/>
+<circle cx="100" cy="100" r="78" fill="none" stroke="#E0AC3C" stroke-width="3" opacity="0.5"/>
+<path d="M100 28 L120 78 L174 82 L132 118 L146 172 L100 142 L54 172 L68 118 L26 82 L80 78 Z"
+ fill="#E0AC3C" stroke="#b9842a" stroke-width="3" stroke-linejoin="round"/>
+<path d="M100 52 L112 86 L100 80 L88 86 Z" fill="#fff3cf" opacity="0.8"/>
+<circle cx="100" cy="104" r="20" fill="#1B2C5C"/>
+<text x="100" y="112" text-anchor="middle" font-size="22" font-family="Georgia,serif" fill="#E0AC3C" font-weight="bold">!</text>
+</svg></div>
+    <span class="pill gold">KingCretot Experience</span>
+    <h1>STAMPED — Whole-Book Review</h1>
+    <h3>Racism, Antiracism &amp; You &nbsp;•&nbsp; Kendi &amp; Reynolds &nbsp;•&nbsp; Sections 1–5</h3>
+    <p class="lead">Hi Terria. This review walks back through the whole book — one section at a time. Each stop has a short recap, a couple of quick checks, and real <b>reflection</b> prompts. The reflections are the heart of it: this book asks you to <i>think</i>, not just remember. Take your time and be honest.</p>
+    <div class="meterbox">
+      <div>Sections to revisit: <b>5 + Big Ideas</b></div>
+      <div>Reflections to write: <b>7</b></div>
+    </div>
+    <button class="navbtn primary big" data-go="1">Begin the Review →</button>
+  </div>
+</section>
+<section class="screen" id="screen-1" data-screen="1"><div class="shead"><span class="pill">Section 1 &middot; 1415–1728</span><h2>The Birth of Racist Ideas</h2></div><div class="recap"><span class="rlabel">Recap</span><p>Around 1450, a Portuguese writer named <b>Gomes de Zurara</b> wrote the first known defense of the slave trade, describing enslaved Africans as less than human so that Prince Henry’s slave‑trading would look noble and holy.</p><p>This mattered because the cruel <b>policy</b> (capturing and selling people for profit) <b>came first</b>, and the racist <b>idea was invented afterward to justify it</b> — not the other way around. That is what the authors mean by an idea being “stamped” onto society.</p><p>Later, in colonial America, the Puritan minister <b>Cotton Mather</b> taught that enslaved people could have “saved souls” while their bodies stayed enslaved — using religion to excuse slavery.</p><div class="keyidea"><b>Big idea:</b> Unfair policy first, then the racist idea to justify it.</div><div class="device">📖 Literary device focus: <b>Direct Address</b></div></div><div class="vocab"><div class="vchip"><span class="vterm">Segregationist</span><span class="vdef">Believes a race is inferior and should be kept down or separate.</span></div><div class="vchip"><span class="vterm">Assimilationist</span><span class="vdef">Believes a race is partly to blame and must change or “improve” to be accepted.</span></div><div class="vchip"><span class="vterm">Antiracist</span><span class="vdef">Believes nothing is wrong with any race — the problem is racist policy, which must change.</span></div></div><h4 class="prh">Check &amp; Reflect</h4><p class="prsub">Answer the checks (wrong picks aren’t shown — look back at the recap and try again), then take your time with each reflection. There are no “wrong” reflections — only shallow vs. deep.</p><div class="q" id="box-m0" data-qid="m0"><div class="qprompt">Who wrote the first known defense of the slave trade?</div><div class="opts"><button class="opt" data-q="m0" data-i="0"><span class="ltr">A</span><span class="otxt">Gomes de Zurara</span></button><button class="opt" data-q="m0" data-i="1"><span class="ltr">B</span><span class="otxt">Cotton Mather</span></button><button class="opt" data-q="m0" data-i="2"><span class="ltr">C</span><span class="otxt">Prince Henry</span></button><button class="opt" data-q="m0" data-i="3"><span class="ltr">D</span><span class="otxt">Thomas Jefferson</span></button></div><div class="why" id="why-m0"></div></div><div class="q" id="box-m1" data-qid="m1"><div class="qprompt">According to Section 1, which came FIRST?</div><div class="opts"><button class="opt" data-q="m1" data-i="0"><span class="ltr">A</span><span class="otxt">The racist idea, which then caused the policy</span></button><button class="opt" data-q="m1" data-i="1"><span class="ltr">B</span><span class="otxt">The unfair policy (slavery), and then the racist idea to justify it</span></button><button class="opt" data-q="m1" data-i="2"><span class="ltr">C</span><span class="otxt">Both appeared at the exact same moment</span></button><button class="opt" data-q="m1" data-i="3"><span class="ltr">D</span><span class="otxt">Neither — racism has no real cause</span></button></div><div class="why" id="why-m1"></div></div><div class="q" id="box-c2" data-qid="c2"><span class="ctag">Classify the idea</span><div class="qprompt">An idea that says Black people are “less than human.”</div><div class="opts"><button class="opt classify" data-q="c2" data-i="0"><span class="ltr">A</span><span class="otxt">Segregationist</span></button><button class="opt classify" data-q="c2" data-i="1"><span class="ltr">B</span><span class="otxt">Assimilationist</span></button><button class="opt classify" data-q="c2" data-i="2"><span class="ltr">C</span><span class="otxt">Antiracist</span></button></div><div class="why" id="why-c2"></div></div><div class="reflect" id="box-r0" data-rid="r0"><div class="rprompt"><span class="rtag">Reflect</span>In your own words: why does it matter WHO first invented a racist idea, and WHY they invented it? Push past your first sentence — give an example.</div><div class="rhint">💡 Think about who benefited from the idea, and what it let them keep doing.</div><textarea class="rinput" id="ta-r0" rows="4" placeholder="Take your time — write at least a couple of sentences in your own words."></textarea><button class="rsave" data-r="r0">Save my reflection</button><div class="rdone" id="done-r0"></div></div><div class="navrow"><button class="navbtn" data-go="0">← Back</button><button class="navbtn primary" data-go="2">Next →</button></div></section>
+<section class="screen" id="screen-2" data-screen="2"><div class="shead"><span class="pill">Section 2 &middot; 1743–1826</span><h2>Liberty for Some</h2></div><div class="recap"><span class="rlabel">Recap</span><p>This era centers on <b>Thomas Jefferson</b>, who wrote “all men are created equal” in the Declaration of Independence while enslaving hundreds of people. Saying one thing and doing the opposite is a powerful example of <b>irony</b>.</p><p>The section also tells the story of <b>Phillis Wheatley</b>, an enslaved teenager who became a published poet. Instead of simply celebrating her talent, powerful men put her on “trial” to prove a Black person could even be intelligent — then used her as proof that Black people could be accepted only if they <b>acted European enough</b> to fit in.</p><p>That is the <b>assimilationist trap</b>: it accepts the false idea that Black people must change themselves in order to deserve equality.</p><div class="keyidea"><b>Big idea:</b> “Equality” on paper didn’t match cruelty in practice — and even praise can hide a racist trap.</div><div class="device">📖 Literary device focus: <b>Irony</b></div></div><div class="vocab"><div class="vchip"><span class="vterm">Irony</span><span class="vdef">When what is said or done is the opposite of what is true or expected.</span></div><div class="vchip"><span class="vterm">Assimilationist trap</span><span class="vdef">Praising or “accepting” someone only if they change to act like the dominant group.</span></div></div><h4 class="prh">Check &amp; Reflect</h4><p class="prsub">Answer the checks (wrong picks aren’t shown — look back at the recap and try again), then take your time with each reflection. There are no “wrong” reflections — only shallow vs. deep.</p><div class="q" id="box-m3" data-qid="m3"><div class="qprompt">Jefferson writing “all men are created equal” while enslaving people is an example of —</div><div class="opts"><button class="opt" data-q="m3" data-i="0"><span class="ltr">A</span><span class="otxt">A metaphor</span></button><button class="opt" data-q="m3" data-i="1"><span class="ltr">B</span><span class="otxt">An exaggeration</span></button><button class="opt" data-q="m3" data-i="2"><span class="ltr">C</span><span class="otxt">Irony</span></button><button class="opt" data-q="m3" data-i="3"><span class="ltr">D</span><span class="otxt">A coincidence</span></button></div><div class="why" id="why-m3"></div></div><div class="q" id="box-m4" data-qid="m4"><div class="qprompt">Phillis Wheatley was used as “proof” that Black people could be accepted — but only if they —</div><div class="opts"><button class="opt" data-q="m4" data-i="0"><span class="ltr">A</span><span class="otxt">stayed silent and obeyed</span></button><button class="opt" data-q="m4" data-i="1"><span class="ltr">B</span><span class="otxt">were born already free</span></button><button class="opt" data-q="m4" data-i="2"><span class="ltr">C</span><span class="otxt">learned to farm well</span></button><button class="opt" data-q="m4" data-i="3"><span class="ltr">D</span><span class="otxt">acted European enough to fit in</span></button></div><div class="why" id="why-m4"></div></div><div class="q" id="box-c5" data-qid="c5"><span class="ctag">Classify the idea</span><div class="qprompt">“Black people must ‘improve’ or change themselves to deserve equality.”</div><div class="opts"><button class="opt classify" data-q="c5" data-i="0"><span class="ltr">A</span><span class="otxt">Segregationist</span></button><button class="opt classify" data-q="c5" data-i="1"><span class="ltr">B</span><span class="otxt">Assimilationist</span></button><button class="opt classify" data-q="c5" data-i="2"><span class="ltr">C</span><span class="otxt">Antiracist</span></button></div><div class="why" id="why-c5"></div></div><div class="reflect" id="box-r1" data-rid="r1"><div class="rprompt"><span class="rtag">Reflect</span>Have you ever seen someone “praised” in a way that was actually a put‑down? How is that like the way powerful men treated Phillis Wheatley?</div><div class="rhint">💡 A compliment that secretly says ‘we didn’t expect this from someone like you’ isn’t really a compliment.</div><textarea class="rinput" id="ta-r1" rows="4" placeholder="Take your time — write at least a couple of sentences in your own words."></textarea><button class="rsave" data-r="r1">Save my reflection</button><div class="rdone" id="done-r1"></div></div><div class="navrow"><button class="navbtn" data-go="1">← Back</button><button class="navbtn primary" data-go="3">Next →</button></div></section>
+<section class="screen" id="screen-3" data-screen="3"><div class="shead"><span class="pill">Section 3 &middot; 1826–1879</span><h2>Words vs. Actions</h2></div><div class="recap"><span class="rlabel">Recap</span><p>This section follows two famous abolitionists. <b>William Lloyd Garrison</b> fought hard to end slavery, but he was an assimilationist — he believed Black people needed white guidance to “rise up.” <b>Frederick Douglass</b>, who escaped slavery and became a powerful speaker and writer, pushed back and demanded full equality.</p><p>The section also covers Harriet Beecher Stowe’s novel, the Civil War, and the end of legal slavery — while reminding us that legal <b>emancipation did not equal real freedom</b>.</p><p>A key idea here is <b>uplift suasion</b>: the belief that if Black people behaved perfectly, white people would finally accept them. Stamped calls uplift suasion a <b>trap</b>, because it blames Black people instead of the racist policies causing the harm.</p><div class="keyidea"><b>Big idea:</b> Being against slavery did NOT automatically make someone antiracist.</div><div class="device">📖 Literary device focus: <b>Characterization</b></div></div><div class="vocab"><div class="vchip"><span class="vterm">Uplift suasion</span><span class="vdef">The belief that if Black people behaved perfectly, white people would accept them.</span></div><div class="vchip"><span class="vterm">Characterization</span><span class="vdef">How an author shows what a person is like — hero, villain, or somewhere in between.</span></div></div><h4 class="prh">Check &amp; Reflect</h4><p class="prsub">Answer the checks (wrong picks aren’t shown — look back at the recap and try again), then take your time with each reflection. There are no “wrong” reflections — only shallow vs. deep.</p><div class="q" id="box-m6" data-qid="m6"><div class="qprompt">What is “uplift suasion”?</div><div class="opts"><button class="opt" data-q="m6" data-i="0"><span class="ltr">A</span><span class="otxt">The belief that if Black people behaved perfectly, white people would accept them</span></button><button class="opt" data-q="m6" data-i="1"><span class="ltr">B</span><span class="otxt">A law that freed enslaved people</span></button><button class="opt" data-q="m6" data-i="2"><span class="ltr">C</span><span class="otxt">A type of protest march</span></button><button class="opt" data-q="m6" data-i="3"><span class="ltr">D</span><span class="otxt">A school for formerly enslaved people</span></button></div><div class="why" id="why-m6"></div></div><div class="q" id="box-m7" data-qid="m7"><div class="qprompt">Why does Stamped call uplift suasion a TRAP?</div><div class="opts"><button class="opt" data-q="m7" data-i="0"><span class="ltr">A</span><span class="otxt">It cost too much money to try</span></button><button class="opt" data-q="m7" data-i="1"><span class="ltr">B</span><span class="otxt">It blames Black people instead of the racist policies causing the harm</span></button><button class="opt" data-q="m7" data-i="2"><span class="ltr">C</span><span class="otxt">It was never actually attempted</span></button><button class="opt" data-q="m7" data-i="3"><span class="ltr">D</span><span class="otxt">It only worked in the North</span></button></div><div class="why" id="why-m7"></div></div><div class="q" id="box-c8" data-qid="c8"><span class="ctag">Classify the idea</span><div class="qprompt">Believing Black people need white people’s “guidance” to rise up (Garrison’s view).</div><div class="opts"><button class="opt classify" data-q="c8" data-i="0"><span class="ltr">A</span><span class="otxt">Segregationist</span></button><button class="opt classify" data-q="c8" data-i="1"><span class="ltr">B</span><span class="otxt">Assimilationist</span></button><button class="opt classify" data-q="c8" data-i="2"><span class="ltr">C</span><span class="otxt">Antiracist</span></button></div><div class="why" id="why-c8"></div></div><div class="reflect" id="box-r2" data-rid="r2"><div class="rprompt"><span class="rtag">Reflect</span>Uplift suasion puts the burden on the people being treated unfairly to “earn” fairness. Why is that unfair? Where do you see people told to “just behave better” instead of fixing the real problem?</div><div class="rhint">💡 Whose job should it be to fix an unfair rule — the people hurt by it, or the people who made it?</div><textarea class="rinput" id="ta-r2" rows="4" placeholder="Take your time — write at least a couple of sentences in your own words."></textarea><button class="rsave" data-r="r2">Save my reflection</button><div class="rdone" id="done-r2"></div></div><div class="navrow"><button class="navbtn" data-go="2">← Back</button><button class="navbtn primary" data-go="4">Next →</button></div></section>
+<section class="screen" id="screen-4" data-screen="4"><div class="shead"><span class="pill">Section 4 &middot; 1868–1963</span><h2>The Veil & Double Consciousness</h2></div><div class="recap"><span class="rlabel">Recap</span><p>The central figure is <b>W.E.B. Du Bois</b>, whose long life is really the story of one brilliant man slowly <b>changing his mind</b>. He described the <b>veil</b> — an invisible curtain that separates Black Americans from full acceptance in their own country — using it as an <b>extended metaphor</b> for being seen as a “problem.”</p><p>He also named <b>double consciousness</b>: always seeing yourself through your own eyes and through the eyes of a society that judges you. This era includes the rise of Jim Crow laws and the <b>Plessy v. Ferguson</b> ruling that made “separate but equal” legal.</p><p>Du Bois began by believing in uplift suasion and the “Talented Tenth,” but over time he came to see that <b>racist policy — not Black behavior — was the real problem</b>, growing more antiracist as he aged. He died the day before the 1963 March on Washington.</p><div class="keyidea"><b>Big idea:</b> Even brilliant people can hold “stamped” ideas — and can grow out of them.</div><div class="device">📖 Literary device focus: <b>Extended Metaphor</b></div></div><div class="vocab"><div class="vchip"><span class="vterm">The veil</span><span class="vdef">Du Bois’s extended metaphor for the invisible barrier between Black Americans and full acceptance.</span></div><div class="vchip"><span class="vterm">Double consciousness</span><span class="vdef">Seeing yourself through your own eyes AND through the eyes of a society that judges you.</span></div><div class="vchip"><span class="vterm">Extended metaphor</span><span class="vdef">A comparison that an author develops and returns to across a whole passage or work.</span></div></div><h4 class="prh">Check &amp; Reflect</h4><p class="prsub">Answer the checks (wrong picks aren’t shown — look back at the recap and try again), then take your time with each reflection. There are no “wrong” reflections — only shallow vs. deep.</p><div class="q" id="box-m9" data-qid="m9"><div class="qprompt">What did Du Bois call the invisible curtain separating Black Americans from full acceptance?</div><div class="opts"><button class="opt" data-q="m9" data-i="0"><span class="ltr">A</span><span class="otxt">the wall</span></button><button class="opt" data-q="m9" data-i="1"><span class="ltr">B</span><span class="otxt">the shadow</span></button><button class="opt" data-q="m9" data-i="2"><span class="ltr">C</span><span class="otxt">the veil</span></button><button class="opt" data-q="m9" data-i="3"><span class="ltr">D</span><span class="otxt">the cage</span></button></div><div class="why" id="why-m9"></div></div><div class="q" id="box-m10" data-qid="m10"><div class="qprompt">“Double consciousness” means —</div><div class="opts"><button class="opt" data-q="m10" data-i="0"><span class="ltr">A</span><span class="otxt">being unsure of your own name</span></button><button class="opt" data-q="m10" data-i="1"><span class="ltr">B</span><span class="otxt">having two different jobs at once</span></button><button class="opt" data-q="m10" data-i="2"><span class="ltr">C</span><span class="otxt">forgetting your own history</span></button><button class="opt" data-q="m10" data-i="3"><span class="ltr">D</span><span class="otxt">always seeing yourself through your own eyes and through the eyes of a society that judges you</span></button></div><div class="why" id="why-m10"></div></div><div class="q" id="box-m11" data-qid="m11"><div class="qprompt">Du Bois’s “veil” is an example of which literary device?</div><div class="opts"><button class="opt" data-q="m11" data-i="0"><span class="ltr">A</span><span class="otxt">Extended metaphor</span></button><button class="opt" data-q="m11" data-i="1"><span class="ltr">B</span><span class="otxt">Alliteration</span></button><button class="opt" data-q="m11" data-i="2"><span class="ltr">C</span><span class="otxt">Rhyme</span></button><button class="opt" data-q="m11" data-i="3"><span class="ltr">D</span><span class="otxt">Hyperbole</span></button></div><div class="why" id="why-m11"></div></div><div class="q" id="box-c12" data-qid="c12"><span class="ctag">Classify the idea</span><div class="qprompt">Believing the real problem is racist policy — not Black behavior (what Du Bois came to believe).</div><div class="opts"><button class="opt classify" data-q="c12" data-i="0"><span class="ltr">A</span><span class="otxt">Segregationist</span></button><button class="opt classify" data-q="c12" data-i="1"><span class="ltr">B</span><span class="otxt">Assimilationist</span></button><button class="opt classify" data-q="c12" data-i="2"><span class="ltr">C</span><span class="otxt">Antiracist</span></button></div><div class="why" id="why-c12"></div></div><div class="reflect" id="box-r3" data-rid="r3"><div class="rprompt"><span class="rtag">Reflect</span>Du Bois changed his mind over his life as he learned more. Why is being willing to change your mind a sign of strength, not weakness?</div><div class="rhint">💡 What does it take to admit you were wrong about something important?</div><textarea class="rinput" id="ta-r3" rows="4" placeholder="Take your time — write at least a couple of sentences in your own words."></textarea><button class="rsave" data-r="r3">Save my reflection</button><div class="rdone" id="done-r3"></div></div><div class="reflect" id="box-r4" data-rid="r4"><div class="rprompt"><span class="rtag">Reflect</span>Double consciousness is the feeling of watching yourself through other people’s eyes. When have you felt judged by how others might see you? (Share only what you’re comfortable with.)</div><div class="rhint">💡 It could be at school, online, or anywhere people make quick judgments.</div><textarea class="rinput" id="ta-r4" rows="4" placeholder="Take your time — write at least a couple of sentences in your own words."></textarea><button class="rsave" data-r="r4">Save my reflection</button><div class="rdone" id="done-r4"></div></div><div class="navrow"><button class="navbtn" data-go="3">← Back</button><button class="navbtn primary" data-go="5">Next →</button></div></section>
+<section class="screen" id="screen-5" data-screen="5"><div class="shead"><span class="pill">Section 5 &middot; 1963–Today</span><h2>From Then to Now</h2></div><div class="recap"><span class="rlabel">Recap</span><p>The final section moves from the Civil Rights Movement to today. It covers leaders and thinkers like <b>Martin Luther King Jr.</b> and <b>Angela Davis</b>, the Black Power movement, and how new policies — like parts of the “war on drugs” and mass incarceration — kept old racist patterns alive in new forms.</p><p>Stamped ends with the authors’ biggest point and a <b>call to action</b>: the opposite of “racist” is not “not racist” — it is <b>antiracist</b>.</p><p>Being antiracist means <b>actively working to change unfair policies, not just believing you are a good person</b>.</p><div class="keyidea"><b>Big idea:</b> Racism didn’t end — it changed shape. Fighting it takes action, not just good intentions.</div><div class="device">📖 Literary device focus: <b>Call to Action</b></div></div><div class="vocab"><div class="vchip"><span class="vterm">Call to action</span><span class="vdef">A closing move that urges the reader to DO something, not just agree.</span></div><div class="vchip"><span class="vterm">Antiracist (in action)</span><span class="vdef">Actively noticing and working to change unfair policies.</span></div></div><h4 class="prh">Check &amp; Reflect</h4><p class="prsub">Answer the checks (wrong picks aren’t shown — look back at the recap and try again), then take your time with each reflection. There are no “wrong” reflections — only shallow vs. deep.</p><div class="q" id="box-m13" data-qid="m13"><div class="qprompt">According to Stamped, the opposite of “racist” is —</div><div class="opts"><button class="opt" data-q="m13" data-i="0"><span class="ltr">A</span><span class="otxt">“not racist”</span></button><button class="opt" data-q="m13" data-i="1"><span class="ltr">B</span><span class="otxt">antiracist</span></button><button class="opt" data-q="m13" data-i="2"><span class="ltr">C</span><span class="otxt">“colorblind”</span></button><button class="opt" data-q="m13" data-i="3"><span class="ltr">D</span><span class="otxt">“silent”</span></button></div><div class="why" id="why-m13"></div></div><div class="q" id="box-m14" data-qid="m14"><div class="qprompt">Being antiracist means —</div><div class="opts"><button class="opt" data-q="m14" data-i="0"><span class="ltr">A</span><span class="otxt">never talking about race at all</span></button><button class="opt" data-q="m14" data-i="1"><span class="ltr">B</span><span class="otxt">treating everyone the same and ignoring problems</span></button><button class="opt" data-q="m14" data-i="2"><span class="ltr">C</span><span class="otxt">actively working to change unfair policies, not just believing you are a good person</span></button><button class="opt" data-q="m14" data-i="3"><span class="ltr">D</span><span class="otxt">only being kind to your own friends</span></button></div><div class="why" id="why-m14"></div></div><div class="q" id="box-c15" data-qid="c15"><span class="ctag">Classify the idea</span><div class="qprompt">“There is nothing wrong or inferior about Black people; the problem is unfair policy that must change.”</div><div class="opts"><button class="opt classify" data-q="c15" data-i="0"><span class="ltr">A</span><span class="otxt">Segregationist</span></button><button class="opt classify" data-q="c15" data-i="1"><span class="ltr">B</span><span class="otxt">Assimilationist</span></button><button class="opt classify" data-q="c15" data-i="2"><span class="ltr">C</span><span class="otxt">Antiracist</span></button></div><div class="why" id="why-c15"></div></div><div class="reflect" id="box-r5" data-rid="r5"><div class="rprompt"><span class="rtag">Reflect</span>Being “not racist” isn’t enough — Stamped asks you to be ANTIracist. Name ONE real action a 7th grader could take at school or in your community to be antiracist.</div><div class="rhint">💡 Antiracist actions usually change a rule, a habit, or who gets included — not just a feeling.</div><textarea class="rinput" id="ta-r5" rows="4" placeholder="Take your time — write at least a couple of sentences in your own words."></textarea><button class="rsave" data-r="r5">Save my reflection</button><div class="rdone" id="done-r5"></div></div><div class="navrow"><button class="navbtn" data-go="4">← Back</button><button class="navbtn primary" data-go="6">Next →</button></div></section>
+<section class="screen" id="screen-6" data-screen="6"><div class="shead"><span class="pill gold">✨ Big Ideas</span><h2>Putting It All Together</h2></div><div class="recap"><span class="rlabel">Remember the three lenses</span><div class="lenses"><div class="lens"><b>Segregationist</b><span>“That race is inferior.”</span></div><div class="lens"><b>Assimilationist</b><span>“That race must change to be equal.”</span></div><div class="lens"><b>Antiracist</b><span>“Nothing’s wrong with the people — fix the policy.”</span></div></div></div><h4 class="prh">Apply What You Learned</h4><p class="prsub">These scenarios are about <i>today</i>. Decide which lens each one fits, then finish with one last reflection.</p><div class="q" id="box-m16" data-qid="m16"><div class="qprompt">Stamped’s biggest argument about how racism began is —</div><div class="opts"><button class="opt" data-q="m16" data-i="0"><span class="ltr">A</span><span class="otxt">Racist ideas came first and then caused the policies</span></button><button class="opt" data-q="m16" data-i="1"><span class="ltr">B</span><span class="otxt">Racism began entirely by accident</span></button><button class="opt" data-q="m16" data-i="2"><span class="ltr">C</span><span class="otxt">Racism began only with the Civil War</span></button><button class="opt" data-q="m16" data-i="3"><span class="ltr">D</span><span class="otxt">Unfair policies came first, and racist ideas were “stamped” on afterward to justify them</span></button></div><div class="why" id="why-m16"></div></div><div class="q" id="box-c17" data-qid="c17"><span class="ctag">Classify the idea</span><div class="qprompt">A school treats one group’s history as “more important” and another group’s as “less important.”</div><div class="opts"><button class="opt classify" data-q="c17" data-i="0"><span class="ltr">A</span><span class="otxt">Segregationist</span></button><button class="opt classify" data-q="c17" data-i="1"><span class="ltr">B</span><span class="otxt">Assimilationist</span></button><button class="opt classify" data-q="c17" data-i="2"><span class="ltr">C</span><span class="otxt">Antiracist</span></button></div><div class="why" id="why-c17"></div></div><div class="q" id="box-c18" data-qid="c18"><span class="ctag">Classify the idea</span><div class="qprompt">A coach tells certain kids they just need to “act nicer and dress better” to be respected — instead of questioning an unfair team rule.</div><div class="opts"><button class="opt classify" data-q="c18" data-i="0"><span class="ltr">A</span><span class="otxt">Segregationist</span></button><button class="opt classify" data-q="c18" data-i="1"><span class="ltr">B</span><span class="otxt">Assimilationist</span></button><button class="opt classify" data-q="c18" data-i="2"><span class="ltr">C</span><span class="otxt">Antiracist</span></button></div><div class="why" id="why-c18"></div></div><div class="q" id="box-c19" data-qid="c19"><span class="ctag">Classify the idea</span><div class="qprompt">A student notices a rule that punishes certain natural hairstyles and starts a petition to change it.</div><div class="opts"><button class="opt classify" data-q="c19" data-i="0"><span class="ltr">A</span><span class="otxt">Segregationist</span></button><button class="opt classify" data-q="c19" data-i="1"><span class="ltr">B</span><span class="otxt">Assimilationist</span></button><button class="opt classify" data-q="c19" data-i="2"><span class="ltr">C</span><span class="otxt">Antiracist</span></button></div><div class="why" id="why-c19"></div></div><div class="reflect" id="box-r6" data-rid="r6"><div class="rprompt"><span class="rtag">Reflect</span>Stamped says it is “not a history book — it’s about right now.” Pick ONE idea from the book and explain how you still see it (or its opposite) in the world today.</div><div class="rhint">💡 Connect a term like ‘uplift suasion,’ ‘the veil,’ or ‘antiracist’ to something real you’ve noticed.</div><textarea class="rinput" id="ta-r6" rows="4" placeholder="Take your time — write at least a couple of sentences in your own words."></textarea><button class="rsave" data-r="r6">Save my reflection</button><div class="rdone" id="done-r6"></div></div><div class="navrow"><button class="navbtn" data-go="5">← Back</button><button class="navbtn primary" data-go="7">See My Journey 📜</button></div></section>
+<section class="screen" id="screen-7" data-screen="7">
+  <div class="award">
+    <div class="mascot awardstar"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<circle cx="100" cy="100" r="78" fill="#fff4d6"/>
+<circle cx="100" cy="100" r="78" fill="none" stroke="#E0AC3C" stroke-width="3" opacity="0.5"/>
+<path d="M100 28 L120 78 L174 82 L132 118 L146 172 L100 142 L54 172 L68 118 L26 82 L80 78 Z"
+ fill="#E0AC3C" stroke="#b9842a" stroke-width="3" stroke-linejoin="round"/>
+<path d="M100 52 L112 86 L100 80 L88 86 Z" fill="#fff3cf" opacity="0.8"/>
+<circle cx="100" cy="104" r="20" fill="#1B2C5C"/>
+<text x="100" y="112" text-anchor="middle" font-size="22" font-family="Georgia,serif" fill="#E0AC3C" font-weight="bold">!</text>
+</svg></div>
+    <h1 id="awardTitle">Review Complete</h1>
+    <div class="badge" id="badge">📜</div>
+    <p class="scoreline">Knowledge checks: <b><span id="finalCorrect">0</span></b> / <b><span id="finalScored">20</span></b> on the first try &nbsp;•&nbsp; Reflections written: <b><span id="finalRef">0</span></b> / <b>7</b></p>
+    <p id="awardMsg" class="awardmsg"></p>
+
+    <div class="sendbox">
+      <h3 class="sendhead">📨 Turn in your reflections</h3>
+      <p class="sendsub">Everything you wrote is saved below. Tap <b>Send</b> and it goes straight to Mr. King-Cretot’s email.</p>
+      <div id="reflectReview" class="review"></div>
+      <div class="sendbtns">
+        <button class="navbtn primary" data-act="send" id="sendBtn">📧 Send to Mr. King-Cretot</button>
+        <button class="navbtn" data-act="download">⬇️ Download a copy</button>
+      </div>
+      <div id="sendStatus" class="sendstatus"></div>
+    </div>
+
+    <div class="quote">
+      <p class="qtext">“The opposite of racist isn’t ‘not racist.’ It is ‘antiracist.’”</p>
+      <p class="qauth">— Ibram X. Kendi</p>
+    </div>
+    <p class="copytask">✍️ On your post-lesson page, copy Kendi’s words by hand — then write one sentence on what being antiracist looks like for YOU.</p>
+    <button class="navbtn" data-go="0">↺ Start Over</button>
+  </div>
+</section>
+  <footer><b>KingCretot Experience</b> &nbsp;|&nbsp; 914.809.0112 &nbsp;|&nbsp; kce@kingcretot.com &nbsp;|&nbsp; www.kingcretot.com</footer>
+</div>
+<div id="overlay"><div class="ovwrap" id="overlayInner"></div></div>
+<script>
+"use strict";
+window.QUIZ = {"m0": {"answer": 0, "why": "The recap names Zurara as the writer who first put a racist justification on paper around 1450."}, "m1": {"answer": 1, "why": "Stamped\u2019s core argument: the policy came first; the idea was \u201cstamped\u201d on afterward to excuse it."}, "c2": {"answer": 0, "why": "Ranking a race as inferior is the segregationist view."}, "m3": {"answer": 2, "why": "The recap calls this contradiction \u201ca powerful example of irony.\u201d"}, "m4": {"answer": 3, "why": "The recap says she was used as proof Black people could be accepted only if they acted European enough."}, "c5": {"answer": 1, "why": "Putting the burden of change on the group is the assimilationist view."}, "m6": {"answer": 0, "why": "The recap defines uplift suasion exactly this way."}, "m7": {"answer": 1, "why": "The recap says uplift suasion blames Black people instead of the racist policies causing harm."}, "c8": {"answer": 1, "why": "Even while opposing slavery, this is assimilationist \u2014 it assumes the group must be \u2018guided\u2019 to improve."}, "m9": {"answer": 2, "why": "The recap names this the \u201cveil.\u201d"}, "m10": {"answer": 3, "why": "The recap defines double consciousness in exactly these words."}, "m11": {"answer": 0, "why": "The recap says he used the veil as an extended metaphor."}, "c12": {"answer": 2, "why": "Locating the problem in policy, not people, is the antiracist view."}, "m13": {"answer": 1, "why": "The recap states the opposite of racist is not \u2018not racist\u2019 \u2014 it is antiracist."}, "m14": {"answer": 2, "why": "The recap defines antiracism as actively working to change unfair policies."}, "c15": {"answer": 2, "why": "This is the clearest statement of the antiracist view."}, "m16": {"answer": 3, "why": "This is the thesis of the whole book \u2014 policy first, then the idea to justify it."}, "c17": {"answer": 0, "why": "Ranking groups as more/less important is segregationist thinking."}, "c18": {"answer": 1, "why": "Putting the burden on the kids to change, not the rule, is assimilationist."}, "c19": {"answer": 2, "why": "Targeting the unfair policy itself is antiracist action."}};
+window.REFLECT_META = {"r0": {"section": "Section 1 (1415\u20131728)", "prompt": "In your own words: why does it matter WHO first invented a racist idea, and WHY they invented it? Push past your first sentence \u2014 give an example."}, "r1": {"section": "Section 2 (1743\u20131826)", "prompt": "Have you ever seen someone \u201cpraised\u201d in a way that was actually a put\u2011down? How is that like the way powerful men treated Phillis Wheatley?"}, "r2": {"section": "Section 3 (1826\u20131879)", "prompt": "Uplift suasion puts the burden on the people being treated unfairly to \u201cearn\u201d fairness. Why is that unfair? Where do you see people told to \u201cjust behave better\u201d instead of fixing the real problem?"}, "r3": {"section": "Section 4 (1868\u20131963)", "prompt": "Du Bois changed his mind over his life as he learned more. Why is being willing to change your mind a sign of strength, not weakness?"}, "r4": {"section": "Section 4 (1868\u20131963)", "prompt": "Double consciousness is the feeling of watching yourself through other people\u2019s eyes. When have you felt judged by how others might see you? (Share only what you\u2019re comfortable with.)"}, "r5": {"section": "Section 5 (1963\u2013Today)", "prompt": "Being \u201cnot racist\u201d isn\u2019t enough \u2014 Stamped asks you to be ANTIracist. Name ONE real action a 7th grader could take at school or in your community to be antiracist."}, "r6": {"section": "Big Ideas", "prompt": "Stamped says it is \u201cnot a history book \u2014 it\u2019s about right now.\u201d Pick ONE idea from the book and explain how you still see it (or its opposite) in the world today."}};
+var TOTAL_SCORED = 20, TOTAL_REF = 7;
+var STAR = "<svg viewBox=\"0 0 200 200\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\">\n<circle cx=\"100\" cy=\"100\" r=\"78\" fill=\"#fff4d6\"/>\n<circle cx=\"100\" cy=\"100\" r=\"78\" fill=\"none\" stroke=\"#E0AC3C\" stroke-width=\"3\" opacity=\"0.5\"/>\n<path d=\"M100 28 L120 78 L174 82 L132 118 L146 172 L100 142 L54 172 L68 118 L26 82 L80 78 Z\"\n fill=\"#E0AC3C\" stroke=\"#b9842a\" stroke-width=\"3\" stroke-linejoin=\"round\"/>\n<path d=\"M100 52 L112 86 L100 80 L88 86 Z\" fill=\"#fff3cf\" opacity=\"0.8\"/>\n<circle cx=\"100\" cy=\"104\" r=\"20\" fill=\"#1B2C5C\"/>\n<text x=\"100\" y=\"112\" text-anchor=\"middle\" font-size=\"22\" font-family=\"Georgia,serif\" fill=\"#E0AC3C\" font-weight=\"bold\">!</text>\n</svg>";
+
+/* ============================================================
+   SENDING: reflections are emailed to TEACHER_EMAIL automatically
+   when she taps "Send to Mr. King-Cretot" (uses FormSubmit — no
+   account needed). The FIRST time it's used, FormSubmit emails a
+   one-time "Activate" link to that address; click it once and every
+   submission after that arrives automatically. To use Zapier instead,
+   paste a Catch Hook URL into WEBHOOK_URL.
+   ============================================================ */
+var CONFIG = {
+  TEACHER_EMAIL: "kce@kingcretot.com",
+  WEBHOOK_URL: "",
+  STUDENT: "Terria"
+};
+
+var state = { firstTryCorrect:0, attempted:{}, answered:{}, reflectionsDone:{}, reflectionData:{} };
+var LS_KEY = "kce_stamped_" + CONFIG.STUDENT;
+function $(id){ return document.getElementById(id); }
+function persist(){ try{ localStorage.setItem(LS_KEY, JSON.stringify({ r: state.reflectionData })); }catch(e){} }
+function restore(){
+  try{
+    var raw = localStorage.getItem(LS_KEY); if(!raw) return;
+    var o = JSON.parse(raw); if(!o || !o.r) return;
+    Object.keys(o.r).forEach(function(rid){
+      var txt = o.r[rid]; var ta = $('ta-'+rid); if(!ta) return;
+      ta.value = txt; state.reflectionData[rid] = txt;
+      if((txt||'').trim().length >= 20){
+        var box=$('box-'+rid); if(box) box.classList.add('done');
+        var done=$('done-'+rid); if(done){ done.textContent='✓ Saved. Your words are kept — you can keep editing.'; done.className='rdone show ok'; }
+        state.reflectionsDone[rid] = true;
+      }
+    });
+    $('refNum').textContent = Object.keys(state.reflectionsDone).length;
+  }catch(e){}
+}
+var actx=null;
+function audio(){ if(!actx){ try{ actx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ actx=null; } } return actx; }
+function tone(f,s,d,t,v){ var a=audio(); if(!a) return; var o=a.createOscillator(),g=a.createGain();
+  o.type=t||'sine'; o.frequency.value=f; o.connect(g); g.connect(a.destination);
+  var n=a.currentTime+s; g.gain.setValueAtTime(0.0001,n); g.gain.exponentialRampToValueAtTime(v||0.15,n+0.03);
+  g.gain.exponentialRampToValueAtTime(0.0001,n+d); o.start(n); o.stop(n+d+0.05); }
+function chime(){ tone(523,0,0.18,'sine',0.16); tone(659,0.10,0.2,'sine',0.15); tone(784,0.22,0.26,'triangle',0.13); }
+function soft(){ tone(330,0,0.16,'sine',0.10); tone(247,0.08,0.2,'sine',0.10); }
+var AFFIRM=['Well reasoned!','Exactly.','Insightful!','Strong thinking!','You\'ve got it!'];
+var REFAFF=['Thank you for thinking deeply.','That\'s real reflection.','Beautifully reasoned.','Powerful thought.'];
+var ovTimer=null;
+function celebrate(word){ var inner=$('overlayInner');
+  inner.innerHTML='<div class="ovstar">'+STAR+'</div><div class="ovword">'+word+'</div>';
+  for(var i=0;i<7;i++){ var s=document.createElement('div'); s.className='spark'; s.textContent='✨';
+    s.style.left=(22+Math.random()*56)+'%'; s.style.top=(30+Math.random()*40)+'%';
+    s.style.animationDelay=(Math.random()*0.4)+'s'; inner.appendChild(s); }
+  chime(); $('overlay').classList.add('show'); clearTimeout(ovTimer);
+  ovTimer=setTimeout(function(){ $('overlay').classList.remove('show'); }, 2600); }
+function nudge(){ var inner=$('overlayInner');
+  inner.innerHTML='<div class="ovnudge">🧐</div><div class="ovnudgeword">Not quite — look back at the recap and try again.</div>';
+  soft(); $('overlay').classList.add('show'); clearTimeout(ovTimer);
+  ovTimer=setTimeout(function(){ $('overlay').classList.remove('show'); }, 1500); }
+function handlePick(btn){
+  var qid=btn.getAttribute('data-q'); var i=parseInt(btn.getAttribute('data-i'),10);
+  if(state.answered[qid]) return; var rec=window.QUIZ[qid]; if(!rec) return;
+  if(i===rec.answer){ btn.classList.add('right'); var box=$('box-'+qid); box.classList.add('correct');
+    var opts=box.querySelectorAll('.opt'); for(var k=0;k<opts.length;k++){ opts[k].classList.add('locked'); }
+    state.answered[qid]=true;
+    if(!state.attempted[qid]){ state.firstTryCorrect++; $('scoreNum').textContent=state.firstTryCorrect; }
+    var why=$('why-'+qid); why.innerHTML='✅ '+rec.why; why.classList.add('show');
+    celebrate(AFFIRM[Math.floor(Math.random()*AFFIRM.length)]);
+  } else { state.attempted[qid]=true; btn.classList.add('wrong'); btn.classList.add('locked'); nudge(); }
+}
+function handleReflect(btn){
+  var rid=btn.getAttribute('data-r'); var ta=$('ta-'+rid); var done=$('done-'+rid);
+  var val=(ta.value||'').trim();
+  state.reflectionData[rid]=val; persist();           // keep her words no matter what
+  if(val.length<20){ done.textContent='Write a little more — at least a couple of sentences in your own words. (Your words are still saved.)';
+    done.className='rdone show more'; return; }
+  var firstTime=!state.reflectionsDone[rid];
+  done.textContent='✓ Saved. Your words are kept — you can keep editing, and you\'ll send them all at the end.';
+  done.className='rdone show ok';
+  $('box-'+rid).classList.add('done');
+  if(firstTime){ state.reflectionsDone[rid]=true;
+    $('refNum').textContent=Object.keys(state.reflectionsDone).length;
+    celebrate(REFAFF[Math.floor(Math.random()*REFAFF.length)]); }
+}
+function escapeHTML(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function compileText(){
+  var d=new Date(); var ds=d.toLocaleDateString();
+  var L=['STAMPED — Whole-Book Reflections','Student: '+CONFIG.STUDENT,'Date: '+ds,
+    'Knowledge checks (first try): '+state.firstTryCorrect+'/'+TOTAL_SCORED,'','==============================',''];
+  Object.keys(window.REFLECT_META).forEach(function(rid){
+    var m=window.REFLECT_META[rid]; var t=(state.reflectionData[rid]||'').trim();
+    L.push('['+m.section+']'); L.push('Q: '+m.prompt); L.push('A: '+(t?t:'(left blank)')); L.push('');
+  });
+  return L.join('\n');
+}
+function renderReview(){
+  var box=$('reflectReview'); if(!box) return; var html='';
+  Object.keys(window.REFLECT_META).forEach(function(rid){
+    var m=window.REFLECT_META[rid]; var t=(state.reflectionData[rid]||'').trim();
+    html+='<div class="ritem"><div class="rsec">'+escapeHTML(m.section)+'</div>'+
+          '<div class="rq">'+escapeHTML(m.prompt)+'</div>'+
+          '<div class="ra'+(t?'':' blank')+'">'+(t?escapeHTML(t):'(left blank — you can go back and add this)')+'</div></div>';
+  });
+  box.innerHTML=html;
+}
+function setStatus(msg, cls){ var s=$('sendStatus'); if(s){ s.textContent=msg; s.className='sendstatus '+(cls||''); } }
+function doDownload(){
+  try{
+    var blob=new Blob([compileText()],{type:'text/plain'});
+    var url=URL.createObjectURL(blob); var a=document.createElement('a');
+    a.href=url; a.download='Terria_STAMPED_Reflections.txt';
+    document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    setStatus('✓ Downloaded. You can attach this file or upload it to Google Classroom.','ok');
+  }catch(e){ setStatus('Could not download here — try the Email button instead.','warn'); }
+}
+function doMail(){
+  var subject=encodeURIComponent('Terria — STAMPED Reflections');
+  var body=encodeURIComponent(compileText());
+  window.location.href='mailto:'+CONFIG.TEACHER_EMAIL+'?subject='+subject+'&body='+body;
+  setStatus('✉️ Opening your email app… if nothing opens, use Download instead.','warn');
+}
+function doSend(){
+  setStatus('Sending…','warn');
+  var payloadText=compileText();
+  // Option A: custom Zapier webhook, if provided.
+  if(CONFIG.WEBHOOK_URL){
+    var body=new URLSearchParams();
+    body.append('student',CONFIG.STUDENT); body.append('date',new Date().toLocaleString());
+    body.append('score',state.firstTryCorrect+'/'+TOTAL_SCORED); body.append('reflections',payloadText);
+    fetch(CONFIG.WEBHOOK_URL,{method:'POST',mode:'no-cors',body:body})
+      .then(function(){ sent(); })
+      .catch(function(){ setStatus('Couldn\'t send automatically — we downloaded a copy you can email or upload.','warn'); doDownload(); });
+    return;
+  }
+  // Option B (default, no setup): FormSubmit emails TEACHER_EMAIL automatically.
+  var endpoint='https://formsubmit.co/ajax/'+encodeURIComponent(CONFIG.TEACHER_EMAIL);
+  fetch(endpoint,{ method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body: JSON.stringify({
+      _subject:'Terria — STAMPED Reflections',
+      _template:'table',
+      _captcha:'false',
+      student:CONFIG.STUDENT,
+      date:new Date().toLocaleString(),
+      knowledge_score: state.firstTryCorrect+'/'+TOTAL_SCORED,
+      reflections: payloadText
+    })
+  })
+   .then(function(r){ return r.json(); })
+   .then(function(){ sent(); })
+   .catch(function(){ setStatus('Couldn\'t send right now — we downloaded a copy you can email or upload.','warn'); doDownload(); });
+}
+function sent(){ setStatus('✅ Sent to Mr. King-Cretot! Your reflections are on the way to his email.','ok');
+  var b=$('sendBtn'); if(b){ b.textContent='✅ Sent!'; } }
+function goTo(n){ var sc=document.querySelectorAll('.screen'); if(n<0)n=0; if(n>sc.length-1)n=sc.length-1;
+  for(var k=0;k<sc.length;k++){ sc[k].classList.remove('active'); }
+  var t=$('screen-'+n); if(t) t.classList.add('active');
+  $('progfill').style.width=Math.min(100,Math.round((n/7)*100))+'%';
+  if(n===7) renderAward(); window.scrollTo({top:0,behavior:'smooth'}); }
+function renderAward(){
+  $('finalCorrect').textContent=state.firstTryCorrect; $('finalScored').textContent=TOTAL_SCORED;
+  var refs=Object.keys(state.reflectionsDone).length; $('finalRef').textContent=refs;
+  var pct=Math.round((state.firstTryCorrect/TOTAL_SCORED)*100);
+  var badge='📜', title='Review Complete', msg='';
+  if(refs>=TOTAL_REF && pct>=80){ badge='🌟'; title='Antiracist Scholar';
+    msg='Outstanding, Terria. You know the book AND you did the deeper work of reflecting on every part. That is exactly what Stamped asks of a reader.'; }
+  else if(refs>=Math.ceil(TOTAL_REF*0.6)){ badge='📖'; title='Thoughtful Reader';
+    msg='Great work, Terria. Your reflections show real thinking. Revisit any recap you were unsure of, and finish the reflections you skipped — that\'s where the growth is.'; }
+  else { badge='🌱'; title='Good Start';
+    msg='Nice start, Terria. The checks matter, but the reflections matter more. Go back and give each one a few honest sentences — this book rewards slow, careful thinking.'; }
+  $('badge').textContent=badge; $('awardTitle').textContent=title; $('awardMsg').textContent=msg;
+  renderReview();
+}
+document.addEventListener('DOMContentLoaded', function(){
+  document.body.addEventListener('click', function(ev){
+    var opt=ev.target.closest?ev.target.closest('.opt'):null; if(opt){ handlePick(opt); return; }
+    var rs=ev.target.closest?ev.target.closest('.rsave'):null; if(rs){ handleReflect(rs); return; }
+    var act=ev.target.closest?ev.target.closest('[data-act]'):null;
+    if(act){ var a=act.getAttribute('data-act');
+      if(a==='send') doSend(); else if(a==='mail') doMail(); else if(a==='download') doDownload(); return; }
+    var nav=ev.target.closest?ev.target.closest('[data-go]'):null; if(nav){ goTo(parseInt(nav.getAttribute('data-go'),10)); return; }
+  });
+  // Live-save every keystroke so nothing is ever lost, even without clicking Save.
+  var areas=document.querySelectorAll('.rinput');
+  for(var i=0;i<areas.length;i++){
+    areas[i].addEventListener('input', function(e){
+      var ta=e.target; var rid=ta.id.replace('ta-',''); state.reflectionData[rid]=ta.value; persist();
+    });
+  }
+  restore();
+  goTo(0);
+});
+</script>
+</body>
+</html>
